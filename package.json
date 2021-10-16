@@ -2,7 +2,6 @@
   "name": "zjadlempl",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://zjadlem.pl/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
