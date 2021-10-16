@@ -2,6 +2,7 @@
   "name": "zjadlempl",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zjadlem.pl/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -11,6 +12,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "sh": "0.0.3",
+    "travis": "^0.1.1",
+    "travis-cli": "^1.0.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },
@@ -42,6 +45,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "homepage": "https://zjadlem.pl/"
+  ]
 }
