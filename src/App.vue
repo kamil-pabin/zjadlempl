@@ -2,8 +2,9 @@
   <div id="nav">
     <router-link to="/">Strona Główna</router-link> |
     <router-link to="/about">O nas</router-link>
+    <router-view/>
   </div>
-  <router-view/>
+  
 </template>
 
 <style>

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <mainSite msg="Welcome to Your Vue.js App"/>
+    <mainSite msg="Witaj"/>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import mainSite from '@/components/mainSite.vue'
 export default {
   name: 'Home',
   components: {
-    mainSite
+    mainSite,
   }
 }
 </script>
