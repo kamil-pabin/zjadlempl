@@ -8,5 +8,10 @@
       Piotr Ożdziński
       </ul>
     </h2>
+
   </div>
 </template>
+
+<script>
+
+</script>

@@ -8,6 +8,7 @@
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Ephesis&display=swap');
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
