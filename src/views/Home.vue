@@ -1,8 +1,15 @@
 <template>
   <div class="home">
     <div id="tlo">
-      <div>
+      <div id="naglow">
         <h1 id="hello">Wyszukaj restauracje w której jadłeś: </h1>
+        <div id="poleWyszukiwania">
+          <b-form-input list="my-list-id" v-model="text" placeholder="Podaj ulicę"></b-form-input>
+          <datalist id="my-list-id">
+            <option v-for="(size) in sizes" :key="size.id">{{ size }}</option>
+          </datalist>
+          <b-button id="buton" to="/About" :active="$route.name =='About'" variant="dark">Szukaj</b-button>
+        </div>
       </div>
     </div>
     <div class="grupaZdjec">
@@ -20,10 +27,10 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   components: {
+
   }
 }
 </script>
@@ -32,6 +39,8 @@ export default {
   export default {
     data() {
       return {
+        text: '',
+        sizes: ['Śmidowicza', 'Świętojańska', 'Gdańska', 'Młodego G']
       }
     },
     methods: {
@@ -49,6 +58,14 @@ export default {
   margin:0;
   max-height:100%;
 }
+#poleWyszukiwania{
+  width:50vw;
+  margin:auto;
+  display:flex;
+}
+#buton{
+  margin-left:10px;
+}
 #tlo{
   border-bottom-right-radius: 60% 25%;
   border-bottom-left-radius: 70% 25%;
@@ -64,12 +81,10 @@ export default {
   margin-top:-100px;
   padding:0;
   height:100%;
-  background:yellow;
   display:flex;
   overflow: hidden;
 }
 .grupaZdjec .zdjecie{
-  background:red;
   display:flex;
   margin:0;
   padding:0;
@@ -78,15 +93,15 @@ export default {
   max-width:100%;
   height:100%;
   object-fit: cover;
-  background:red;
 }
 h1{
   overflow: hidden;
-  font-size:4.5vw;
+  font-size:4vw;
   font-weight: 300;
   margin: 0;
   margin-top:7vh;
   padding:0;
+  padding-bottom:3vh;
 }
 @keyframes fadeinA {
     0% { opacity: 0; }
@@ -98,5 +113,10 @@ h1{
      font-size: 3rem;
      margin-top:7vh;
   }
+  #poleWyszukiwania{
+  width:40rem;
+  margin:auto;
+  display:flex;
+}
 }
 </style>
