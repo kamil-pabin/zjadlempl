@@ -4,10 +4,10 @@
       <b-icon icon="justify" v-b-toggle.sidebar-backdrop class="butoSidebar invert" font-scale="3"></b-icon>
        <b-sidebar id="sidebar-backdrop" backdrop no-header shadow>
          <template #default="{ hide }">
-          <div class="px-3 py-2 sideber">
+          <div class="sideber">
             <div class="but">
               <div id="logo">
-                <img src="./assets/logo.png" class="invert" alt="Responsive image">
+                <img src="./assets/logo.png" class="" alt="Responsive image">
               </div>
               <b-button class="tabButton " to="/#/" :active="$route.name =='/#/'">
                   Home
@@ -39,8 +39,9 @@
 
 @import '../src/assets/transitionStyles.css';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&family=Raleway:wght@200;300;500&display=swap');
-@import '../node_modules/@braid/vue-formulate/themes/snow/snow.scss';
-.invert { filter: invert(100%); }
+.invert { 
+  filter: invert(100%); 
+  }
 html {
   //background-image: url("./assets/tlo.png");
   background: url("./assets/tlo.png") no-repeat center fixed;
@@ -69,16 +70,24 @@ body{
   font-size: 0.8rem;
   font-weight: 500;
 }
-#sidebar-backdrop {
-
-}
-#sidebar-backdrop .b-sidebar-header{
-}
 #logo{
-  margin:10%;
+  margin:0;
+  width:100%;
+  padding-top:10%;
+  padding-bottom:8%;
+  padding-left:10%;
+  padding-right:10%;
+  margin-bottom:2%;
+  background: #407ce4;
+  //border-bottom-right-radius: 10%;
+  //border-bottom-left-radius: 10%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 #logo img{
   width:100%;
+}
+.but {
+  padding:0;
 }
 .butoSidebar{
   position:absolute;
@@ -94,8 +103,12 @@ body{
   background:rgba(255, 255, 255, 0.082);
   border:0;
 }
+.butright{
+  margin-left:90%;
+}
 .sideber{
   transition: width 2s;
+  padding:0;
 }
 .sideber .but{
   background-color: transparent;

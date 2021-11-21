@@ -52,15 +52,19 @@ export default {
   height:1rem;
   display:flexbox;
 }
+#poleWyszukiwania input{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
 #buton{
   margin-top: 2%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 #buton a{
   padding:0;
   margin:0;
 }
 #tlo{
-  background: #0f4ec2;
+  background: #407ce4;
   //background-image: url("../assets/pizza.png");
   //background-image: url("../assets/sushi.png");
   //background-image: url("../assets/stek.png");
@@ -70,6 +74,7 @@ export default {
   height: 40vh;
   border-bottom-right-radius: 60% 25%;
   border-bottom-left-radius: 60% 25%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 h1{
   overflow: hidden;
@@ -79,6 +84,7 @@ h1{
   margin-top:7vh;
   padding:0;
   padding-bottom:3vh;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.19);
 }
 @keyframes fadeinA {
     0% { opacity: 0; }
@@ -103,12 +109,6 @@ h1{
   #tlo{
     border-bottom-right-radius: 60% 25%;
     border-bottom-left-radius: 60% 25%;
-    background: #0f4ec2;
-    //background-image: url("../assets/pizza.png"), url("../assets/sushi.png"), url("../assets/stek.png");
-    //background-position: right, between, left;
-    //background-repeat: no-repeat, no-repeat, no-repeat;
-    //background-image: url("../assets/sushi.png");
-    //background-image: url("../assets/stek.png");
     margin-bottom: 0px;
     padding: 20px;
     width: 100%;
@@ -133,7 +133,6 @@ h1{
   #tlo{
     border-bottom-right-radius: 60% 25%;
     border-bottom-left-radius: 60% 25%;
-    background: #0f4ec2;
     //background-image: url("../assets/pizza.png");
     //background-image: url("../assets/sushi.png");
     //background-image: url("../assets/stek.png");
