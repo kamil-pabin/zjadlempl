@@ -3,38 +3,28 @@
     <div id="tlo">
       <div id="naglow">
         <h1 id="hello">Wyszukaj restauracje w której jadłeś: </h1>
-        <div id="poleWyszukiwania">
-          <b-form-input list="my-list-id" v-model="text" placeholder="Podaj ulicę"></b-form-input>
-          <datalist id="my-list-id">
-            <option v-for="(size) in sizes" :key="size.id">{{ size }}</option>
-          </datalist>
-          <b-button id="buton" to="/About" :active="$route.name =='About'" variant="dark">Szukaj</b-button>
-        </div>
       </div>
+      <user-location />
     </div>
   </div>
 </template>
 
 <script>
+import UserLocation from '../components/UserLocation.vue'
+
 export default {
   name: 'Home',
-  components: {
-
+  components: { UserLocation },
+  data() {
+    return {
+      text: '',
+      sizes: ['Śmidowicza', 'Świętojańska', 'Gdańska', 'Młodego G']
+    }
+  },
+  methods: {
+    
   }
 }
-</script>
-
-<script>
-  export default {
-    data() {
-      return {
-        text: '',
-        sizes: ['Śmidowicza', 'Świętojańska', 'Gdańska', 'Młodego G']
-      }
-    },
-    methods: {
-    }
-  }
 </script>
 
 <style lang="scss" scoped>
@@ -45,23 +35,6 @@ export default {
   color: white;
   padding:0;
   margin-left:0px;
-}
-#poleWyszukiwania{
-  margin:auto;
-  max-width:20rem;
-  height:1rem;
-  display:flexbox;
-}
-#poleWyszukiwania input{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-#buton{
-  margin-top: 2%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-#buton a{
-  padding:0;
-  margin:0;
 }
 #tlo{
   background: #407ce4;
@@ -96,16 +69,6 @@ h1{
      font-size: 2.3rem;
      margin-top:7vh;
   }
-  #poleWyszukiwania{
-    margin:auto;
-    max-width:30rem;
-    height:2.5rem;
-    display:flex;
-  }
-  #buton{
-    margin-top: 0%;
-    margin-left:10px;
-  }
   #tlo{
     border-bottom-right-radius: 60% 25%;
     border-bottom-left-radius: 60% 25%;
@@ -119,16 +82,6 @@ h1{
   h1 {
      font-size: 1.3rem;
      margin-top:7vh;
-  }
-  #poleWyszukiwania{
-    max-width:20rem;
-    margin:auto;
-    height:2rem;
-    display:flexbox;
-  }
-  #buton{
-    margin-top: 2%;
-    margin-left:0px;
   }
   #tlo{
     border-bottom-right-radius: 60% 25%;
