@@ -1,49 +1,53 @@
 <template>
-  <div class="home">
+  <div class="browser">
     <div id="tlo">
-      <div id="naglow">
-        <h1 id="hello">Wyszukaj restauracje w której jadłeś: </h1>
-      </div>
-      <user-location />
+      <h4 class="invert" v-if="this.$store.state.cords.lat != '' ">
+        Twoja lokalizacja: {{ this.$store.state.cords.lat }}
+        {{ this.$store.state.cords.long }}
+        
+      </h4>
+      <BrowserData />
     </div>
   </div>
 </template>
 
 <script>
-import UserLocation from '../components/UserLocation.vue'
-
+import BrowserData from '../components/BrowserData.vue'
 export default {
-  name: 'Home',
-  components: { UserLocation},
+  name: "Browser",
+  components: { BrowserData },
   data() {
     return {
-      text: '',
-      long: '',
-      lat: '',
-    }
+      value: "",
+      context: null,
+    };
   },
   methods: {
-  }
-}
+    fetchData: function () {
+      this.$store.state.cords.lat = 10;
+    },
+  },
+  props: ["lat", "long"],
+};
 </script>
 
 <style lang="scss" scoped>
-.home{
+.browser{
   text-align: center;
   width:100%;
-  height:100%;
   color: white;
   padding:0;
-  margin-left:0px;
+  margin-left:auto;
+  margin-right: auto;
 }
 #tlo{
-  background: #407ce4;
+  width:90%;
+  background: rgba(223, 223, 223, 0.966);
   margin-bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 20px;
-  width: 100%;
-  height: 40vh;
-  border-bottom-right-radius: 60% 25%;
-  border-bottom-left-radius: 60% 25%;
+  height: 100vh;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 h1{
@@ -56,19 +60,12 @@ h1{
   padding-bottom:3vh;
   text-shadow: 0 4px 8px rgba(0,0,0,0.19);
 }
-@keyframes fadeinA {
-    0% { opacity: 0; }
-    45% { opacity: 0; }
-    100%   { opacity: 1; }
-}
-@media screen and (min-width: 1200px) {
+/*@media screen and (min-width: 1200px) {
   h1 {
      font-size: 2.3rem;
      margin-top:7vh;
   }
   #tlo{
-    border-bottom-right-radius: 60% 25%;
-    border-bottom-left-radius: 60% 25%;
     margin-bottom: 0px;
     padding: 20px;
     width: 100%;
@@ -83,13 +80,11 @@ h1{
   #tlo{
     border-bottom-right-radius: 60% 25%;
     border-bottom-left-radius: 60% 25%;
-    //background-image: url("../assets/pizza.png");
-    //background-image: url("../assets/sushi.png");
-    //background-image: url("../assets/stek.png");
     margin-bottom: 0px;
     padding: 20px;
     width: 100%;
     height: 40vh;
   }
 }
+*/
 </style>

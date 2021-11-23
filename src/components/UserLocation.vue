@@ -10,10 +10,15 @@
     </datalist>
     <div id="przyciski">
       <b-button id="buton" variant="dark">
-        Szukaj
+        <router-link to="/Browser" :active="$route.name == 'Browser'"
+          >Szukaj</router-link
+        >
       </b-button>
       <div id="gpsLoc">
-        <b-icon icon="geo-alt-fill" v-on:click="locatorButtonPressed"></b-icon>
+        <router-link to="/Browser" :active="$route.name == 'Browser'">
+          <b-icon icon="geo-alt-fill" v-on:click="locatorButtonPressed"></b-icon>
+          </router-link>
+        
       </div>
     </div>
   </div>
@@ -27,17 +32,22 @@ export default {
   data() {
     return {
       address: "",
+      lat: "",
+      long: "",
+      sizes: ["Śmidowicza", "Świętojańska", "Gdańska", "Młodego G"],
     };
   },
   methods: {
     locatorButtonPressed() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position.coords.latitude);
-          console.log(position.coords.longitude);
-        },
-        (error) => {
+          this.lat = position.coords.latitude;
+          this.long = position.coords.longitude;
+          this.$store.state.cords.lat = this.lat;
+          this.$store.state.cords.long = this.long;
+          (error) => {
           console.log(error.message);
+        }
         }
       );
     },
@@ -63,26 +73,29 @@ export default {
 #buton a {
   padding: 0;
   margin: 0;
+  color: inherit;
+  text-decoration: none;
 }
 #przyciski {
-    display: flex;
-    margin: auto;
-    padding: auto;
-    margin-top: 2%;
-    height: fit-content;
-    width:fit-content;
-  }
+  display: flex;
+  margin: auto;
+  padding: auto;
+  margin-top: 2%;
+  height: fit-content;
+  width: fit-content;
+}
 #gpsLoc {
   margin: 0;
   padding: 0;
 }
 #gpsLoc svg {
-    line-height: 50%;
-    height: 100%;
-    width: auto;
-  }
-#gpsLoc svg:hover{
-   cursor:pointer;
+  line-height: 50%;
+  height: 100%;
+  width: auto;
+  color: white;
+}
+#gpsLoc svg:hover {
+  cursor: pointer;
 }
 @media screen and (min-width: 1200px) {
   #poleWyszukiwania {

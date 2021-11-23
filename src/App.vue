@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 <template>
   <div id="app">
     <b-card no-body class="theCard">
