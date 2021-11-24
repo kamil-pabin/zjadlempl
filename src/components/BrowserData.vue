@@ -92,9 +92,9 @@ export default {
     //  return deg * (Math.PI/180)
     //},
     getDistanceFromLatLonInKm () {
-      var lat1 = this.lat;
+      var lat1 = this.$store.state.cords.lat;
       var lat2 = this.currentRestauracjaAdres.latitude;
-      var lon1 = this.long;
+      var lon1 = this.$store.state.cords.long;
       var lon2 = this.currentRestauracjaAdres.longitude;
       var R = 6371; // Radius of the earth in km
       var dLat = (3.14 / 180)*(lat2 - lat1);  // deg2rad below
