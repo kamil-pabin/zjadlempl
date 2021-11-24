@@ -1,11 +1,6 @@
 <template>
   <div class="browser">
     <div id="tlo">
-      <h4 class="invert" v-if="this.$store.state.cords.lat != '' ">
-        Twoja lokalizacja: {{ this.$store.state.cords.lat }}
-        {{ this.$store.state.cords.long }}
-        
-      </h4>
       <BrowserData />
     </div>
   </div>
@@ -39,16 +34,14 @@ export default {
   padding:0;
   margin-left:auto;
   margin-right: auto;
+  font-family: 'Raleway', sans-serif;
 }
 #tlo{
   width:90%;
-  background: rgba(223, 223, 223, 0.966);
   margin-bottom: 0px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
-  height: 100vh;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 h1{
   overflow: hidden;

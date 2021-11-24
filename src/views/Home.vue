@@ -35,6 +35,7 @@ export default {
   color: white;
   padding:0;
   margin-left:0px;
+  font-family: 'Raleway', sans-serif;
 }
 #tlo{
   background: #407ce4;

@@ -2,7 +2,7 @@
 <template>
   <div id="app">
     <b-card no-body class="theCard">
-      <b-icon icon="justify" v-b-toggle.sidebar-backdrop class="butoSidebar invert" font-scale="3"></b-icon>
+      <b-icon icon="justify" v-b-toggle.sidebar-backdrop class="butoSidebar invert" font-scale="2"></b-icon>
        <b-sidebar id="sidebar-backdrop" backdrop no-header shadow>
          <template #default="{ hide }">
           <div class="sideber">
@@ -41,12 +41,13 @@
 @import '../src/assets/transitionStyles.css';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&family=Raleway:wght@200;300;500&display=swap');
 .invert { 
-  filter: invert(100%); 
+  filter: invert(0%); 
   }
 html {
   //background-image: url("./assets/tlo.png");
   background: url("./assets/tlo.png") no-repeat center fixed;
   background-size: cover;
+  -webkit-font-smoothing: antialiased;
 }
 body{
   background:transparent;
@@ -91,7 +92,7 @@ body{
   padding:0;
 }
 .butoSidebar{
-  position:absolute;
+  position:fixed;
   margin-left:1%;
   margin-top:1%;
 }
@@ -134,6 +135,7 @@ body{
   min-height: 100vh;
   min-width: 100vw;
   padding: 0vh;
+  isolation: isolate;
 }
 .interior{
   padding-bottom: 0;
@@ -180,6 +182,9 @@ body{
     font-size: 0.8rem;
     font-weight: 500;
     transform: skew(0deg);
+  }
+  .invert{
+    filter: invert(100%); 
   }
 }
 .card-body.text-center.interior {
