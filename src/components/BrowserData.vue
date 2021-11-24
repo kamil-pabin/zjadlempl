@@ -4,7 +4,7 @@
     <div class="panel">
       <div class='tytul'>
         <div><h2> Znaleziono {{ this.$store.state.restauracje.length }} Restauracji</h2></div>
-        <div id="cords" v-if="lat != '' "><h2> Twoja lokalizacja: <i>{{ lat }}E {{ long }}N</i> </h2></div>
+        <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i>{{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
       </div> 
       <div class="pojemnik">
         <div class="pojemnikDwa">
