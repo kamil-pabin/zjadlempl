@@ -14,6 +14,9 @@ import UserLocation from '../components/UserLocation.vue'
 
 export default {
   name: 'Home',
+  metaInfo:{
+    title: 'Zjadłem.pl | Podziel się swoją opinią!'
+  },
   components: { UserLocation},
   data() {
     return {

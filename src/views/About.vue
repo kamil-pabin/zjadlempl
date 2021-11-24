@@ -11,6 +11,10 @@
 
 <script>
 export default {
+  name: 'About',
+  metaInfo:{
+    title: 'Zjadłem.pl | Dowiedz się więcej!'
+  },
   data () {
     return {
       value: '',

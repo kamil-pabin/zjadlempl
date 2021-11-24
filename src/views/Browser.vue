@@ -10,6 +10,9 @@
 import BrowserData from '../components/BrowserData.vue'
 export default {
   name: "Browser",
+  metaInfo:{
+    title: 'Zjadłem.pl | Przeglądaj restauracje'
+  },
   components: { BrowserData },
   data() {
     return {
@@ -37,7 +40,7 @@ export default {
   font-family: 'Raleway', sans-serif;
 }
 #tlo{
-  width:90%;
+  width:80%;
   margin-bottom: 0px;
   margin-left: auto;
   margin-right: auto;
