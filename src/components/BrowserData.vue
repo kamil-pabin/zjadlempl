@@ -3,25 +3,41 @@
   <div id="browserData">
     <div class="panel">
       <div class='tytul'>
-        <div><h2> Znaleziono {{ this.$store.state.restauracje.length }} Restauracji</h2></div>
-        <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i>{{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
+        <div id="gornaLinia">
+            <div><h2> Znaleziono  {{ this.$store.state.restauracje.length }} Restauracji <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>
+            <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
+        </div>
+        <div id="dolnaLinia">
+          <label for="sb-inline">Ilość wyświetlanych restauracji</label>
+          <b-form-spinbutton 
+          class="numbers"
+          id="sb-inline" 
+          v-model="restLimMax" 
+          inline
+          min="5"
+          max="1000"
+          step="15"
+          >
+          </b-form-spinbutton>
+        </div>
+        
       </div> 
       <div class="pojemnik">
         <div class="pojemnikDwa">
           <div class="restauracja" 
-          v-for="item in this.$store.state.restauracje" 
-          :key="item.index"
-          
-          @mouseover="currentRestauracja = item.index, currentRestauracjaNazwa = item.Nazwa, currentRestauracjaOcena = item.Ocena, currentRestauracjaLogo = item.Logo, currentRestauracjaAdres = item.Adres, getDistanceFromLatLonInKm()"
+          v-for="item in this.$store.state.restauracje.slice(restLimMin,restLimMax)" 
+          :key="item.id"
+          @mouseover="currentRestauracja = item.index, currentRestauracjaNazwa = item.Nazwa, currentRestauracjaOcena = item.Ocena, currentRestauracjaLogo = item.Logo, currentRestauracjaAdres = item.Adres, currentRestauracjaMiasto = item.Miasto, currentRestauracjaKuchnie = item.Kuchnie, currentRestauracjaUlica = item.Ulica, currentRestauracjaLokal = item.NumerLokalu, getDistanceFromLatLonInKm()"
           >
             <div class="logoRestDiv">
                 <b-img :src="item.Logo" fluid class="logoRest"/>
             </div>
             <div class="informacje">
                   <div>{{ item.Nazwa }}</div>
-                  <div>Kuchnia: {{ item.Kuchnia }}</div>
-            </div>
-            
+                  <span class="kuchnie" v-for="kuchniaNazwa in item.Kuchnie" :key="kuchniaNazwa">
+                      {{ kuchniaNazwa }} 
+                  </span>
+            </div>           
           </div>
         </div>
         <div class="pojemnikDwa">
@@ -31,20 +47,31 @@
               <div class="logoRestDivInfo">
                 <b-img :src="currentRestauracjaLogo" fluid class="logoRest"/>
               </div> 
-              <p class="numbers">Odległość: {{ dystans }}km</p>
+              <p class="numbers" v-if="this.$store.state.cords.lat != '' ">Odległość: {{ dystans }}km</p>
               <div class="flex">
                 Średnia ocena: &nbsp;
                 <div class="numbers" v-bind:style=" currentRestauracjaOcena >= 9 ? {'color': '#00aaff'} : [currentRestauracjaOcena >= 7 ? {'color': 'green'} : (currentRestauracjaOcena >= 3 ? {'color': 'orange'} : {'color': 'red'})] ">
                   {{ currentRestauracjaOcena }} / 10
                 </div>
+              </div>  
+              <div class="flex">
+                Kuchnia: &nbsp;
+                <span class="kuchnie" id="kuchOpis" v-for="kuchniaNazwa in currentRestauracjaKuchnie" :key="kuchniaNazwa">
+                      {{ kuchniaNazwa }}<span v-if="currentRestauracjaKuchnie.length > 1">, &nbsp;</span>
+                  </span>
+              </div> 
+              <div class="flex">
+                Miasto:&nbsp;
+                <div>{{currentRestauracjaMiasto}}</div>
               </div>
-              
+              <div class="flex">
+                Ulica:&nbsp;
+                <div>{{currentRestauracjaUlica}} {{ currentRestauracjaLokal }}</div>
+              </div>
             </div>
           </div>
         </div>
-
       </div>  
-      
     </div>
   </div>
 </template>
@@ -60,8 +87,14 @@ export default {
     return {
       currentRestauracja: 'brak',
       currentRestauracjaNazwa: 'brak',
+      currentRestauracjaMiasto: 'brak',
       currentRestauracjaOcena: 'brak',
       currentRestauracjaLogo: 'brak',
+      currentRestauracjaKuchnie: 'brak',
+      currentRestauracjaUlica: 'brak',
+      currentRestauracjaLokal: 'brak',
+      restLimMax:  10,
+      restLimMin: 0,
       currentRestauracjaAdres: [],
       currentIndex: -1,
       kuchnia: null,
@@ -73,24 +106,6 @@ export default {
     };
   },
   methods: {
-    fetchData: function () {
-      this.$store.state.cords.lat = 10;
-      this.$store.state.cords.long = 10;
-    },
-    onLoadRest () {
-      const restData = {
-        nazwa: this.nazwa,
-        kuchnia: this.kuchnia,
-        ocena: this.ocena,
-        lokalizacja: this.lokalizacja,
-        logo: this.logo
-      }
-      this.$store.dispatch('bindRestauracja', restData)
-      console.log(this.logo)
-    },
-    //deg2rad (deg) {
-    //  return deg * (Math.PI/180)
-    //},
     getDistanceFromLatLonInKm () {
       var lat1 = this.$store.state.cords.lat;
       var lat2 = this.currentRestauracjaAdres.latitude;
@@ -99,8 +114,6 @@ export default {
       var R = 6371; // Radius of the earth in km
       var dLat = (3.14 / 180)*(lat2 - lat1);  // deg2rad below
       var dLon = (3.14 / 180)*(lon2 - lon1); 
-      //var dLat = deg2rad(lat2-lat1);  // deg2rad below
-      //var dLon = deg2rad(lon2-lon1); 
       var a = 
         Math.sin(dLat/2) * Math.sin(dLat/2) +
         Math.cos((3.14 / 180)*(lat1)) * Math.cos((3.14/180)*(lat2)) * 
@@ -113,7 +126,12 @@ export default {
   },
   created (){
     this.$store.dispatch('bindRestauracja')
-  }
+  },
+  computed: {
+    btnStates(){
+      return this.buttonsLims.map(btn => btn.state)
+    }
+  },
 };
 
 </script>
@@ -132,7 +150,7 @@ export default {
 }
 .pojemnikDwa{
   width:50%;
-  //height:fit-content;
+  //height:30%;
   margin-right:2%;
   margin-left:2%;
 }
@@ -161,7 +179,7 @@ export default {
   transition: linear 0.3s;
 }
 .restauracja:hover{
-  transform: scale(1.06);
+  transform: scale(1.04);
   transition: linear 0.3s;
   background: #8fb8ff;
 }
@@ -178,10 +196,10 @@ export default {
   padding:auto;
   transition: linear 1.2s;
   width:100%;
-  height:55%;
+  //height:55%;
   font-size: 1vw;
   position:sticky;
-  top:13%;
+  top:18%;
 }
 .informacjeRest p{
   padding:0;
@@ -213,6 +231,16 @@ export default {
   text-align:center;
   display:block;
   padding:7%;
+}
+.kuchnie{
+  //display:flex;
+  padding:0;
+  margin:0;
+  font-size: 0.6vw;
+  white-space:nowrap;
+}
+#kuchOpis{
+  font-size:1vw;
 }
 .restauracja .informacje div{
   height:60%;
@@ -249,7 +277,7 @@ export default {
   border-bottom: solid rgba(0, 0, 0, 0.171) 1px;
   color: black;
   padding:2%;
-  display:flex;
+  display:flexbox;
   margin:auto;
   justify-content: space-between;
   margin-bottom:1%;
@@ -258,6 +286,16 @@ export default {
   top:0%;
   background:rgb(255, 255, 255);
   border-radius: 15px 15px 0px 0px;
+}
+.tytul #gornaLinia{
+  display:flex;
+  justify-content: space-between;
+}
+.tytul #dolnaLinia{
+  text-align: left;
+}
+.tytul #dolnaLinia div{
+  margin:1%;
 }
 .tytul h2{
   font-size: 1.2vw;

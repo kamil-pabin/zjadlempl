@@ -1,19 +1,19 @@
 <template>
   <div id="poleWyszukiwania">
-    <b-form-input
-      list="my-list-id"
-      v-model="text"
-      placeholder="Podaj ulicę"
-    ></b-form-input>
-    <datalist id="my-list-id">
-      <option v-for="size in sizes" :key="size.id">{{ size }}</option>
-    </datalist>
+    <router-link to="/Browser" :active="$route.name == 'Browser'">
+    <b-list-group horizontal>
+        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Gdańsk')">
+          Gdańsk
+        </b-list-group-item>
+        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Gdynia')">
+          Gdynia
+        </b-list-group-item>
+        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Sopot')">
+          Sopot
+        </b-list-group-item>
+    </b-list-group>
+    </router-link>
     <div id="przyciski">
-      <b-button id="buton" variant="dark">
-        <router-link to="/Browser" :active="$route.name == 'Browser'"
-          >Szukaj</router-link
-        >
-      </b-button>
       <div id="gpsLoc">
         <router-link to="/Browser" :active="$route.name == 'Browser'">
           <b-icon icon="geo-alt-fill" v-on:click="locatorButtonPressed"></b-icon>
@@ -34,6 +34,7 @@ export default {
       address: "",
       lat: "",
       long: "",
+      city: '',
       sizes: ["Śmidowicza", "Świętojańska", "Gdańska", "Młodego G"],
     };
   },
@@ -51,24 +52,28 @@ export default {
         }
       );
     },
+    miastoSelection(citySel){
+      this.$store.state.miasto = citySel;
+    }
   },
 };
 </script>
 
 <style lang="scss">
 #poleWyszukiwania {
-  margin: auto;
-  max-width: 20rem;
-  height: 1rem;
-  display: flexbox;
-}
-#poleWyszukiwania input {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+    margin: auto;
+    max-width: 30rem;
+    width:fit-content;
+    height: 2.5rem;
+    display: flex;
+  }
 #buton {
   margin: 0;
   line-height: 100%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+div a{
+  text-decoration: none;
 }
 #buton a {
   padding: 0;
@@ -77,13 +82,12 @@ export default {
   text-decoration: none;
 }
 #przyciski {
-  display: flex;
-  margin: auto;
-  padding: auto;
-  margin-top: 2%;
-  height: fit-content;
-  width: fit-content;
-}
+    display: flex;
+    margin: auto;
+    padding: auto;
+    height: 100%;
+    line-height: 50%;
+  }
 #gpsLoc {
   margin: 0;
   padding: 0;
@@ -101,6 +105,7 @@ export default {
   #poleWyszukiwania {
     margin: auto;
     max-width: 30rem;
+    width:fit-content;
     height: 2.5rem;
     display: flex;
   }
@@ -110,7 +115,6 @@ export default {
   }
   #przyciski {
     display: flex;
-    width: 40%;
     margin: auto;
     padding: auto;
     height: 100%;
