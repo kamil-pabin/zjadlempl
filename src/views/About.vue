@@ -3,9 +3,6 @@
     <div class="typewriter">
       <h1 id="hello">Zjadłem.pl</h1>
     </div>
-    <div id="logo" class='invert'>
-        <img src="../assets/logo.png" alt="Responsive image">
-    </div>
   </div>
 </template>
 
