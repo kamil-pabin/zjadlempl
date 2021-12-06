@@ -1,12 +1,11 @@
 <template>
   <div class="about">
-    <div class="typewriter">
-      <h1 id="hello">Zjadłem.pl</h1>
-    </div>
+    
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'About',
   metaInfo:{

@@ -1,24 +1,35 @@
 <template>
   <div id="poleWyszukiwania">
     <router-link to="/Browser" :active="$route.name == 'Browser'">
-    <b-list-group horizontal>
-        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Gdańsk')">
+      <b-list-group horizontal>
+        <b-list-group-item
+          class="d-flex justify-content-between align-items-center"
+          v-on:click="miastoSelection('Gdańsk')"
+        >
           Gdańsk
         </b-list-group-item>
-        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Gdynia')">
+        <b-list-group-item
+          class="d-flex justify-content-between align-items-center"
+          v-on:click="miastoSelection('Gdynia')"
+        >
           Gdynia
         </b-list-group-item>
-        <b-list-group-item class="d-flex justify-content-between align-items-center" v-on:click="miastoSelection('Sopot')">
+        <b-list-group-item
+          class="d-flex justify-content-between align-items-center"
+          v-on:click="miastoSelection('Sopot')"
+        >
           Sopot
         </b-list-group-item>
-    </b-list-group>
+      </b-list-group>
     </router-link>
     <div id="przyciski">
       <div id="gpsLoc">
         <router-link to="/Browser" :active="$route.name == 'Browser'">
-          <b-icon icon="geo-alt-fill" v-on:click="locatorButtonPressed"></b-icon>
-          </router-link>
-        
+          <b-icon
+            icon="geo-alt-fill"
+            v-on:click="locatorButtonPressed(), miastoSelection('')"
+          ></b-icon>
+        </router-link>
       </div>
     </div>
   </div>
@@ -34,45 +45,45 @@ export default {
       address: "",
       lat: "",
       long: "",
-      city: '',
+      city: "",
       sizes: ["Śmidowicza", "Świętojańska", "Gdańska", "Młodego G"],
     };
   },
   methods: {
     locatorButtonPressed() {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.lat = position.coords.latitude;
-          this.long = position.coords.longitude;
-          this.$store.state.cords.lat = this.lat;
-          this.$store.state.cords.long = this.long;
-          (error) => {
+      this.$store.state.allowedCords = true;
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.long = position.coords.longitude;
+        this.$store.state.cords.lat = this.lat;
+        this.$store.state.cords.long = this.long;
+        (error) => {
+          this.$store.state.allowedCords = false;
           console.log(error.message);
-        }
-        }
-      );
+        };
+      });
     },
-    miastoSelection(citySel){
+    miastoSelection(citySel) {
       this.$store.state.miasto = citySel;
-    }
+    },
   },
 };
 </script>
 
 <style lang="scss">
 #poleWyszukiwania {
-    margin: auto;
-    max-width: 30rem;
-    width:fit-content;
-    height: 2.5rem;
-    display: flex;
-  }
+  margin: auto;
+  max-width: 30rem;
+  width: fit-content;
+  height: 2.5rem;
+  display: flex;
+}
 #buton {
   margin: 0;
   line-height: 100%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-div a{
+div a {
   text-decoration: none;
 }
 #buton a {
@@ -82,12 +93,12 @@ div a{
   text-decoration: none;
 }
 #przyciski {
-    display: flex;
-    margin: auto;
-    padding: auto;
-    height: 100%;
-    line-height: 50%;
-  }
+  display: flex;
+  margin: auto;
+  padding: auto;
+  height: 100%;
+  line-height: 50%;
+}
 #gpsLoc {
   margin: 0;
   padding: 0;
@@ -105,7 +116,7 @@ div a{
   #poleWyszukiwania {
     margin: auto;
     max-width: 30rem;
-    width:fit-content;
+    width: fit-content;
     height: 2.5rem;
     display: flex;
   }

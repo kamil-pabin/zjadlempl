@@ -3,31 +3,26 @@
   <div id="browserData">
     <div class="panel">
       <div class='tytul'>
-        <div id="gornaLinia">
-            <div><h2> Znaleziono  {{ this.$store.state.restauracje.length }} Restauracji <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>
-            <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
-        </div>
+        <div id="gornaLinia"> <!--TODO: Dodać 4 <span v-if></span> dla współrzędnych, żeby zależnie od ich wartości pokazywała się odpowiednia wartość -->
+            <div><h2> Znaleziono {{ this.$store.state.restauracje.length }} Restauracji <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>  
+              <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
+              <div v-else>
+                <div v-if="this.$store.state.allowedCords == true">
+                  <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>
+                </div>
+                <div v-else>Brak dostępu do lokalizacji</div>
+              </div>         
+        </div> 
         <div id="dolnaLinia">
-          <label for="sb-inline">Ilość wyświetlanych restauracji</label>
-          <b-form-spinbutton 
-          class="numbers"
-          id="sb-inline" 
-          v-model="restLimMax" 
-          inline
-          min="5"
-          max="1000"
-          step="15"
-          >
-          </b-form-spinbutton>
+          <label>Ilość wyświetlanych restauracji: {{ restLimMax }} </label>
         </div>
-        
       </div> 
       <div class="pojemnik">
         <div class="pojemnikDwa">
           <div class="restauracja" 
           v-for="item in this.$store.state.restauracje.slice(restLimMin,restLimMax)" 
           :key="item.id"
-          @mouseover="currentRestauracja = item.index, currentRestauracjaNazwa = item.Nazwa, currentRestauracjaOcena = item.Ocena, currentRestauracjaLogo = item.Logo, currentRestauracjaAdres = item.Adres, currentRestauracjaMiasto = item.Miasto, currentRestauracjaKuchnie = item.Kuchnie, currentRestauracjaUlica = item.Ulica, currentRestauracjaLokal = item.NumerLokalu, getDistanceFromLatLonInKm()"
+          @mouseover="changeCurrentRestaurant(item), getDistanceFromLatLonInKm()"
           >
             <div class="logoRestDiv">
                 <b-img :src="item.Logo" fluid class="logoRest"/>
@@ -43,35 +38,55 @@
         <div class="pojemnikDwa">
           <div class="informacjeRest" v-if="currentRestauracja != 'brak'">
             <div>
-              <p id="nazwaRest">{{ currentRestauracjaNazwa }} </p>
+              <p id="nazwaRest">{{ this.$store.state.restNazwa }} </p>
               <div class="logoRestDivInfo">
-                <b-img :src="currentRestauracjaLogo" fluid class="logoRest"/>
+                <b-img :src="this.$store.state.restLogo" fluid class="logoRest"/>
               </div> 
               <p class="numbers" v-if="this.$store.state.cords.lat != '' ">Odległość: {{ dystans }}km</p>
-              <div class="flex">
+              <!-- <div class="flex">
                 Średnia ocena: &nbsp;
                 <div class="numbers" v-bind:style=" currentRestauracjaOcena >= 9 ? {'color': '#00aaff'} : [currentRestauracjaOcena >= 7 ? {'color': 'green'} : (currentRestauracjaOcena >= 3 ? {'color': 'orange'} : {'color': 'red'})] ">
-                  {{ currentRestauracjaOcena }} / 10
+                  {{ this.$store.state.avgOcena }} / 10
                 </div>
-              </div>  
+              </div>   -->
               <div class="flex">
                 Kuchnia: &nbsp;
-                <span class="kuchnie" id="kuchOpis" v-for="kuchniaNazwa in currentRestauracjaKuchnie" :key="kuchniaNazwa">
-                      {{ kuchniaNazwa }}<span v-if="currentRestauracjaKuchnie.length > 1">, &nbsp;</span>
-                  </span>
+                <span class="kuchnie" id="kuchOpis" v-for="kuchniaNazwa in this.$store.state.restKuchnie" :key="kuchniaNazwa">
+                  {{ kuchniaNazwa }}<span v-if="currentRestauracjaKuchnie.length > 1">, &nbsp;</span>
+                </span>
               </div> 
               <div class="flex">
                 Miasto:&nbsp;
-                <div>{{currentRestauracjaMiasto}}</div>
+                <div>{{this.$store.state.restMiasto}}</div>
               </div>
               <div class="flex">
                 Ulica:&nbsp;
-                <div>{{currentRestauracjaUlica}} {{ currentRestauracjaLokal }}</div>
+                <div>{{this.$store.state.restUlica}} {{ this.$store.state.restNumerLokalu }}</div>
+              </div>
+              <div class="flex">
+                <b-button
+                id="szczegoly"
+                @click="restaurantLink"
+                :active="$route.name == '/restauracja'"
+                >
+                Zobacz więcej</b-button>
               </div>
             </div>
           </div>
         </div>
-      </div>  
+      </div> 
+      <div class="pojemnik">
+        <div class="stopa">
+          <div id="lewo">
+            <b-button-group>
+              <b-button id="wiecej" v-if="restLimMax < this.$store.state.restauracje.length" @click="restLimMax+=10">Wyświetl więcej</b-button>
+              <b-button id="mniej" v-if="restLimMax > 11" @click="restLimMax-=10">Wyświetl mniej</b-button>
+            </b-button-group>
+          </div>
+          <div id="prawo">
+          </div>
+        </div>
+      </div> 
     </div>
   </div>
 </template>
@@ -108,9 +123,9 @@ export default {
   methods: {
     getDistanceFromLatLonInKm () {
       var lat1 = this.$store.state.cords.lat;
-      var lat2 = this.currentRestauracjaAdres.latitude;
+      var lat2 = this.currentRestauracja.Adres._lat;
       var lon1 = this.$store.state.cords.long;
-      var lon2 = this.currentRestauracjaAdres.longitude;
+      var lon2 = this.currentRestauracja.Adres._long;
       var R = 6371; // Radius of the earth in km
       var dLat = (3.14 / 180)*(lat2 - lat1);  // deg2rad below
       var dLon = (3.14 / 180)*(lon2 - lon1); 
@@ -122,6 +137,23 @@ export default {
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
       var d = R * c; // Distance in km
       this.dystans = Math.round(this.dystans = d * 100) /100;
+    },
+    restaurantLink: function () {
+      this.$router.push("/restauracja");
+    },
+    changeCurrentRestaurant(Restaurant) {
+      this.currentRestauracja = Restaurant;
+      this.$store.state.restNazwa= Restaurant.Nazwa;
+      this.$store.state.restAdres= Restaurant.Adres;
+      this.$store.state.restKuchnie= Restaurant.Kuchnie;
+      this.$store.state.restLogo= Restaurant.Logo;
+      this.$store.state.restMiasto= Restaurant.Miasto;
+      this.$store.state.restNumerLokalu= Restaurant.NumerLokalu;
+      this.$store.state.restOceny= Restaurant.Oceny;
+      this.$store.state.restUlica= Restaurant.Ulica;
+      this.$store.state.restMenu= Restaurant.Menu;
+      this.$store.state.restKomentarze= Restaurant.Komentarze;
+      this.$store.state.restId = Restaurant.id;
     },
   },
   created (){
@@ -172,7 +204,7 @@ export default {
   //margin-left: 2%;;
   margin-bottom:1%;
   color:rgb(63, 63, 63);
-  font-size: 1.2vw;
+  //font-size: 1.2vw;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.144);
   border-radius: 1vw .5vw .5vw .5vw;
   width:100%;
@@ -197,7 +229,7 @@ export default {
   transition: linear 1.2s;
   width:100%;
   //height:55%;
-  font-size: 1vw;
+  font-size: 0.7rem;
   position:sticky;
   top:18%;
 }
@@ -217,9 +249,6 @@ export default {
   margin:1%;
   border-radius: 15px 15px 15px 15px;
 }
-.restauracja:nth-child(2n+1){
-  //background:rgb(219, 219, 219);
-}
 .restauracja .logoRestDiv{
   width:25%;
   height:fit-content;
@@ -236,15 +265,17 @@ export default {
   //display:flex;
   padding:0;
   margin:0;
-  font-size: 0.6vw;
+  font-size: 0.6rem;
   white-space:nowrap;
 }
 #kuchOpis{
-  font-size:1vw;
+  font-size:0.7rem;
 }
 .restauracja .informacje div{
   height:60%;
-  font-size:1vw;
+  font-size:0.75rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 .restauracja .informacje div:nth-child(2n){
   font-size:.6vw;
@@ -261,7 +292,7 @@ export default {
 .ocenaRestDiv div{
   text-align:right;
   color: green;
-  font-size: 0.86vw;
+  font-size: 0.7rem;
   width:100%;
 }
 #naglowek div:last-of-type{
@@ -281,11 +312,12 @@ export default {
   margin:auto;
   justify-content: space-between;
   margin-bottom:1%;
-  font-size: 1vw;
+  font-size: 0.8rem;
   position:sticky;
   top:0%;
   background:rgb(255, 255, 255);
   border-radius: 15px 15px 0px 0px;
+  z-index:4;
 }
 .tytul #gornaLinia{
   display:flex;
@@ -298,7 +330,7 @@ export default {
   margin:1%;
 }
 .tytul h2{
-  font-size: 1.2vw;
+  font-size: 0.8rem;
 }
 .logoRestDiv{
   background: url("../assets/pizza.png");
@@ -326,25 +358,88 @@ export default {
   font-family: arial;
 }
 #nazwaRest{
-  font-size: 1.5vw;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.stopa{
+  //background:red;
+  width:100%;
+  display:flex;
+}
+.stopa #lewo{
+  //background:cyan;
+  width:50%;
+}
+.stopa #prawo{
+  //background:yellow;
+  width:50%;
+}
+.stopa #mniej{
+  color:black;
+  text-decoration: underline;
+  background: transparent;
+}
+.stopa #wiecej{
+  text-decoration: underline;
+  color:black;
+  background: transparent;
+}
+#szczegoly{
+  text-decoration: underline;
+  color:black;
+  border:none;
+  font-size:0.7rem;
+  font-weight: bolder;
+  background: transparent;
 }
 
+
 @media screen and (max-width: 600px) {
+  .pojemnik{
+    display:block;
+    width:100%;
+    margin:auto;
+  }
+  .pojemnik .pojemnikDwa{
+    margin:auto;
+    width:90%;
+    
+  }
+  .pojemnik .pojemnikDwa:nth-child(2n){
+    display:none;
+  }
   .tytul{
     display:block;
+    font-size:0.5rem;
     }
+  .tytul h2{
+    font-size:0.45rem;
+  }
   .restauracja{
     background:rgb(238, 238, 238);
     color:rgb(63, 63, 63);
-    //font-size: 0.6rem;
   }
-
+  .stopa{
+    //background:red;
+    width:100%;
+    display:block;
+  }
+  .stopa #lewo{
+    //background:cyan;
+    width:100%;
+  }
+  .stopa #prawo{
+    //background:yellow;
+    width:100%;
+  }
   .restauracja .informacje div{
-    //font-size:2.4vw;
+    font-size:0.8rem;
+    margin:3%;;
     word-break: break-all;
   }
-  .restauracja .informacje div:nth-child(2n){
-    //font-size:1.6vw;
+  .restauracja .informacje .kuchnie{
+    font-size:0.5rem;
   }
 }
 @media screen and (min-width: 1200px) {

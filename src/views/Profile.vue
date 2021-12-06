@@ -1,27 +1,28 @@
 <template>
   <div id="profile">
       <div id="tlo">
-        <h1>Twój profil Smakosza</h1>
-        <div id="dane">
-            <div id="avatarDiv"><img class="avatar" :src="$auth.user.picture"></div>
-            <p>Imię i Nazwisko: {{ $auth.user.name }}</p>
-            <p>Email: {{ $auth.user.email }}</p>
-            <p>Nick: {{ $auth.user.nickname }}</p>
+        <naglowek text="ZJADŁEM.PL | PROFIL SMAKOSZA" style="margin-bottom:2%;"></naglowek>
+        <div class="menuSmakosza" v-if="$auth.isAuthenticated">
+          <h1>Twój profil Smakosza</h1>
+          <div id="dane">
+              <div id="avatarDiv"><img class="avatar" :src="$auth.user.picture"></div>
+              <p>Imię i Nazwisko: {{ $auth.user.name }}</p>
+              <p>Email: {{ $auth.user.email }}</p>
+              <p>Nick: {{ $auth.user.nickname }}</p>
+          </div>
         </div>
       </div>
-    <div>
-      <pre>{{ JSON.stringify($auth.user, null, 2) }}</pre>
-    </div>
   </div>
 </template>
 
 <script>
+import Naglowek from "../components/Naglowek.vue"
 export default {
   name: "Profile",
   metaInfo:{
     title: 'Zjadłem.pl | Profil'
   },
-  components: {},
+  components: { Naglowek },
   data() {
     return {
     };
@@ -34,20 +35,29 @@ export default {
 #profile{
   text-align: center;
   width:100%;
-  color: black;
-  padding:1%;
+  color: white;
+  //padding:1%;
   margin-left:auto;
   margin-right: auto;
+  margin-top:0;
   font-family: 'Raleway', sans-serif;
+  padding-top:0;
 }
 #tlo{
   width:80%;
-  height:100%;
-  background:rgba(255, 255, 255, 0.884);
+  //height:100%;
+  //background:rgba(255, 255, 255, 0.884);
   display:flexbox;
   margin-left: auto;
   margin-right: auto;
   padding:1%;
+}
+.menuSmakosza{
+  color:black;
+  background:rgba(255, 255, 255, 0.884);
+  height:60vh;
+  padding:2%;
+  border-radius:10% 10% 0% 0%;
 }
 #dane{
     height:fit-content;
@@ -57,12 +67,6 @@ export default {
 }
 #dane p{
     margin:0;
-}
-#avatarDiv{
-  //background: white;
-  //padding:1%;
-  //margin:1%;
-  //border-radius: 50%;
 }
 .avatar {
   vertical-align: middle;

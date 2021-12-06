@@ -1,6 +1,7 @@
 <template>
   <div class="browser">
     <div id="tlo">
+      <naglowek text='ZJADŁEM.PL | WYSZUKIWARKA RESTAURACJI'></naglowek>
       <BrowserData />
     </div>
   </div>
@@ -8,12 +9,13 @@
 
 <script>
 import BrowserData from '../components/BrowserData.vue'
+import Naglowek from '../components/Naglowek.vue'
 export default {
   name: "Browser",
   metaInfo:{
     title: 'Zjadłem.pl | Przeglądaj restauracje'
   },
-  components: { BrowserData },
+  components: { BrowserData, Naglowek },
   data() {
     return {
       value: "",
@@ -68,19 +70,10 @@ h1{
     height: 40vh;
   }
 }
+*/
 @media screen and (max-width: 600px) {
-  h1 {
-     font-size: 1.3rem;
-     margin-top:7vh;
-  }
   #tlo{
-    border-bottom-right-radius: 60% 25%;
-    border-bottom-left-radius: 60% 25%;
-    margin-bottom: 0px;
-    padding: 20px;
-    width: 100%;
-    height: 40vh;
+    width: 95%;
   }
 }
-*/
 </style>

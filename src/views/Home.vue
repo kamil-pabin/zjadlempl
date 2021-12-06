@@ -87,9 +87,6 @@ h1{
   #tlo{
     border-bottom-right-radius: 60% 25%;
     border-bottom-left-radius: 60% 25%;
-    //background-image: url("../assets/pizza.png");
-    //background-image: url("../assets/sushi.png");
-    //background-image: url("../assets/stek.png");
     margin-bottom: 0px;
     padding: 20px;
     width: 100%;
