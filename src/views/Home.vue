@@ -11,7 +11,6 @@
 
 <script>
 import UserLocation from '../components/UserLocation.vue'
-
 export default {
   name: 'Home',
   metaInfo:{

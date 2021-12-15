@@ -51,6 +51,7 @@ export default new Vuex.Store({
         currentUserEmail: '',
         danieId: '',
         avgOcena: 0,
+        wybranaKuchnia: '',
 
     },
     getters: {
@@ -72,6 +73,8 @@ export default new Vuex.Store({
             var ocena = state.restSelectedOcena;
             var email = state.currentUserEmail;
             var komentarz = state.danieKomentarz;
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny').where('Autor', '==', state.currentUserEmail);
             doc2 //dodawanie jesli nie ma twojej opinii
@@ -84,6 +87,7 @@ export default new Vuex.Store({
                     Ocena: ocena, 
                     Autor: email,
                     Komentarz: komentarz,
+                    Data: date,
                      })     
                 }
                 else{ //dodawanie opinii jesli jej wczesniej nie bylo w bazie dziala poprawnie
@@ -91,6 +95,7 @@ export default new Vuex.Store({
                   Ocena: ocena, 
                   Autor: email,
                   Komentarz: komentarz,
+                  Data: date,
                    })
                 }
             })
@@ -150,6 +155,7 @@ export default new Vuex.Store({
                 //state.avgOcena = avg;
                 //bindFirestoreRef("avgOcena", avg)
               }
+              //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
           })
          }),
          bindOcena: ({ state, dispatch }) => {
@@ -161,9 +167,11 @@ export default new Vuex.Store({
           var col = "Restauracje";
           var col2 = state.restId
           if (col2 != ''){
-             bindFirestoreRef(q2, db.collection(col).doc(col2).collection('Menu'));
+             bindFirestoreRef(q2, db.collection(col).doc(col2).collection('Menu'))
              bindFirestoreRef(q3, db.collection(col).doc(col2).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
            }
+          console.log(state.restMenu)
+          
         }),
         fetchUser({ commit }, user) {
             commit("SET_LOGGED_IN", user !== null);

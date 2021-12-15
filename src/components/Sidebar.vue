@@ -19,7 +19,7 @@
             <b-button class="tabButton" to="/#/" :active="$route.name == '/#/'">
                 Home
             </b-button>
-            <b-button class="tabButton" to="/Browser" :active="$route.name == '/Browser'">
+            <b-button class="tabButton" @click="resetMiasto" to="/Browser" :active="$route.name == '/Browser'">
                 Restauracje
             </b-button>
             <b-button class="tabButton" to='/profile' v-if="$auth.isAuthenticated" :active="$route.name == '/profile'">
@@ -68,6 +68,9 @@ export default {
   methods: {
     login () {
       this.$auth.loginWithRedirect();
+    },
+    resetMiasto(){
+      this.$store.state.miasto = ''
     },
     logout() {
       this.$auth.logout({

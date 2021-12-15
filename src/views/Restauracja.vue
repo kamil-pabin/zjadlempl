@@ -4,22 +4,19 @@
       <div id="tlo">
         <naglowek text="ZJADŁEM.PL | RESTAURACJA"></naglowek>
         <div v-if="this.$store.state.restId != '' " id="daneRestauracji"> 
-            
-            <!-- <div id="naglowek" style="justify-content:space-between; margin:auto; width:100%; display:flex; padding:1%;">
-                <b-icon icon="arrow-left" font-scale="2" @click="goBack"></b-icon>
-                <h1>Restauracja</h1>
-                <b-icon icon="house-door" font-scale="2" @click="goHome"></b-icon>
-            </div> -->
             <div class="informacjeRest">
                 <div>
-                    <h2><p id="nazwaRest">{{ this.$store.state.restNazwa }} </p></h2>
-                    <div class="logoRestDivInfo">
-                        <b-img :src="this.$store.state.restLogo" fluid class="logoRest"/>
-                    </div> 
+                    <div class="flex" style="margin-bottom:2%;">
+                    <!-- <h2><p id="nazwaRest" style="line-height:20vh;">{{ this.$store.state.restNazwa }} </p></h2> -->
+                    <b-img :src="this.$store.state.restLogo" fluid class="logoRest" style="filter: drop-shadow(0 0 5px rgba(51, 51, 51, 0.668));" />
+                    <!-- <div class="logoRestDivInfo">
+                        
+                    </div>  -->
+                    </div>
                     <div class="flex" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); border-radius:4% 4% 4% 4%;">
                         <div class="menu" style="display:block; text-align:left; background: #eeeeee; border-radius:4% 0% 0% 4%;">
                             <h2>Menu: &nbsp;</h2>
-                            <div class="kuchnie" style="display:block" id="menuOpis" v-for="(danieSuper, index) in this.$store.state.restMenu"  :key="index" @mouseover="changeCurrentDanie(danieSuper)">
+                            <div class="kuchnie" style="display:block" id="menuOpis" v-for="(danieSuper, index) in this.$store.state.restMenu"  :key="index" @mouseover="changeCurrentDanie(danieSuper), komLimMax=2">
                                 <div id="danie">
                                     <span id="id">{{ index + 1 }}.</span>
                                     <span id="kat"> {{ danieSuper.Kategoria }}: </span>
@@ -33,7 +30,7 @@
                             <span v-show="this.wybraneDanie != '' " id="ocenaDania"> </span>
                             <div v-show="this.wybraneDanie != '' " id="kat" style="color: brown"> {{ this.$store.state.restWybranaPotrawaKategoria }}: </div>
                             <span v-show="this.wybraneDanie != '' " id="skladniki">{{ this.$store.state.restWybranaPotrawaNazwa }} &nbsp;</span>
-                            <!-- <div v-show="this.wybraneDanie != '' ">Ocena społeczności: &nbsp;<star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=this.$store.state.avgOcena inactive-color="#bbbbbb" /></div>
+                            <div v-show="this.wybraneDanie != '' ">Ocena społeczności: &nbsp;<star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=this.$store.state.avgOcena inactive-color="#bbbbbb" /></div>
                             <span v-show="this.wybraneDanie != '' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;<star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=this.$store.state.restWybranaPotrawaOcena[0].Ocena @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" /></span>
                             <div v-show="this.wybraneDanie != '' " style="margin-top:2%;">
                                 <b-form-textarea
@@ -43,8 +40,8 @@
                                     rows="3"
                                     max-rows="6"
                                 ></b-form-textarea>
-                            </div> -->
-                            <!-- <div v-show="this.wybraneDanie != '' ">
+                            </div>
+                            <div v-show="this.wybraneDanie != '' ">
                                 <b-button style="margin:2%" variant="success" v-if="$auth.isAuthenticated" @click="ocenienie">Oceń</b-button>
                                 <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> aby podzielić się własną opinią!</label>
                                 <b-alert 
@@ -56,18 +53,42 @@
                                 >
                                     Dodano pomyślnie!
                                 </b-alert>
-                            </div> -->
-                            <!-- <div v-show="this.wybraneDanie != '' "
+                            </div>
+                            <div id="kom" v-show="this.wybraneDanie != '' "
                                 v-if="
                                 this.$store.state.restWybranaPotrawaOcena[0].Komentarz != 'brak' 
                                 &&
                                 this.$store.state.restWybranaPotrawaOcena[0].Komentarz != null "
                                 >
-                                    Twój ostatni komentarz:
-                                    <div style="background:#ededed; padding:3%; margin:1%;">
-                                        {{ this.$store.state.restWybranaPotrawaOcena[0].Komentarz }}    
+                                    Twój komentarz:
+                                    <div id="insKom" style="background:#ededed; padding:0%; margin:1%; border: 3px solid #eeeeee">
+                                         
+                                        <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex"><div style="text-align: left;"> {{ this.$store.state.restWybranaPotrawaOcena[0].Autor }}  </div> <div>{{ this.$store.state.restWybranaPotrawaOcena[0].Data }}</div></div>
+                                        <div><div style="text-align: center; font-style:italic; padding:2%">{{ this.$store.state.restWybranaPotrawaOcena[0].Komentarz }}   </div></div>
                                     </div>
-                            </div> -->
+                            </div>
+                            <div id="kom" v-show="this.wybraneDanie != '' "
+                                v-if="
+                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != 'brak' 
+                                &&
+                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != null "
+                                >
+                                    Komentarze społeczności:
+                                    <div id="insKom" v-for="(danieSuperKom, index) in this.$store.state.restWybranaPotrawaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
+                                        <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex">
+                                            <div style="text-align: left;">{{ danieSuperKom.Autor }}</div> 
+                                            <div>{{danieSuperKom.Data}}</div>
+                                        </div>
+                                        <div>
+                                            <div style="text-align: center; font-style:italic; padding:2%">{{ danieSuperKom.Komentarz }}</div>
+                                        </div>
+                                    </div>
+                                    <b-button-group>
+                                        <b-button id="wiecej" v-if="komLimMax < this.$store.state.restWybranaPotrawaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
+                                        <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
+                                    </b-button-group>
+                            </div>
+                            <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
                         </div>
                     </div>
                 </div>
@@ -80,15 +101,14 @@
 </template>
 
 <script>
-//import StarRating from 'vue-star-rating'
+import StarRating from 'vue-star-rating'
 import Naglowek from '../components/Naglowek.vue'
 export default {
   name: "Restauracja",
   metaInfo:{
     title: 'Zjadłem.pl | Restauracja'
   },
-//   components: {StarRating, Naglowek},
-    components: {Naglowek},
+  components: {StarRating, Naglowek},
   data() {
     return {
         ocena:4,
@@ -99,6 +119,8 @@ export default {
         dismissCountDown: 0,
         text: null,
         avg: '',
+        komLimMax:  2,
+        komLimMin: 0,
     };
   },
   created (){
@@ -126,7 +148,7 @@ export default {
       this.$store.state.restWybranaPotrawaKategoria = danie.Kategoria;
       this.$store.state.restWybranaPotrawaNazwa = danie.Nazwa;
       this.$store.state.currentUserEmail = this.$auth.user.email;
-      //this.$store.dispatch('bindOcena')
+      this.$store.dispatch('bindOcena')
       ////this.ocenaSpolecznosci = this.$store.state.restWybranaPotrawaOcenaSpolecznosci
       ////console.log(this.$store.state.avgOcena)
     },
@@ -172,7 +194,7 @@ export default {
     cursor: pointer;
 }
 #daneRestauracji{
-    height:fit-content;
+    height:100vh;
     margin-left:auto;
     margin-right: auto;
     padding:0;
@@ -183,6 +205,7 @@ export default {
 .menu{
     padding:2%;
     width:50%;
+    //height:90%;
     //box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .potrawa{
@@ -200,9 +223,12 @@ export default {
     white-space: pre-wrap;
 }
 .logoRestDivInfo{
-    height:20%;
+    width:20%;
     margin-bottom:1%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.logoRest{
+    width:20vh;
 }
 .avatar {
   vertical-align: middle;
@@ -247,5 +273,13 @@ h1{
   padding:0;
   padding-bottom:3vh;
   text-shadow: 0 4px 8px rgba(0,0,0,0.19);
+}
+#kom{}
+#kom #insKom{
+    padding:0;
+    margin: 0;
+    background:white !important;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 </style>
