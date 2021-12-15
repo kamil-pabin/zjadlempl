@@ -38,7 +38,7 @@
               @click="restaurantLink"
               :active="$route.name == '/restauracja'"
             >
-              Klik 
+              Klik kurwa
             </b-button>
           </div>
         </div> -->
@@ -235,7 +235,7 @@ export default {
 .restauracja{
   background:rgb(243, 243, 243);
   //background: #407ce417;
-  display:flex;
+  //display:flex;
   justify-content: space-between;
   vertical-align: middle;
   padding:auto;

@@ -83,8 +83,8 @@
                                             <div style="text-align: center; font-style:italic; padding:2%">{{ danieSuperKom.Komentarz }}</div>
                                         </div>
                                     </div>
-                                    <b-button-group>
-                                        <b-button id="wiecej" v-if="komLimMax < this.$store.state.restWybranaPotrawaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
+                                    <b-button-group style="padding:1%; text-align:center">
+                                        <b-button variant="primary" id="wiecej" v-if="komLimMax < this.$store.state.restWybranaPotrawaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
                                         <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
                                     </b-button-group>
                             </div>
@@ -194,7 +194,7 @@ export default {
     cursor: pointer;
 }
 #daneRestauracji{
-    height:100vh;
+    //height:100vh;
     margin-left:auto;
     margin-right: auto;
     padding:0;
