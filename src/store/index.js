@@ -46,11 +46,16 @@ export default new Vuex.Store({
         restWybranaPotrawaNazwa: '',
         restWybranaPotrawaOcena: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
         restWybranaPotrawaOcenaSpolecznosci: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
+        restWybranaOcena: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
+        restWybranaOcenaSpolecznosci: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
         restSelectedOcena: '',
+        restSelectedRestOcena: '',
         danieKomentarz: '',
+        restKomentarz: '',
         currentUserEmail: '',
         danieId: '',
         avgOcena: 0,
+        avgRestOcena: 0,
         wybranaKuchnia: '',
 
     },
@@ -77,6 +82,38 @@ export default new Vuex.Store({
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny').where('Autor', '==', state.currentUserEmail);
+            doc2 //dodawanie jesli nie ma twojej opinii
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  docRef.doc((col.docs[0].id)).delete()
+                  docRef.add({ //najpierw usuwa stara i dodaje nowa
+                    Ocena: ocena, 
+                    Autor: email,
+                    Komentarz: komentarz,
+                    Data: date,
+                     })     
+                }
+                else{ //dodawanie opinii jesli jej wczesniej nie bylo w bazie dziala poprawnie
+                  docRef.add({ 
+                  Ocena: ocena, 
+                  Autor: email,
+                  Komentarz: komentarz,
+                  Data: date,
+                   })
+                }
+            })
+           }),
+           addOcenaRest: firestoreAction(state => {
+            var restauracja = state.restId;
+            var ocena = state.restSelectedRestOcena;
+            var email = state.currentUserEmail;
+            var komentarz = state.restKomentarz;
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var docRef = db.collection('Restauracje').doc(restauracja).collection('Oceny');
+            var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
             doc2 //dodawanie jesli nie ma twojej opinii
               .get()
               .then(col => {
@@ -158,9 +195,56 @@ export default new Vuex.Store({
               //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
           })
          }),
+
+         //readocenarest
+         readOcenaRestBetaDwa: firestoreAction(({bindFirestoreRef, state })=> {
+          var restauracja = state.restId;
+          var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
+          var doc3 = db.collection('Restauracje').doc(restauracja).collection('Oceny');
+          doc2 //ocena uzytkownika
+            .get()
+            .then(col => {
+              const documents = col.docs.map(doc => doc.data())
+              if (col.docs.length != 0){ 
+                bindFirestoreRef("restWybranaOcena", doc2);
+              }
+              else{ 
+                state.restWybranaOcena = [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}];
+              }
+          })
+          doc3 //liczenie sredniej oceny
+            .get()
+            .then(col => {
+              const documents = col.docs.map(doc => doc.data())
+              if (col.docs.length != 0){ 
+                bindFirestoreRef("restWybranaOcenaSpolecznosci", doc3);
+                var sum = 0;
+                for (var i=0; i<documents.length; i++){
+                  sum += documents[i].Ocena;
+                }
+                //var avg = 0;
+                var avg = sum/documents.length
+                state.avgRestOcena = avg;
+                bindFirestoreRef("avgRestOcena", avg)
+              }
+              else{ 
+                avg = 0
+                state.avgRestOcena = avg
+                state.restWybranaOcenaSpolecznosci = [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}];
+                //state.avgOcena = avg;
+                //bindFirestoreRef("avgOcena", avg)
+              }
+              //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
+          })
+         }),
+
+
          bindOcena: ({ state, dispatch }) => {
             dispatch('readOcenaDaniaBetaDwa')
          },
+         bindOcenaRest: ({ state, dispatch }) => {
+          dispatch('readOcenaRestBetaDwa')
+       },
          bindMenu: firestoreAction(({bindFirestoreRef, state}) => {
           var q2 = "restMenu";
           var q3 = "restOceny"
@@ -170,7 +254,7 @@ export default new Vuex.Store({
              bindFirestoreRef(q2, db.collection(col).doc(col2).collection('Menu'))
              bindFirestoreRef(q3, db.collection(col).doc(col2).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
            }
-          console.log(state.restMenu)
+          console.log(state.restOceny)
           
         }),
         fetchUser({ commit }, user) {

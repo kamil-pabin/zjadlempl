@@ -99,6 +99,70 @@
                 >
                 Zobacz więcej</b-button>
               </div>
+              <!--Modul oceniania -->
+              <div v-show="currentRestauracja != 'brak' ">
+                Ocena społeczności: &nbsp;
+                <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=this.$store.state.avgRestOcena inactive-color="#bbbbbb" />
+              </div>
+              <span v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;
+                <star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=this.$store.state.restWybranaOcena[0].Ocena @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" />
+              </span>
+              <div v-show="currentRestauracja != 'brak' " style="margin-top:2%;">
+                  <b-form-textarea
+                      id="textarea"
+                      v-model="text"
+                      placeholder="Może chcesz coś o tym daniu napisać?"
+                      rows="3"
+                      max-rows="6"
+                  ></b-form-textarea>
+              </div>
+              <div v-show="currentRestauracja != 'brak' ">
+                  <b-button style="margin:2%" variant="success" v-if="$auth.isAuthenticated" @click="ocenienie">Oceń</b-button>
+                  <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> aby podzielić się własną opinią!</label>
+                  <b-alert 
+                      style="padding:2%; margin-top:2%;"
+                      :show="dismissCountDown"
+                      fade
+                      variant="success"
+                      @dismiss-count-down="countDownChanged"
+                  >
+                      Dodano pomyślnie!
+                  </b-alert>
+              </div>
+              <div id="kom" v-show="currentRestauracja != 'brak' "
+                v-if="
+                this.$store.state.restWybranaOcena[0].Komentarz != 'brak' 
+                &&
+                this.$store.state.restWybranaOcena[0].Komentarz != null "
+                >
+                <div style="font-weight: 600; text-align: left; padding:1%;">Twój komentarz</div>
+                <div id="insKom" style="background:#ededed; padding:0%; margin:1%; border: 3px solid #eeeeee">  
+                    <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex"><div style="text-align: left;"> {{ this.$store.state.restWybranaOcena[0].Autor }}  </div> <div>{{ this.$store.state.restWybranaOcena[0].Data }}</div></div>
+                    <div><div style="text-align: center; font-style:italic; padding:2%">{{ this.$store.state.restWybranaOcena[0].Komentarz }}   </div></div>
+                </div>
+              </div>
+              <div id="kom" v-show="currentRestauracja != 'brak' "
+                v-if="
+                this.$store.state.restWybranaOcenaSpolecznosci[0].Komentarz != 'brak' 
+                &&
+                this.$store.state.restWybranaOcenaSpolecznosci[0].Komentarz != null "
+              >
+                <div style="font-weight: 600; text-align: left; padding:1%;">Komentarze społeczności</div>
+                <div id="insKom" v-for="(superKom, index) in this.$store.state.restWybranaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
+                    <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex">
+                        <div style="text-align: left;">{{ superKom.Autor }}</div> 
+                        <div>{{superKom.Data}}</div>
+                    </div>
+                    <div>
+                        <div style="text-align: center; font-style:italic; padding:2%">{{ superKom.Komentarz }}</div>
+                    </div>
+                </div>
+                <b-button-group style="padding:1%; text-align:center">
+                    <b-button variant="primary" id="wiecej" v-if="komLimMax < this.$store.state.restWybranaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
+                    <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
+                </b-button-group>
+              </div>
+              <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
             </div>
           </div>
         </div>
@@ -123,9 +187,11 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import { db } from '../db'
+import StarRating from 'vue-star-rating'
 export default {
   name: "BrowserData",
   props: { },
+  components: {StarRating},
   data() {
     return {
       currentRestauracja: 'brak',
@@ -151,6 +217,15 @@ export default {
       dystans:[],
       wybranaKuchnia: '',
       liczbaFilteredKuchnie: 0,
+      ocenaSpolecznosci: [],
+      twojaOcena: 0,
+      ocena: 4,
+      text: null,
+      dismissSecs: 3,
+      dismissCountDown: 0,
+      avg: '',
+      komLimMax:  2,
+      komLimMin: 0,
     };
   },
   methods: {
@@ -162,6 +237,18 @@ export default {
       else{
         return item.Kuchnie;
       }
+    },
+    setRating: function(rating){
+      this.ocena= rating;
+      this.$store.state.restSelectedRestOcena= rating;
+    },
+    ocenienie(){
+        this.$store.state.restKomentarz = this.text;
+        this.$store.commit('addOcenaRest')
+        this.dismissCountDown = this.dismissSecs
+    },
+    countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
     },
     getDistanceFromLatLonInKm () {
       var lat1 = this.$store.state.cords.lat;
@@ -195,6 +282,8 @@ export default {
       this.$store.state.restMenu= Restaurant.Menu;
       this.$store.state.restKomentarze= Restaurant.Komentarze;
       this.$store.state.restId = Restaurant.id;
+      this.$store.state.currentUserEmail = this.$auth.user.email;
+      this.$store.dispatch('bindOcenaRest')
     },
   },
   created (){
@@ -232,6 +321,14 @@ export default {
   margin:auto;
   justify-content: center;
 }
+#kom{}
+#kom #insKom{
+    padding:0;
+    margin: 0;
+    background:white !important;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
 .restauracja{
   background:rgb(243, 243, 243);
   //background: #407ce417;
@@ -264,15 +361,17 @@ export default {
   padding-left: 3%;
   padding-right: 3%;
   padding-top:3%;
-  padding-bottom:3%;
+  padding-bottom:10%;
   color:rgb(63, 63, 63);
   padding:auto;
   transition: linear 1.2s;
   width:100%;
+  max-height:40%;
   //height:55%;
   font-size: 0.7rem;
   position:sticky;
   top:18%;
+  overflow-y:scroll !important;
 }
 .informacjeRest p{
   padding:0;
