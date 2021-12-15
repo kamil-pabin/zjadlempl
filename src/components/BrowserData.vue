@@ -102,10 +102,10 @@
               <!--Modul oceniania -->
               <div v-show="currentRestauracja != 'brak' ">
                 Ocena społeczności: &nbsp;
-                <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=this.$store.state.avgRestOcena inactive-color="#bbbbbb" />
+                <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=parseFloat(this.$store.state.avgRestOcena) inactive-color="#bbbbbb" />
               </div>
               <span v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;
-                <star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=this.$store.state.restWybranaOcena[0].Ocena @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" />
+                <star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=parseFloat(this.$store.state.restWybranaOcena[0].Ocena) @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" />
               </span>
               <div v-show="currentRestauracja != 'brak' " style="margin-top:2%;">
                   <b-form-textarea
@@ -282,12 +282,17 @@ export default {
       this.$store.state.restMenu= Restaurant.Menu;
       this.$store.state.restKomentarze= Restaurant.Komentarze;
       this.$store.state.restId = Restaurant.id;
-      this.$store.state.currentUserEmail = this.$auth.user.email;
       this.$store.dispatch('bindOcenaRest')
     },
   },
   created (){
     this.$store.dispatch('bindRestauracja')
+    if(this.$auth.user.email != null){
+      this.$store.state.currentUserEmail = this.$auth.user.email;
+    }
+    else{
+      this.$store.state.currentUserEmail = null;
+    }
   },
   computed: {
     btnStates(){
