@@ -24,7 +24,8 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="potrawa" style="display:block; text-align:left; background: #afcfff; border-radius:0% 4% 4% 0%;">
+                        <div class="potrawa" style="display:block; text-align:left; background: #afcfff; border-radius:0% 4% 4% 0%;overflow-y:scroll !important;">
+                            <div id="potrawaIns">
                             <h2>Danie
                             </h2>
                             <span v-show="this.wybraneDanie != '' " id="ocenaDania"> </span>
@@ -89,6 +90,7 @@
                                     </b-button-group>
                             </div>
                             <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,6 +191,8 @@ export default {
 }
 .informacjeRest{
     background:rgba(255, 255, 255, 0.884);
+    max-height:100%;
+    overflow-y:auto !important;
 }
 #logText:hover{
     cursor: pointer;
@@ -211,7 +215,14 @@ export default {
 .potrawa{
     padding:2%;
     width:50%;
+    overflow-y:hidden !important;
+    //max-height:60vh;
     //
+}
+#potrawaIns{
+    //overflow-y:auto !important;
+    //max-height:100%;
+    //padding:5%;
 }
 #menuOpis{
     height:fit-content;

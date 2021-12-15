@@ -16,7 +16,7 @@
         <div id="dolnaLinia" style="display:flex; justify-content: space-between">
           <div><label>Ilość wyświetlanych restauracji: {{ restLimMax }} </label></div>
             <div id="wyborKuchni">
-              Kuchnia: <b-button @click="wybranaKuchnia=''">Brak </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button><b-button @click="wybranaKuchnia='Kebab'">Kebab </b-button>
+              Kuchnia: <b-button @click="wybranaKuchnia=''">Wszystkie </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button><b-button @click="wybranaKuchnia='Kebab'">Kebab </b-button>
             </div>
         </div>
         <!-- <div id="dolnaLinia" style="display:flex; justify-content: space-between">
@@ -366,7 +366,7 @@ export default {
   padding:auto;
   transition: linear 1.2s;
   width:100%;
-  max-height:40%;
+  max-height:70vh;
   //height:55%;
   font-size: 0.7rem;
   position:sticky;
