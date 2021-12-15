@@ -104,10 +104,12 @@
                 Ocena społeczności: &nbsp;
                 <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=parseFloat(this.$store.state.avgRestOcena) inactive-color="#bbbbbb" />
               </div>
+              
               <span v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;
                 <star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=parseFloat(this.$store.state.restWybranaOcena[0].Ocena) @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" />
               </span>
-              <div v-show="currentRestauracja != 'brak' " style="margin-top:2%;">
+              
+              <div v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated" style="margin-top:2%;">
                   <b-form-textarea
                       id="textarea"
                       v-model="text"
@@ -116,6 +118,7 @@
                       max-rows="6"
                   ></b-form-textarea>
               </div>
+              
               <div v-show="currentRestauracja != 'brak' ">
                   <b-button style="margin:2%" variant="success" v-if="$auth.isAuthenticated" @click="ocenienie">Oceń</b-button>
                   <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> aby podzielić się własną opinią!</label>
@@ -191,6 +194,7 @@ import StarRating from 'vue-star-rating'
 export default {
   name: "BrowserData",
   props: { },
+  // eslint-disable-next-line vue/no-unused-components
   components: {StarRating},
   data() {
     return {
@@ -244,11 +248,11 @@ export default {
     },
     ocenienie(){
         this.$store.state.restKomentarz = this.text;
-        this.$store.commit('addOcenaRest')
-        this.dismissCountDown = this.dismissSecs
+        this.$store.commit('addOcenaRest');
+        this.dismissCountDown = this.dismissSecs;
     },
     countDownChanged(dismissCountDown) {
-        this.dismissCountDown = dismissCountDown
+        this.dismissCountDown = dismissCountDown;
     },
     getDistanceFromLatLonInKm () {
       var lat1 = this.$store.state.cords.lat;
@@ -283,6 +287,9 @@ export default {
       this.$store.state.restKomentarze= Restaurant.Komentarze;
       this.$store.state.restId = Restaurant.id;
       this.$store.dispatch('bindOcenaRest')
+    },
+    login () {
+      this.$auth.loginWithRedirect();
     },
   },
   created (){
