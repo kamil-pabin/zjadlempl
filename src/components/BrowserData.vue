@@ -113,7 +113,7 @@
                   <b-form-textarea
                       id="textarea"
                       v-model="text"
-                      placeholder="Może chcesz coś o tym daniu napisać?"
+                      placeholder="Może chcesz coś o tej restauracji napisać?"
                       rows="3"
                       max-rows="6"
                   ></b-form-textarea>
