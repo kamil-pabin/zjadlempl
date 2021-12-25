@@ -33,10 +33,11 @@
                             <span v-show="this.wybraneDanie != '' " id="skladniki">{{ this.$store.state.restWybranaPotrawaNazwa }} &nbsp;</span>
                             <div v-show="this.wybraneDanie != '' ">Ocena społeczności: &nbsp;<star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=this.$store.state.avgOcena inactive-color="#bbbbbb" /></div>
                             <span v-show="this.wybraneDanie != '' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;<star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=this.$store.state.restWybranaPotrawaOcena[0].Ocena @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" /></span>
-                            <div v-show="this.wybraneDanie != '' " style="margin-top:2%;">
+                            <div v-show="this.wybraneDanie != '' " style="margin-top:2%;" v-if="$auth.isAuthenticated">
                                 <b-form-textarea
                                     id="textarea"
                                     v-model="text"
+                                    state="text.length > 10"
                                     placeholder="Może chcesz coś o tym daniu napisać?"
                                     rows="3"
                                     max-rows="6"
@@ -59,7 +60,7 @@
                                 v-if="
                                 this.$store.state.restWybranaPotrawaOcena[0].Komentarz != 'brak' 
                                 &&
-                                this.$store.state.restWybranaPotrawaOcena[0].Komentarz != null "
+                                this.$store.state.restWybranaPotrawaOcena.length > 0 != null "
                                 >
                                     Twój komentarz:
                                     <div id="insKom" style="background:#ededed; padding:0%; margin:1%; border: 3px solid #eeeeee">
@@ -70,18 +71,23 @@
                             </div>
                             <div id="kom" v-show="this.wybraneDanie != '' "
                                 v-if="
-                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != 'brak' 
+                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Autor != 'brak'
                                 &&
-                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != null "
+                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != ''
+                                &&
+                                this.$store.state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz != null
+                                "
                                 >
                                     Komentarze społeczności:
                                     <div id="insKom" v-for="(danieSuperKom, index) in this.$store.state.restWybranaPotrawaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
-                                        <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex">
-                                            <div style="text-align: left;">{{ danieSuperKom.Autor }}</div> 
-                                            <div>{{danieSuperKom.Data}}</div>
-                                        </div>
-                                        <div>
-                                            <div style="text-align: center; font-style:italic; padding:2%">{{ danieSuperKom.Komentarz }}</div>
+                                        <div v-if="danieSuperKom.Komentarz != '' && danieSuperKom.Komentarz != null ">
+                                            <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex">
+                                                <div style="text-align: left;">{{ danieSuperKom.Autor }}</div> 
+                                                <div>{{danieSuperKom.Data}}</div>
+                                            </div>
+                                            <div>
+                                                <div style="text-align: center; font-style:italic; padding:2%">{{ danieSuperKom.Komentarz }}</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <b-button-group style="padding:1%; text-align:center">
@@ -149,21 +155,32 @@ export default {
       this.$store.state.restWybranaPotrawaId = danie.id;
       this.$store.state.restWybranaPotrawaKategoria = danie.Kategoria;
       this.$store.state.restWybranaPotrawaNazwa = danie.Nazwa;
-      this.$store.state.currentUserEmail = this.$auth.user.email;
+      //this.$store.state.currentUserEmail = this.$auth.user.email;
       this.$store.dispatch('bindOcena')
       ////this.ocenaSpolecznosci = this.$store.state.restWybranaPotrawaOcenaSpolecznosci
       ////console.log(this.$store.state.avgOcena)
     },
     ocenienie(){
         this.$store.state.danieKomentarz = this.text;
-        this.$store.commit('addOcenaDania')
+        //this.$store.commit('addOcenaDania')
+        //this.$store.dispatch('bindOcena')
+        this.$store.dispatch('bindOcenaAdd')
+        this.$store.dispatch('bindOcena')
         this.dismissCountDown = this.dismissSecs
+        //zeby wyswietlalo ocene spolecznosci na zywo mozna dodac COMPUTED ktory obserwuje zmienna, rating to bedzie zmienna, a zmienna bedzie aktualizowana w tej funkcji
+        //funkcja ocenienie wysyla ocene, aktualizuje ze stanu wartosc srednia, a nastepnie computed obserwujacy ta zmienna aktualizuje ja
     },
     countDownChanged(dismissCountDown) {
+        this.$store.dispatch('bindOcena')
         this.dismissCountDown = dismissCountDown
     }
 
   },
+  computed: {
+      komState() {
+          return this.text.length > 10 ? true : false
+      }
+  }
 };
 </script>
 

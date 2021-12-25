@@ -182,8 +182,11 @@ export default new Vuex.Store({
                 }
                 //var avg = 0;
                 var avg = sum/documents.length
+                //console.log(state.avgOcena)
                 state.avgOcena = avg;
-                bindFirestoreRef("avgOcena", avg)
+                //console.log(state.avgOcena)
+                //bindFirestoreRef("avgOcena", avg)
+                //console.log(state.avgOcena)
               }
               else{ 
                 avg = 0
@@ -237,10 +240,14 @@ export default new Vuex.Store({
               //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
           })
          }),
-
-
          bindOcena: ({ state, dispatch }) => {
-            dispatch('readOcenaDaniaBetaDwa')
+          dispatch('readOcenaDaniaBetaDwa')
+         },
+         bindOcenaAdd: ({ state, dispatch, commit }) => {
+          console.log(state.avgOcena)
+          commit('addOcenaDania')
+          dispatch('readOcenaDaniaBetaDwa')
+          console.log(state.avgOcena)
          },
          bindOcenaRest: ({ state, dispatch }) => {
           dispatch('readOcenaRestBetaDwa')

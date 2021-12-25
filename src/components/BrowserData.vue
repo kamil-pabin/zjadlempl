@@ -148,15 +148,18 @@
                 v-if="
                 this.$store.state.restWybranaOcenaSpolecznosci[0].Komentarz != 'brak' 
                 &&
-                this.$store.state.restWybranaOcenaSpolecznosci[0].Komentarz != null "
+                this.$store.state.restWybranaOcenaSpolecznosci.length > 0 "
               >
                 <div style="font-weight: 600; text-align: left; padding:1%;">Komentarze społeczności</div>
                 <div id="insKom" v-for="(superKom, index) in this.$store.state.restWybranaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
-                    <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex">
+                   
+                    <div style="padding:1%; background:#aaccff; font-weight:600; justify-content:space-between; display:flex"
+                    v-if="superKom.Komentarz != '' "
+                    >
                         <div style="text-align: left;">{{ superKom.Autor }}</div> 
                         <div>{{superKom.Data}}</div>
-                    </div>
-                    <div>
+                    </div> 
+                    <div v-if="superKom.Komentarz != '' ">
                         <div style="text-align: center; font-style:italic; padding:2%">{{ superKom.Komentarz }}</div>
                     </div>
                 </div>
@@ -252,6 +255,7 @@ export default {
         this.dismissCountDown = this.dismissSecs;
     },
     countDownChanged(dismissCountDown) {
+        this.$store.dispatch('bindOcenaRest')
         this.dismissCountDown = dismissCountDown;
     },
     getDistanceFromLatLonInKm () {
@@ -286,6 +290,7 @@ export default {
       this.$store.state.restMenu= Restaurant.Menu;
       this.$store.state.restKomentarze= Restaurant.Komentarze;
       this.$store.state.restId = Restaurant.id;
+      this.text = null;
       this.$store.dispatch('bindOcenaRest')
     },
     login () {
