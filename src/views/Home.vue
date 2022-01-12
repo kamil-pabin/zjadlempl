@@ -16,6 +16,14 @@ export default {
   metaInfo:{
     title: 'Zjadłem.pl | Podziel się swoją opinią!'
   },
+  created() {
+    if(this.$auth.user.email != null){
+      this.$store.state.currentUserEmail = this.$auth.user.email;
+    }
+    else{
+      this.$store.state.currentUserEmail = null;
+    }
+  },
   components: { UserLocation},
   data() {
     return {
