@@ -95,7 +95,7 @@ export default new Vuex.Store({
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny').where('Autor', '==', state.currentUserEmail);
             var listaOcen = db.collection('Users').doc(email).collection('Oceny')
-            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('PotrawaID', '==', potrawa);
+            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('ID', '==', potrawa);
             doc2 //dodawanie jesli nie ma twojej opinii
               .get()
               .then(col => {
@@ -213,7 +213,7 @@ export default new Vuex.Store({
             var email = state.currentUserEmail;
             var nowyKod = state.nowyKod;
             var daneUseraKod = db.collection('Users').doc(email)
-            const res = daneUseraKod.update({
+            const res = daneUseraKod.set({
               kodZnajomego: nowyKod,
               nickname: state.currentUserNickname,
               email: state.currentUserEmail

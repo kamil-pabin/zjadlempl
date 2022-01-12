@@ -58,36 +58,46 @@
             <p> Twój adres email: {{ $auth.user.email }}</p>
             <p> Twój kod znajomego: {{this.$store.state.kodUsera.kodZnajomego}}</p>
             <div>
+              <b-form >
               <div style="margin-top:2%;" v-if="$auth.isAuthenticated">
+                
                   <b-form-input
                       style="width:30%; margin:auto"
                       id="textarea"
+                      :state="validation"
                       v-model="kodNowy"
                       placeholder="Wpisz nowy kod"
                       rows="1"
                       max-rows="1"
+                      required
                   ></b-form-input>
               </div>
               <div>
+                <b-form-valid-feedback :state="validation">
                   <b-button style="margin:1%" variant="success" v-if="$auth.isAuthenticated" @click="zmienKod">Zmień</b-button>
                   <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
+                </b-form-valid-feedback>
+                <b-form-invalid-feedback :state="validation">
+                  Podaj kod (Minimum 5 znaków, maksimum 20)
+                </b-form-invalid-feedback>
               </div>
+              </b-form>
             </div>
             <div>
               <div style="margin-top:2%;" v-if="$auth.isAuthenticated">
                   <b-form-input
                       style="width:30%; margin:auto"
                       id="textarea"
-                      v-model="kodKumpla"
-                      placeholder="Wpisz kod znajomego"
+                      v-model="mailKumpla"
+                      placeholder="Wpisz mail znajomego"
                       rows="1"
                       max-rows="1"
                   ></b-form-input>
                   <b-form-input
                       style="width:30%; margin:auto"
                       id="textarea"
-                      v-model="mailKumpla"
-                      placeholder="Wpisz mail znajomego"
+                      v-model="kodKumpla"
+                      placeholder="Wpisz kod znajomego"
                       rows="1"
                       max-rows="1"
                   ></b-form-input>
@@ -183,6 +193,11 @@ export default {
       this.$store.dispatch('dodajKumpla');
     },
   },
+  computed: {
+    validation() {
+        return this.kodNowy.length > 4 && this.kodNowy.length <= 20
+      }
+  }
 };
 </script>
 
