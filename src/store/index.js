@@ -63,11 +63,12 @@ export default new Vuex.Store({
         listaOcenDan: [],
         listaWszystkichOcen: [],
         nowyKod: '',
-        kodUsera: '',
-        kodZnajomego: '',
+        kodUsera: [{kodZnajomego: 'xD'}],
+        kodZnajomego: 'ehehhe',
         emailZnajomego: '',
         nicknameZnajomego: '',
         statusDodania: '3',
+        czyAnonim: 0,
     },
     getters: {
         user(state){
@@ -90,6 +91,7 @@ export default new Vuex.Store({
             var ocena = state.restSelectedOcena;
             var email = state.currentUserEmail;
             var komentarz = state.danieKomentarz;
+            var anonim = state.czyAnonim;
             var today = new Date();
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny');
@@ -107,6 +109,7 @@ export default new Vuex.Store({
                     Autor: email,
                     Komentarz: komentarz,
                     Data: date,
+                    Anonim: anonim,
                      })     
                 }
                 else{ //dodawanie opinii jesli jej wczesniej nie bylo w bazie dziala poprawnie
@@ -115,6 +118,7 @@ export default new Vuex.Store({
                   Autor: email,
                   Komentarz: komentarz,
                   Data: date,
+                  Anonim: anonim,
                    })
                 }
             })
@@ -131,7 +135,8 @@ export default new Vuex.Store({
                     Ocena: ocena, 
                     Komentarz: komentarz,
                     Data: date,
-                    Potrawa: potrawaNazwa
+                    Potrawa: potrawaNazwa,
+                    Anonim: anonim,
                      })     
                 }
                 else{ //dodawanie opinii jesli jej wczesniej nie bylo w bazie dziala poprawnie
@@ -141,8 +146,35 @@ export default new Vuex.Store({
                     Ocena: ocena, 
                     Komentarz: komentarz,
                     Data: date,
-                    Potrawa: potrawaNazwa
+                    Potrawa: potrawaNazwa,
+                    Anonim: anonim,
                    })
+                }
+            })
+           }),
+           remOcenaDania: firestoreAction(state => {
+            var restauracja = state.restId;
+            var potrawa = state.restWybranaPotrawaId;
+            var email = state.currentUserEmail;
+            var docRef = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny');
+            var doc2 = db.collection('Restauracje').doc(restauracja).collection('Menu').doc(potrawa).collection('Oceny').where('Autor', '==', state.currentUserEmail);
+            var listaOcen = db.collection('Users').doc(email).collection('Oceny')
+            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('ID', '==', potrawa);
+            doc2 //dodawanie jesli nie ma twojej opinii
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  docRef.doc((col.docs[0].id)).delete();
+                }
+            })
+
+            listaOcenKonkretna //dodawanie jesli nie ma twojej opinii
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  listaOcen.doc((col.docs[0].id)).delete();    
                 }
             })
            }),
@@ -152,12 +184,13 @@ export default new Vuex.Store({
             var ocena = state.restSelectedRestOcena;
             var email = state.currentUserEmail;
             var komentarz = state.restKomentarz;
+            var anonim = state.czyAnonim;
             var today = new Date();
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
             var listaOcen = db.collection('Users').doc(email).collection('Oceny')
-            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('Restauracja', '==', restauracja)
+            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('ID', '==', restauracja)
             doc2 //dodawanie jesli nie ma twojej opinii
               .get()
               .then(col => {
@@ -169,6 +202,7 @@ export default new Vuex.Store({
                     Autor: email,
                     Komentarz: komentarz,
                     Data: date,
+                    Anonim: anonim,
                      })     
                 }
                 else{ //dodawanie opinii jesli jej wczesniej nie bylo w bazie dziala poprawnie
@@ -177,6 +211,7 @@ export default new Vuex.Store({
                   Autor: email,
                   Komentarz: komentarz,
                   Data: date,
+                  Anonim: anonim,
                    })
                 }
             }),
@@ -193,6 +228,7 @@ export default new Vuex.Store({
                     Komentarz: komentarz,
                     Data: date,
                     ID: restauracja,
+                    Anonim: anonim,
                     Potrawa: 'N/d'
                      })     
                 }
@@ -203,13 +239,38 @@ export default new Vuex.Store({
                     Komentarz: komentarz,
                     Data: date,
                     ID: restauracja,
+                    Anonim: anonim,
                     Potrawa: 'N/d'
                    })
                 }
             })
 
            }),
-           changeFriendCode: firestoreAction(state => {
+           remOcenaRest: firestoreAction(state => {
+            var restauracja = state.restId;
+            var email = state.currentUserEmail;
+            var docRef = db.collection('Restauracje').doc(restauracja).collection('Oceny');
+            var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
+            var listaOcen = db.collection('Users').doc(email).collection('Oceny')
+            var listaOcenKonkretna = db.collection('Users').doc(email).collection('Oceny').where('ID', '==', restauracja)
+            doc2 //dodawanie jesli nie ma twojej opinii
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  docRef.doc((col.docs[0].id)).delete();   
+                }
+            }),
+            listaOcenKonkretna //dodawanie jesli nie ma twojej opinii
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  listaOcen.doc((col.docs[0].id)).delete();    
+                }
+            })
+          }),
+          changeFriendCode: firestoreAction(state => {
             var email = state.currentUserEmail;
             var nowyKod = state.nowyKod;
             var daneUseraKod = db.collection('Users').doc(email)
@@ -270,11 +331,18 @@ export default new Vuex.Store({
               if (col.docs.length != 0){ 
                 bindFirestoreRef("restWybranaPotrawaOcenaSpolecznosci", doc3);
                 var sum = 0;
+                var dlugosc = 0;
                 for (var i=0; i<documents.length; i++){
-                  sum += documents[i].Ocena;
+                  if(0<= parseFloat(documents[i].Ocena) <= 5 && isNaN(documents[i].Ocena) == 0)
+                  {
+                    sum += documents[i].Ocena;
+                    dlugosc+=1;
+                  }
+                  
                 }
                 //var avg = 0;
-                var avg = sum/documents.length
+                var avg = sum/dlugosc
+                //var avg = sum/documents.length
                 //console.log(state.avgOcena)
                 state.avgOcena = avg;
                 //console.log(state.avgOcena)
@@ -297,6 +365,8 @@ export default new Vuex.Store({
           var restauracja = state.restId;
           var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
           var doc3 = db.collection('Restauracje').doc(restauracja).collection('Oceny');
+          if(
+          doc2){
           doc2 //ocena uzytkownika
             .get()
             .then(col => {
@@ -308,6 +378,7 @@ export default new Vuex.Store({
                 state.restWybranaOcena = [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}];
               }
           })
+        }
           doc3 //liczenie sredniej oceny
             .get()
             .then(col => {
@@ -346,6 +417,11 @@ export default new Vuex.Store({
           dispatch('readOcenaDaniaBetaDwa')
           console.log(state.avgOcena)
          },
+         bindOcenaRem: ({ state, dispatch, commit }) => {
+          //console.log(state.avgOcena)
+          commit('remOcenaDania')
+          dispatch('readOcenaDaniaBetaDwa')
+         },
          bindOcenaRest: ({ state, dispatch }) => {
           dispatch('readOcenaRestBetaDwa')
        },
@@ -379,27 +455,33 @@ export default new Vuex.Store({
           console.log(emailKumpla)
           console.log(state.emailZnajomego)
           console.log('start2')
-          var doc2 = db.collection('Users').where('email', '==', emailKumpla)
-          doc2 
-            .get()
-            .then(col => {
-              const documents = col.docs.map(doc => doc.data())
-              if (col.docs.length != 0){
-                if (documents[0].kodZnajomego == kodKumpla){ 
-                  console.log('kod poprawny')
-                  commit('addNewFriend')
-                  state.statusDodania = '1'
+          if(emailKumpla != state.currentUserEmail){
+            var doc2 = db.collection('Users').where('email', '==', emailKumpla)
+            doc2 
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){
+                  if (documents[0].kodZnajomego == kodKumpla){ 
+                    console.log('kod poprawny')
+                    commit('addNewFriend')
+                    state.statusDodania = '1'
+                  }
+                  else{ 
+                    console.log('error')
+                    state.statusDodania = '0'
+                  }
                 }
-                else{ 
-                  console.log('error')
+                else{
+                  console.log('error2')
                   state.statusDodania = '0'
                 }
-              }
-              else{
-                console.log('error2')
-                state.statusDodania = '0'
-              }
-          })
+            })
+          }
+          else{
+            console.log('error3')
+            state.statusDodania = '0'
+          }
         }),
         fetchUser({ commit }, user) {
             commit("SET_LOGGED_IN", user !== null);

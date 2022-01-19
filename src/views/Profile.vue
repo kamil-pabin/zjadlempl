@@ -13,7 +13,7 @@
             <div id="avatarDiv">
               <img class="avatar" :src="$auth.user.picture" />
             </div>
-            <p>Imię i Nazwisko: {{ $auth.user.name }}</p>
+            <p>Liczba ocen: {{this.$store.state.listaOcen.length}}</p>
             <p>Email: {{ $auth.user.email }}</p>
             <p>Nick: {{ $auth.user.nickname }}</p>
           </b-tab>
@@ -37,6 +37,13 @@
               <b>{{ sortDesc ? "Malejąco" : "Rosnąco" }}</b>
             </div>
           </b-tab>
+          <b-tab title="Moje statystyki">
+            <h3>Moje statystyki</h3>
+            <div v-for="(superOcena, index) in this.$store.state.listaOcen"  :key="index" >
+              
+            </div>
+            
+          </b-tab>
           <b-tab title="Moi Znajomi">
             <h3>Moja lista znajomych</h3>
             <div>
@@ -56,7 +63,12 @@
               znajomego!
             </p>
             <p> Twój adres email: {{ $auth.user.email }}</p>
-            <p> Twój kod znajomego: {{this.$store.state.kodUsera.kodZnajomego}}</p>
+            <div> Twój kod znajomego: 
+
+                <b-button :pressed.sync="pokaz" @click="wyswietlKod" variant="primary">Pokaż/ukryj</b-button>
+                 <div v-show="pokaz==true"><strong>{{ kodUs }}</strong></div>
+
+            </div>
             <div>
               <b-form >
               <div style="margin-top:2%;" v-if="$auth.isAuthenticated">
@@ -149,6 +161,8 @@ export default {
   },
   data() {
     return {
+      pokaz: false,
+      kodUs: '',
       kodNowy: '',
       kodKumpla: '',
       mailKumpla: '',
@@ -176,6 +190,10 @@ export default {
           key: "Data",
           sortable: true,
         },
+        {
+          key: "Anonim",
+          sortable: true,
+        },
       ],
     };
   },
@@ -184,7 +202,19 @@ export default {
       this.$store.state.nowyKod = this.kodNowy;
       this.$store.dispatch('nowyKodUsera');
       this.$store.dispatch("bindUserOceny");
-      },
+      this.pokaz=false;
+    },
+    wyswietlKod() {
+      if(this.$store.state.kodUsera != null && this.$store.state.kodUsera != ''){
+        if(this.$store.state.kodUsera.kodZnajomego != null && this.$store.state.kodUsera.kodZnajomego != ''){
+          this.kodUs = this.$store.state.kodUsera.kodZnajomego;
+        }
+      }
+      else{
+        this.kodUs = "Nie posiadasz kodu znajomego, ustaw go poniżej"
+      }
+      
+    },
     dodajKumpla() {
       this.$store.state.statusDodania = '2';
       this.$store.state.currentUserNickname = this.$auth.user.nickname;
@@ -228,9 +258,10 @@ export default {
 .menuSmakosza {
   color: black;
   background: rgba(255, 255, 255, 0.884);
-  height: 80vh;
+  min-height: 60vh;
+  height:fit-content;
   padding: 2%;
-  border-radius: 10% 10% 0% 0%;
+  border-radius: 10% 10% 10% 10%;
 }
 #dane {
   height: fit-content;
