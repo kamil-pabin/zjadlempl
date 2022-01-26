@@ -44,6 +44,7 @@ export default new Vuex.Store({
         restWybranaPotrawaId: '',
         restWybranaPotrawaKategoria:'',
         restWybranaPotrawaNazwa: '',
+        restWybranaPotrawaSkladniki: '',
         restWybranaPotrawaOcena: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
         restWybranaPotrawaOcenaSpolecznosci: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
         restWybranaOcena: [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}],
