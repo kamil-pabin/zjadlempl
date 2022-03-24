@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home_new from '../views/Home_new.vue'
 import Browser from '../views/Browser.vue'
 import Profile from "../views/Profile.vue";
 import Restauracja from "../views/Restauracja.vue"
@@ -11,8 +11,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Home_new',
+    component: Home_new
   },
   {
     path: '/Browser',

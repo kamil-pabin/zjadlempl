@@ -70,7 +70,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #poleWyszukiwania {
   margin: auto;
   max-width: 30rem;

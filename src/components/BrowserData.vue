@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 <template>
-  <div id="browserData">
+  <div id="browserData" >
     <div class="panel">
       <div class='tytul'>
-        <div id="gornaLinia"> <!--TODO: Dodać 4 <span v-if></span> dla współrzędnych, żeby zależnie od ich wartości pokazywała się odpowiednia wartość -->
+        <div id="gornaLinia" style="padding-top:7%;"> <!--TODO: Dodać 4 <span v-if></span> dla współrzędnych, żeby zależnie od ich wartości pokazywała się odpowiednia wartość -->
             <div><h2> Znaleziono {{ this.$store.state.restauracje.filter(kuchniaSel).length }} Restauracji <span v-if="this.wybranaKuchnia != '' "> z kuchnią {{ this.wybranaKuchnia }}</span> <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>  
-              <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}E {{ this.$store.state.cords.long }}N</i> </h2></div>
+              <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}N {{ this.$store.state.cords.long }}E</i> </h2></div>
               <div v-else>
                 <div v-if="this.$store.state.allowedCords == true">
                   <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>

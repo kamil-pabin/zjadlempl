@@ -1,10 +1,6 @@
 <template>
-  <div id="profile">
+  <div id="profile" style="padding-top:3%;">
     <div id="tlo">
-      <naglowek
-        text="ZJADŁEM.PL | PROFIL SMAKOSZA"
-        style="margin-bottom: 2%"
-      ></naglowek>
       <div class="menuSmakosza" v-if="$auth.isAuthenticated">
         <h1>Twój profil Smakosza</h1>
 
@@ -142,13 +138,12 @@
 </template>
 
 <script>
-import Naglowek from "../components/Naglowek.vue";
 export default {
   name: "Profile",
   metaInfo: {
     title: "Zjadłem.pl | Profil",
   },
-  components: { Naglowek },
+  components: { },
   created() {
     if(this.$auth.user.email != null){
       this.$store.state.currentUserEmail = this.$auth.user.email;

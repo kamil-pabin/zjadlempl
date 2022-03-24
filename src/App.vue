@@ -1,19 +1,11 @@
 /* eslint-disable no-unused-vars */
 <template>
   <div id="app">
+    <div id="navbarx">
+      <Navbarx></Navbarx>
+    </div>
+
     <b-card no-body class="theCard">
-      <div class="butoSidebar">
-        <Sidebar></Sidebar>
-      </div>
-      <div
-        to="/profile"
-        v-if="$auth.isAuthenticated"
-        @click="profileLink"
-        :active="$route.name == '/profile'"
-        class="butoSidebarRight"
-      >
-        <ProfileButton></ProfileButton>
-      </div>
       <b-card-body class="text-center interior">
         <transition name="fade" mode="out-in">
           <router-view />
@@ -24,10 +16,9 @@
 </template>
 
 <script>
-import Sidebar from "./components/Sidebar.vue";
-import ProfileButton from "./components/ProfileButton.vue";
+import Navbarx from "./components/Navbarx.vue";
 export default {
-  components: { Sidebar, ProfileButton },
+  components: { Navbarx },
   methods: {
     profileLink: function () {
       this.$router.push("/profile");
@@ -37,6 +28,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 @import "../src/assets/transitionStyles.css";
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&family=Raleway:wght@200;300;500&display=swap");
 .invert {
@@ -44,7 +36,7 @@ export default {
 }
 html {
   //background-image: url("./assets/tlo.png");
-  background: url("./assets/tlo.png") no-repeat center fixed;
+  //background: url("./assets/tlo.png") no-repeat center fixed;
   background-size: cover;
   -webkit-font-smoothing: antialiased;
 }
@@ -55,7 +47,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Lato";
   position: absolute;
   width: 100%;
   height: 100%;

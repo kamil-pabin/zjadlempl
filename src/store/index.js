@@ -25,6 +25,8 @@ export default new Vuex.Store({
         error: '',
         id: null,
         nazwa: 'a',
+        loginMenu: false,
+        searchPhrase: '',
         kuchnia: null,
         user: {
             loggedIn: false,
@@ -70,6 +72,8 @@ export default new Vuex.Store({
         nicknameZnajomego: '',
         statusDodania: '3',
         czyAnonim: 0,
+        restLimit: 2,
+        randomRest: [{Restauracja: '', Menu: '', Oceny: ''}],
     },
     getters: {
         user(state){
@@ -297,18 +301,36 @@ export default new Vuex.Store({
      },
      actions: {
          bindRestauracja: firestoreAction(({bindFirestoreRef, state}) => {
-             var miasto = state.miasto
+             var miasto = state.miasto;
              var q = "restauracje";
+             state.restauracje = [];
              var col = "Restauracje";
              var wher = "==";
              var thing = "Miasto";
              if(miasto != '') {
-                return bindFirestoreRef(q, db.collection(col).where(thing, wher, miasto));
+                //return bindFirestoreRef(q, db.collection(col).where(thing, wher, miasto));
+                return bindFirestoreRef(q, db.collection(col).orderBy('Nazwa').where(thing, wher, miasto));//<--gdy zrobi sie index https://console.firebase.google.com/u/0/project/zjadlempl/firestore/indexes
              }
              else {
-                return bindFirestoreRef("restauracje", db.collection("Restauracje"));
+                return bindFirestoreRef("restauracje", db.collection("Restauracje").orderBy('Nazwa'));
              } 
          }),
+         bindRestauracjaSearch: firestoreAction(({bindFirestoreRef, state}) => {
+          var q = "restauracje";
+          state.restauracje = [];
+          var col = "Restauracje";
+          var searchP = state.searchPhrase.toUpperCase();
+          if(searchP != ''){
+           return bindFirestoreRef(q, db.collection(col)
+             .orderBy('Nazwa')
+             .where('Nazwa', '>=', searchP)
+             .where('Nazwa', '<=', searchP+'\uf8ff')
+           );
+          }
+          else {
+             return bindFirestoreRef("restauracje", db.collection("Restauracje").orderBy('Nazwa'));
+          } 
+      }),
          readOcenaDaniaBetaDwa: firestoreAction(({bindFirestoreRef, state })=> {
           var restauracja = state.restId;
           var potrawa = state.restWybranaPotrawaId;
@@ -341,23 +363,14 @@ export default new Vuex.Store({
                   }
                   
                 }
-                //var avg = 0;
                 var avg = sum/dlugosc
-                //var avg = sum/documents.length
-                //console.log(state.avgOcena)
                 state.avgOcena = avg;
-                //console.log(state.avgOcena)
-                //bindFirestoreRef("avgOcena", avg)
-                //console.log(state.avgOcena)
               }
               else{ 
                 avg = 0
                 state.avgOcena = avg
                 state.restWybranaPotrawaOcenaSpolecznosci = [{Autor: 'brak', Ocena: '0', Komentarz: ''}];
-                //state.avgOcena = avg;
-                //bindFirestoreRef("avgOcena", avg)
               }
-              //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
           })
          }),
 
@@ -399,17 +412,13 @@ export default new Vuex.Store({
                 avg = 0
                 state.avgRestOcena = avg
                 state.restWybranaOcenaSpolecznosci = [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}];
-                //state.avgOcena = avg;
-                //bindFirestoreRef("avgOcena", avg)
               }
-              //console.log(state.restWybranaPotrawaOcenaSpolecznosci[0].Komentarz)
           })
          }),
          bindOcena: ({ state, dispatch }) => {
           dispatch('readOcenaDaniaBetaDwa')
          },
          nowyKodUsera: ({ state, commit }) => {
-           console.log("BENIU")
            commit('changeFriendCode')
          },
          bindOcenaAdd: ({ state, dispatch, commit }) => {
@@ -436,6 +445,37 @@ export default new Vuex.Store({
              bindFirestoreRef(q3, db.collection(col).doc(col2).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
            }
           console.log(state.restOceny)
+          
+        }),
+        bindRandomRestauracja: firestoreAction(({bindFirestoreRef, state}) => {
+          var q1 = "randRest.Restauracja"
+          var q2 = "randRest.Menu"
+          var q3 = "randRest.Oceny"
+
+          var col = "Restauracje";
+//
+     //     var restaurantQueryReference = db.collection('Restauracje'); //have +500 docs
+      //    var restaurantQueryList = restaurantQueryReference.listDocuments(); //get all docs id; 
+//
+        //  for (var i = restaurantQueryList.length - 1; i > 0; i--) {
+          //    var j = Math.floor(Math.random() * (i + 1));
+           //   var temp = restaurantQueryList[i];
+           //   restaurantQueryList[i] = restaurantQueryList[j];
+           //   restaurantQueryList[j] = temp;
+          //  }
+          var restaurantId = 1
+
+          if (restaurantId != ''){
+              bindFirestoreRef(q1, db.collection(col).doc('1wVNqruyQnztG5PplLXH'))
+             //bindFirestoreRef(q2, db.collection(col).doc(1).collection('Menu'))
+             //bindFirestoreRef(q3, db.collection(col).doc(1).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
+           }
+           console.log(state.randomRest)
+           console.log('xD1')
+           //console.log(state.randRest.Menu)
+           //console.log('xD2')
+          //console.log(state.randRest.Oceny)
+          //console.log('xD2hjvjhv')
           
         }),
         bindUserOceny: firestoreAction(({bindFirestoreRef, state}) => {
