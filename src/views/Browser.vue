@@ -1,6 +1,14 @@
 <template>
-  <div class="browser">
+  <div class="browser"> 
     <div id="tlo">
+      <div class="background" id="backgroundFirst">
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+      </div>
+      <div class="background" id="backgroundFirst">
+        <b-img-lazy fluid class="backgroundImage" :src="images.image4"/>
+      </div>
+    </div>
+    <div id="browserRest">
       <BrowserData />
     </div>
   </div>
@@ -8,6 +16,10 @@
 
 <script>
 import BrowserData from '../components/BrowserData.vue'
+import image1 from "../assets/background1.jpeg"
+import image2 from "../assets/background2.jpeg"
+import image3 from "../assets/background3.jpeg"
+import image4 from "../assets/background4.jpeg"
 export default {
   name: "Browser",
   metaInfo:{
@@ -18,6 +30,12 @@ export default {
     return {
       value: "",
       context: null,
+      images: {
+        image1,
+        image2,
+        image3,
+        image4,
+      },
     };
   },
   methods: {
@@ -31,30 +49,18 @@ export default {
 
 <style lang="scss" scoped>
 .browser{
-  text-align: center;
   width:100%;
-  color: white;
-  padding:0;
-  margin-left:auto;
-  margin-right: auto;
-  font-family: 'Raleway', sans-serif;
 }
 #tlo{
-  width:80%;
-  margin-bottom: 0px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
+  position:absolute;
+  max-height:100vh;
+  z-index:-100;
 }
-h1{
-  overflow: hidden;
-  font-size:1.7rem;
-  font-weight: 300;
-  margin: 0;
-  margin-top:7vh;
-  padding:0;
-  padding-bottom:3vh;
-  text-shadow: 0 4px 8px rgba(0,0,0,0.19);
+#browserRest{
+  padding-top:10%;
+  width:60%;
+  z-index: 100;
+  margin:auto;
 }
 /*@media screen and (min-width: 1200px) {
   h1 {
@@ -71,7 +77,7 @@ h1{
 */
 @media screen and (max-width: 600px) {
   #tlo{
-    width: 95%;
+    width: 100%;
   }
 }
 </style>

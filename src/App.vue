@@ -35,7 +35,7 @@ export default {
   filter: invert(0%);
 }
 html {
-  //background-image: url("./assets/tlo.png");
+  background:rgb(19, 19, 19);
   //background: url("./assets/tlo.png") no-repeat center fixed;
   background-size: cover;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +49,7 @@ body {
   text-align: center;
   font-family: "Lato";
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   padding: 0;
   margin: 0;

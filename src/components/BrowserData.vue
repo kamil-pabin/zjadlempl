@@ -3,20 +3,13 @@
   <div id="browserData" >
     <div class="panel">
       <div class='tytul'>
-        <div id="gornaLinia" style="padding-top:7%;"> <!--TODO: Dodać 4 <span v-if></span> dla współrzędnych, żeby zależnie od ich wartości pokazywała się odpowiednia wartość -->
-            <div><h2> Znaleziono {{ this.$store.state.restauracje.filter(kuchniaSel).length }} Restauracji <span v-if="this.wybranaKuchnia != '' "> z kuchnią {{ this.wybranaKuchnia }}</span> <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>  
-              <div id="cords" v-if="this.$store.state.cords.lat != '' "><h2> Twoja lokalizacja: <i> {{ this.$store.state.cords.lat }}N {{ this.$store.state.cords.long }}E</i> </h2></div>
-              <div v-else>
-                <div v-if="this.$store.state.allowedCords == true">
-                  <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>
-                </div>
-                <div v-else>Brak dostępu do lokalizacji</div>
-              </div>         
+        <div id="gornaLinia" style="padding-top:1%;"> 
+            <div><h2> Znaleziono {{ this.$store.state.restauracje.filter(kuchniaSel).length }} Restauracji <span v-if="this.wybranaKuchnia != '' "> z kuchnią {{ this.wybranaKuchnia }}</span> <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>    
         </div> 
         <div id="dolnaLinia" style="display:flex; justify-content: space-between">
           <div><label>Ilość wyświetlanych restauracji: {{ restLimMax }} </label></div>
             <div id="wyborKuchni">
-              Kuchnia: <b-button @click="wybranaKuchnia=''">Wszystkie </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button><b-button @click="wybranaKuchnia='Kebab'">Kebab </b-button>
+              Kuchnia: <b-button @click="wybranaKuchnia=''">Wszystkie </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button>
             </div>
         </div>
       </div> 
@@ -25,21 +18,61 @@
           <div class="restauracja" 
           v-for="item in this.$store.state.restauracje.filter(kuchniaSel).slice(restLimMin,restLimMax)" 
           :key="item.id"
-          @mouseover="changeCurrentRestaurant(item), getDistanceFromLatLonInKm()"
           >
             <div class="flex">
               <div class="logoRestDiv">
                   <b-img :src="item.Logo" fluid class="logoRest"/>
               </div>
-              <div class="informacje">
-                    <div>{{ item.Nazwa }}</div>
-                    <span class="kuchnie" v-for="kuchniaNazwa in item.Kuchnie" :key="kuchniaNazwa">
-                        {{ kuchniaNazwa }} 
-                    </span>
+              <div class="informacje" style="display:flexbox">
+                    <div id="wierszP" style="width:100%; height:30%;">
+                      <div id="nazwaRest">{{ item.Nazwa }}</div>
+                    </div> 
+
+                    <div id="wierszD" style="width:100%; height:70%; display:flex;">
+                      <div id="kolumnaP" style="width:50%; height:100%; display:block">
+                        <div id="kuchenki" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                          <span style="font-weight:700">Kuchnie:</span>
+                          <span class="kuchnie" v-for="kuchniaNazwa in item.Kuchnie" :key="kuchniaNazwa" style="font-style:italic;">
+                            {{ kuchniaNazwa }} 
+                          </span>
+                        </div>
+                        <div id="restAdresMiasto" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                          <span style="font-weight:700">Miasto:</span>
+                          <span id="itemAdres" style="font-style:italic;">
+                            {{item.Miasto}}
+                          </span>
+                        </div>
+                        <div id="restAdresUlica" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                          <span style="font-weight:700">Ulica:</span>
+                          <span id="itemAdres" style="font-style:italic;">
+                            {{item.Ulica}} {{item.NumerLokalu}}
+                          </span>
+                        </div>
+                        
+                      </div>
+                      <div id="kolumnaD" style="width:50%; height:100%; display:flex">
+                        <div id="restOcena" style="width:100%; height:100%; display:block; margin:auto;">   
+                          <div style="display:block;  width:100%; height:fit-content; padding:0%;">
+                            Ocena społeczności:
+                            <div><star-rating :read-only="true" :inline="true" :star-size="18" :increment="0.01" :fixed-points="2"  :rating=parseFloat(item.Ocena) inactive-color="#bbbbbb" /></div>
+                          </div>
+                          <div style="display:block;  width:100%; height:fit-content; margin-top:2%;">
+                            <b-button
+                              id="szczegoly"
+                              @click="restaurantLink(item)"
+                              :active="$route.name == '/restauracja'"
+                              >
+                              Zobacz więcej
+                            </b-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>     
               </div>
             </div>           
           </div>
         </div>
+        <!--
         <div class="pojemnikDwa">
           <div class="informacjeRest" v-if="currentRestauracja != 'brak'">
             <div>
@@ -70,7 +103,6 @@
                 >
                 Zobacz więcej</b-button>
               </div>
-              <!--Modul oceniania -->
               <div v-show="currentRestauracja != 'brak' ">
                 Ocena społeczności: &nbsp;
                 <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=parseFloat(this.$store.state.avgRestOcena) inactive-color="#bbbbbb" />
@@ -192,17 +224,14 @@
             </div>
           </div>
         </div>
+        -->
       </div> 
       <div class="pojemnik">
-        <div class="stopa">
-          <div id="lewo">
+        <div class="stopa" style="margin:auto; width:100%;">
             <b-button-group>
               <b-button id="wiecej" v-if="restLimMax < this.$store.state.restauracje.filter(kuchniaSel).length" @click="restLimMax+=10">Wyświetl więcej</b-button>
               <b-button id="mniej" v-if="restLimMax > 11" @click="restLimMax-=10">Wyświetl mniej</b-button>
             </b-button-group>
-          </div>
-          <div id="prawo">
-          </div>
         </div>
       </div> 
     </div>
@@ -301,7 +330,8 @@ export default {
       var d = R * c; // Distance in km
       this.dystans = Math.round(this.dystans = d * 100) /100;
     },
-    restaurantLink: function () {
+    restaurantLink: function (Restaurant) {
+      this.changeCurrentRestaurant(Restaurant);
       this.$router.push("/restauracja");
     },
     changeCurrentRestaurant(Restaurant) {
@@ -348,15 +378,12 @@ export default {
   margin: auto;
   width:100%;
 }
-#browserData input {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
 .pojemnik{
   display:flex;
   width:100%;
 }
 .pojemnikDwa{
-  width:50%;
+  width:100%;
   //height:30%;
   margin-right:2%;
   margin-left:2%;
@@ -364,114 +391,64 @@ export default {
 .flex{
   display:flex;
   margin:auto;
-  justify-content: center;
-}
-#kom{
-  border: 1px solid black;
-  border-radius: 10px;
-}
-#kom #insKom{
-    padding:0;
-    margin: 0 !important;
-    background:white !important;
-}
-#kom #insKom #komTekst{
-  background:rgb(255, 255, 255);
-}
-#kom #insKom #tresc{
-  background:rgb(255, 255, 255);
-  border-bottom:1px solid black
+  //justify-content: center;
 }
 .restauracja{
-  background:rgb(243, 243, 243);
-  //background: #407ce417;
-  //display:flex;
-  justify-content: space-between;
-  vertical-align: middle;
-  padding:auto;
-  padding-left: 3%;
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.473) 54%, rgba(255, 255, 255, 0) 100%);
   padding-right: 3%;
-  //margin:auto;
-  //margin-left: 2%;;
-  margin-bottom:1%;
+  margin-bottom:2%;
   color:rgb(63, 63, 63);
-  //font-size: 1.2vw;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.144);
-  border-radius: 1vw .5vw .5vw .5vw;
-  width:100%;
+  -webkit-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
+  -moz-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
+  box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
+  border-radius: 20vw 0 0 20vw;
   transition: linear 0.3s;
 }
 .restauracja:hover{
-  transform: scale(1.04);
-  transition: linear 0.3s;
-  background: #8fb8ff;
-}
-.informacjeRest{
-  background:rgb(243, 243, 243);
-  //background: #8fb8ff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.144), 0 6px 20px 0 rgba(0, 0, 0, 0.199);
-  border-radius: .5vw .5vw .5vw .5vw;
-  padding-left: 3%;
-  padding-right: 3%;
-  padding-top:3%;
-  padding-bottom:10%;
-  color:rgb(63, 63, 63);
-  padding:auto;
-  transition: linear 1.2s;
-  width:100%;
-  max-height:70vh;
-  //height:55%;
-  font-size: 0.7rem;
-  position:sticky;
-  top:18%;
-  overflow-y:scroll !important;
-}
-.informacjeRest p{
-  padding:0;
-  margin:0;
-}
-.informacjeRest .logoRestDivInfo{
-  width:50%;
-  height:fit-content;
-  padding:5%;
-  margin:auto;
-}
-.logoRestDivInfo{
-  background: url("../assets/pizza.png");
-  background-size:cover;
-  margin:1%;
-  border-radius: 15px 15px 15px 15px;
+  transform: scale(1.02);
 }
 .restauracja .logoRestDiv{
-  width:25%;
-  height:fit-content;
-  padding:3%;
+  width:13vw;
+  //height:5vh;
+  //background:yellow;
+  border-radius: 25vw;
+  //padding:3%;
 }
 .restauracja .informacje{
   width:75%;
   height:auto;
-  text-align:center;
-  display:block;
-  padding:7%;
-}
-.kuchnie{
-  //display:flex;
-  padding:0;
-  margin:0;
-  font-size: 0.6rem;
-  white-space:nowrap;
-}
-#kuchOpis{
-  font-size:0.7rem;
+  //text-align:center;
+  //background:blue;
+  //display:block;
+  padding:2%;
+  font-size: 0.8rem;
 }
 .restauracja .informacje div{
-  height:60%;
-  font-size:0.75rem;
+  //height:50%;
+  //background:grey;
+}
+#kuchenki{
+  //width:100%;
+  //height:10vh;
+  //background:purple;
+}
+.kuchnie{
+  //background:greenyellow;
+  //font-size: 0.6rem;
+}
+#kuchOpis{
+  //font-size:0.7rem;
+}
+.restauracja .informacje div{
+  //background:red;
+  //font-size:0.75rem;
   text-transform: uppercase;
-  font-weight: bold;
+  //font-weight: bold;
 }
 .restauracja .informacje div:nth-child(2n){
-  font-size:.6vw;
+  //font-size:.6vw;
+  //background:yellow;
 }
 .restauracja .ocenaRestDiv{
   width:15%;
@@ -493,7 +470,7 @@ export default {
 }
 .panel{
   border-radius: 15px 15px 15px 15px;
-  background:rgba(255, 255, 255, 0.897);
+  background:rgb(255, 255, 255);
   padding-bottom:5%;
   width:100%;
 }
@@ -506,7 +483,7 @@ export default {
   justify-content: space-between;
   margin-bottom:1%;
   font-size: 0.8rem;
-  position:sticky;
+  //position:sticky;
   top:0%;
   background:rgb(255, 255, 255);
   border-radius: 15px 15px 0px 0px;
@@ -530,22 +507,22 @@ export default {
   font-weight: 300;
 }
 .logoRestDiv{
-  background: url("../assets/pizza.png");
+  //background: url("../assets/pizza.png");
   background-size:cover;
-  margin:1%;
-  border-radius: 15px 15px 15px 15px;
+  //margin:1%;
+  //border-radius: 15px 15px 15px 15px;
 }
 .logoRest{
-  max-height:100%;
-  max-width:100%;
-  padding:auto;
-  //width:130px;
-  margin:auto;
-  //height:130px;
+  //max-height:100%;
+  //max-width:100%;
+  padding:0;
+  width:100%;
+  margin:0;
+  //height:100%;
   object-fit:cover;
 }
 .logoRest img{
-  margin:auto;
+  margin:0;
 }
 #cords i{
  //font-size: 0.9rem;
@@ -562,15 +539,8 @@ export default {
 .stopa{
   //background:red;
   width:100%;
-  display:flex;
-}
-.stopa #lewo{
-  //background:cyan;
-  width:50%;
-}
-.stopa #prawo{
-  //background:yellow;
-  width:50%;
+  margin:auto;
+  //display:flex;
 }
 .stopa #mniej{
   color:black;

@@ -191,7 +191,9 @@ export default new Vuex.Store({
             var komentarz = state.restKomentarz;
             var anonim = state.czyAnonim;
             var today = new Date();
+            var ocenaSr = state.avgRestOcena;
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var docR = db.collection('Restauracje').doc(restauracja);
             var docRef = db.collection('Restauracje').doc(restauracja).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
             var listaOcen = db.collection('Users').doc(email).collection('Oceny')
@@ -219,6 +221,9 @@ export default new Vuex.Store({
                   Anonim: anonim,
                    })
                 }
+                docR.update({ 
+                  Ocena: ocenaSr, 
+                   })
             }),
 
             listaOcenKonkretna //dodawanie jesli nie ma twojej opinii
@@ -377,6 +382,8 @@ export default new Vuex.Store({
          //readocenarest
          readOcenaRestBetaDwa: firestoreAction(({bindFirestoreRef, state })=> {
           var restauracja = state.restId;
+          var ocenaSr = state.avgRestOcena;
+          var docR = db.collection('Restauracje').doc(restauracja);
           var doc2 = db.collection('Restauracje').doc(restauracja).collection('Oceny').where('Autor', '==', state.currentUserEmail);
           var doc3 = db.collection('Restauracje').doc(restauracja).collection('Oceny');
           if(
@@ -413,6 +420,9 @@ export default new Vuex.Store({
                 state.avgRestOcena = avg
                 state.restWybranaOcenaSpolecznosci = [{Autor: 'brak', Ocena: '0', Komentarz: 'brak'}];
               }
+              docR.update({ 
+                Ocena: ocenaSr, 
+                 })
           })
          }),
          bindOcena: ({ state, dispatch }) => {
@@ -439,13 +449,18 @@ export default new Vuex.Store({
           var q2 = "restMenu";
           var q3 = "restOceny"
           var col = "Restauracje";
-          var col2 = state.restId
+          var col2 = state.restId;
+          var ocenaSr = state.avgRestOcena;
+          var docR = db.collection('Restauracje').doc(col2);
+
           if (col2 != ''){
              bindFirestoreRef(q2, db.collection(col).doc(col2).collection('Menu'))
              bindFirestoreRef(q3, db.collection(col).doc(col2).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
            }
           console.log(state.restOceny)
-          
+          docR.update({ 
+            Ocena: ocenaSr, 
+             })
         }),
         bindRandomRestauracja: firestoreAction(({bindFirestoreRef, state}) => {
           var q1 = "randRest.Restauracja"

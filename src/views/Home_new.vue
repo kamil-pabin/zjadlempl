@@ -38,8 +38,6 @@ export default {
   data() {
     return {
       text: '',
-      long: '',
-      lat: '',
       background: '',
       images: {
         image1,
@@ -47,18 +45,6 @@ export default {
         image3,
         image4,
       },
-      mainProps: {
-          center: true,
-          fluidGrow: true,
-          blank: true,
-          blankColor: '#bbb',
-          width: window.innerWidth,
-          height: 400,
-          class: 'my-5'
-        },
-      joke: {
-        avatar: 'image.jpg'
-      }
     }
   },
   methods: {
@@ -97,16 +83,6 @@ export default {
   padding:0;
   margin-left:0px;
   font-family: 'Raleway', sans-serif;
-}
-#tlo{
-  background: #407ce4;
-  margin-bottom: 0px;
-  padding: 20px;
-  width: 100%;
-  height: 40vh;
-  border-bottom-right-radius: 60% 25%;
-  border-bottom-left-radius: 60% 25%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 h1{
   overflow: hidden;

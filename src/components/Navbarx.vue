@@ -21,7 +21,7 @@
     </div>
 
     <div id="rzad2" :class="{change_navbarColor: scrollPosition > 105}">
-        <b-navbar-nav class="ml-auto navidwa" >
+        <b-navbar-nav class="ml-auto navidwa" style="padding:0; margin:auto;">
           <b-navbar-brand id="itemDrop"  @click="scrollToTop()" style="width:3rem; cursor:pointer;" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <b-img :src="require('../assets/logomale.png')" fluid alt="ZJADLEM"></b-img>
           </b-navbar-brand>
@@ -36,9 +36,9 @@
             <b-dropdown-item disabled href="#">Kaufland</b-dropdown-item>
             <b-dropdown-item disabled href="#">Biedronka</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item href="#" to='/About' :active="$route.name == '/About'" id="itemDrop"> <span style="color:white">Rankingi</span></b-nav-item>
-          <b-nav-item id="itemDrop" to='/profile' v-if="!$auth.isAuthenticated" disabled>Moje zjadłem</b-nav-item> <!--TODO: Fix color of the button, it's working locally, but not on github pages or whatsoever -->
-          <b-nav-item id="itemDrop" to='/profile' style="color:white;" class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
+          <b-nav-item href="#" to='/About' :active="$route.name == '/About'" id="itemDrop"> <span>O nas</span></b-nav-item>
+          <b-nav-item id="itemDrop" to='/profile' v-if="!$auth.isAuthenticated" @click="login">Moje zjadłem</b-nav-item> <!--TODO: Fix color of the button, it's working locally, but not on github pages or whatsoever -->
+          <b-nav-item id="itemDrop" to='/profile' class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
           <b-nav-item id="itemDrop" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <div id="profRowDwa">
               <ProfileButton nameProf='drugi' ></ProfileButton>
@@ -171,7 +171,7 @@ export default {
 }
 .change_navbar {
   top:0px;
-  transform: translateY(-95px);
+  transform: translateY(-8vh);
   padding-top:1%;
 }
 .change_show {
@@ -180,7 +180,7 @@ export default {
 }
 .change_navbar #rzad2{
   line-height: 5vh;
-  padding-top:10px;
+  //padding-top:4.5vh;
   padding-bottom:5px;
 }
 .change_navbarColor {
@@ -290,9 +290,15 @@ export default {
   #rzad2{
     //background:red;
     width:100%;
+    font-size:0.7rem;
     //margin:auto;
     //background:red;
   }
+  .change_navbar #rzad2{
+  line-height: 2vh;
+  padding-top:2vh;
+  //padding-bottom:5px;
+}
   #rzad2 #itemDrop{
     //background:green;
     padding:2%;
