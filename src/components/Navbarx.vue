@@ -76,6 +76,7 @@
                       >Log out</b-button
                     >
                   </b-button-group>
+                  
                 </div>
               </div>
           </b-popover>
@@ -170,9 +171,10 @@ export default {
   margin:auto;
 }
 .change_navbar {
-  top:0px;
-  transform: translateY(-8vh);
-  padding-top:1%;
+  margin-top:0;
+}
+.change_navbar #rzad1{
+  display:none;
 }
 .change_show {
   opacity: 1;
@@ -180,7 +182,6 @@ export default {
 }
 .change_navbar #rzad2{
   line-height: 5vh;
-  //padding-top:4.5vh;
   padding-bottom:5px;
 }
 .change_navbarColor {
@@ -205,7 +206,6 @@ export default {
   justify-content:space-evenly;
   margin-left: 20%;
   margin-right: 20%;
-  //background:pink;
 }
 .navidwa #text{
   color:black !important;
@@ -214,7 +214,6 @@ export default {
   color:white;
 }
 #part2{
-  //background:red;
   width:100%;
   justify-content: space-between;
   text-align: center;
@@ -270,54 +269,40 @@ export default {
 }
 @media screen and (max-width: 1001px) {
   #main{
-  padding-left: 2%;
-  padding-right: 2%;
-  margin:0;
-  //background:yellow;
+ // padding-left: 2%;
+ // padding-right: 2%;
+ // margin:0;
 }
-  #rzad1{
-    //padding-left: 20%;
-    //padding-right: 20%;
-    //width:100%;
-    //display:flexbox;
-    //justify-content: space-evenly;
-    //margin-bottom: 1%;
-    //display:none;
-  }
+.change_navbar {
+  margin-top:0;
+}
+.change_navbar #rzad1{
+  display:none;
+}
   #rzad1 #searchbar{
-    display:none;
+   // display:none;
   }
   #rzad2{
-    //background:red;
-    width:100%;
+   // width:100%;
     font-size:0.7rem;
-    //margin:auto;
-    //background:red;
   }
   .change_navbar #rzad2{
-  line-height: 2vh;
-  padding-top:2vh;
-  //padding-bottom:5px;
+  //line-height: 2vh;
+  //padding-top:2vh;
 }
   #rzad2 #itemDrop{
     //background:green;
-    padding:2%;
+    //padding:2%;
     //margin:auto;
   }
   .navidwa{
     flex-direction: row;
-    width:100%;
-    justify-content: space-between;
+    //width:100%;
+    //justify-content: space-between;
   }
 }
 
 @media screen and (max-width: 801px) {
-  #main{
-  padding-left: 2%;
-  padding-right: 2%;
-  margin:0;
-  //background:yellow;
-}
   #rzad1{
     //padding-left: 20%;
     //padding-right: 20%;

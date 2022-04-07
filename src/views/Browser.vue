@@ -62,22 +62,13 @@ export default {
   z-index: 100;
   margin:auto;
 }
-/*@media screen and (min-width: 1200px) {
-  h1 {
-     font-size: 2.3rem;
-     margin-top:7vh;
-  }
-  #tlo{
-    margin-bottom: 0px;
-    padding: 20px;
-    width: 100%;
-    height: 40vh;
-  }
-}
-*/
 @media screen and (max-width: 600px) {
   #tlo{
     width: 100%;
+  }
+  #browserRest{
+    padding-top:13vh;
+    width:95%;
   }
 }
 </style>

@@ -1,23 +1,28 @@
 <template>
-  <div id="profile" style="padding-top:3%;">
+  <div id="profile">
+    <div class="background" id="backgroundFirst">
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+    </div>
+
     <div id="tlo">
       <div class="menuSmakosza" v-if="$auth.isAuthenticated">
         <h1>Twój profil Smakosza</h1>
-
-        <b-tabs content-class="mt-3" fill>
-          <b-tab title="Mój profil" active>
-            <div id="avatarDiv">
-              <img class="avatar" :src="$auth.user.picture" />
-            </div>
-            <p>Liczba ocen: {{this.$store.state.listaOcen.length}}</p>
+        <div id="infoProf">
+          <div id="avatarDiv">
+            <img class="avatar" :src="$auth.user.picture" />
+          </div>
+          <div id="infoDiv">
+            <!--<p>Liczba ocen: {{this.$store.state.listaOcen.length}}</p> -->
             <p>Email: {{ $auth.user.email }}</p>
             <p>Nick: {{ $auth.user.nickname }}</p>
-          </b-tab>
+          </div>
+          
+        </div>
+        <b-tabs content-class="mt-3" fill>
           <b-tab title="Oceny">
             <h3>Moje oceny:</h3>
             <div>
               <b-table
-                striped
                 hover
                 sort-icon-right
                 :items="this.$store.state.listaOcen"
@@ -25,16 +30,19 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 responsive="sm"
+                style="font-size:0.8rem"
+                sticky-header
               ></b-table>
             </div>
             <div>
-              Sorotowanie przez: <b>{{ sortBy }}</b
+              Sortowanie przez: <b>{{ sortBy }}</b
               >, Jak:
               <b>{{ sortDesc ? "Malejąco" : "Rosnąco" }}</b>
             </div>
           </b-tab>
           <b-tab title="Moje statystyki">
             <h3>Moje statystyki</h3>
+            <h4 style="font-style:italic">*W budowie*</h4>
             <div v-for="(superOcena, index) in this.$store.state.listaOcen"  :key="index" >
               
             </div>
@@ -44,7 +52,6 @@
             <h3>Moja lista znajomych</h3>
             <div>
               <b-table
-                striped
                 hover
                 sort-icon-right
                 :items="this.$store.state.listaZnaj"
@@ -52,83 +59,87 @@
               ></b-table>
             </div>
           </b-tab>
-          <b-tab title="Dodaj znajomego"
-            ><h3>Znajomi</h3>
-            <p>
-              Jak dodać znajomego? Podaj mu swój adres e-mail oraz prywatny kod
-              znajomego!
-            </p>
-            <p> Twój adres email: {{ $auth.user.email }}</p>
-            <div> Twój kod znajomego: 
-
-                <b-button :pressed.sync="pokaz" @click="wyswietlKod" variant="primary">Pokaż/ukryj</b-button>
-                 <div v-show="pokaz==true"><strong>{{ kodUs }}</strong></div>
-
-            </div>
-            <div>
-              <b-form >
-              <div style="margin-top:2%;" v-if="$auth.isAuthenticated">
-                
-                  <b-form-input
-                      style="width:30%; margin:auto"
-                      id="textarea"
-                      :state="validation"
-                      v-model="kodNowy"
-                      placeholder="Wpisz nowy kod"
-                      rows="1"
-                      max-rows="1"
-                      required
-                  ></b-form-input>
+          <b-tab title="Dodaj znajomego">
+              <div class="rowek">
+                <p>
+                  Jak dodać znajomego? Podaj mu swój adres e-mail oraz prywatny kod
+                  znajomego!
+                </p>
               </div>
-              <div>
-                <b-form-valid-feedback :state="validation">
-                  <b-button style="margin:1%" variant="success" v-if="$auth.isAuthenticated" @click="zmienKod">Zmień</b-button>
-                  <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
-                </b-form-valid-feedback>
-                <b-form-invalid-feedback :state="validation">
-                  Podaj kod (Minimum 5 znaków, maksimum 20)
-                </b-form-invalid-feedback>
-              </div>
-              </b-form>
-            </div>
-            <div>
-              <div style="margin-top:2%;" v-if="$auth.isAuthenticated">
-                  <b-form-input
-                      style="width:30%; margin:auto"
-                      id="textarea"
-                      v-model="mailKumpla"
-                      placeholder="Wpisz mail znajomego"
-                      rows="1"
-                      max-rows="1"
-                  ></b-form-input>
-                  <b-form-input
-                      style="width:30%; margin:auto"
-                      id="textarea"
-                      v-model="kodKumpla"
-                      placeholder="Wpisz kod znajomego"
-                      rows="1"
-                      max-rows="1"
-                  ></b-form-input>
-              </div>
-              <div>
-                  <b-button style="margin:1%" variant="success" v-if="$auth.isAuthenticated" @click="dodajKumpla">Dodaj znajomego</b-button>
-                  <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
-              </div>
-              <span v-if="this.$store.state.statusDodania == '2'">
-                  <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>
-              </span>
-              <span v-if="this.$store.state.statusDodania == '1'">
-                  <b-iconstack font-scale="2">
-                    <b-icon stacked icon="square"></b-icon>
-                    <b-icon stacked icon="check"></b-icon>
-                  </b-iconstack>
-              </span>
-              <span v-if="this.$store.state.statusDodania == '0'">
-                  <b-iconstack font-scale="2">
-                    <b-icon stacked icon="square"></b-icon>
-                    <b-icon stacked icon="x"></b-icon>
-                  </b-iconstack>
-              </span>
+              <div class="panel">
+                <div class="kolumna">
+                  <div> Twój kod znajomego:
+                      <span v-show="pokaz==true"><strong>{{ kodUs }}</strong></span> 
+                      <b-button style="margin-left:2%;" :pressed.sync="pokaz" @click="wyswietlKod" size="sm" pill variant="outline-secondary">Pokaż/ukryj</b-button>
+                  </div>
+                  <div>
+                    <b-form style="margin-top:2%; display:block" id="zmianaKod" v-if="$auth.isAuthenticated">
+                      <div style="display:flex">
+                        <p>Zmień swój kod:</p>
+                        <b-form-input
+                            style="width:40%; margin:2%"
+                            id="textarea"
+                            :state="validation"
+                            v-model="kodNowy"
+                            placeholder="Wpisz nowy kod"
+                            rows="1"
+                            size="sm"
+                            max-rows="1"
+                            required
+                        >
+                        </b-form-input>
+                      </div>
+                      <b-form-valid-feedback :state="validation">
+                        <b-button style="margin:1%" pill variant="success" size="sm" v-if="$auth.isAuthenticated" @click="zmienKod">Zmień</b-button>
+                        <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
+                      </b-form-valid-feedback>
+                      <b-form-invalid-feedback :state="validation">
+                        Podaj kod (Minimum 5 znaków, maksimum 20)
+                      </b-form-invalid-feedback>
+                    </b-form>
+                  </div>
+                </div>
+                <div class="kolumna" style="width:fit-content; margin:auto; margin-top:0; text-align:center;">
+                  <div style="margin:2%;" v-if="$auth.isAuthenticated">
+                      <b-form-input
+                          style="margin:3%"
+                          id="textarea"
+                          v-model="mailKumpla"
+                          placeholder="Wpisz mail znajomego"
+                          rows="1"
+                          size="sm"
+                          max-rows="1"
+                      ></b-form-input>
+                      <b-form-input
+                          style="margin:3%"
+                          id="textarea"
+                          size="sm"
+                          v-model="kodKumpla"
+                          placeholder="Wpisz kod znajomego"
+                          rows="1"
+                          max-rows="1"
+                      ></b-form-input>
+                  </div>
+                  <div style="margin:auto; margin-bottom:2%;">
+                      <b-button style="margin:0" pill variant="outline-secondary" size="sm" v-if="$auth.isAuthenticated" @click="dodajKumpla">Dodaj znajomego</b-button>
+                      <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
+                  </div>
+                  <span v-if="this.$store.state.statusDodania == '2'">
+                      <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>
+                  </span>
+                  <span v-if="this.$store.state.statusDodania == '1'">
+                      <b-iconstack font-scale="2">
+                        <b-icon stacked icon="square"></b-icon>
+                        <b-icon stacked icon="check"></b-icon>
+                      </b-iconstack>
+                  </span>
+                  <span v-if="this.$store.state.statusDodania == '0'">
+                      <b-iconstack font-scale="2">
+                        <b-icon stacked icon="square"></b-icon>
+                        <b-icon stacked icon="x"></b-icon>
+                      </b-iconstack>
+                  </span>
+                </div>
             </div>
           </b-tab>
         </b-tabs>
@@ -138,6 +149,10 @@
 </template>
 
 <script>
+import image1 from "../assets/background1.jpeg"
+import image2 from "../assets/background2.jpeg"
+import image3 from "../assets/background3.jpeg"
+import image4 from "../assets/background4.jpeg"
 export default {
   name: "Profile",
   metaInfo: {
@@ -164,6 +179,12 @@ export default {
       show: true,
       sortBy: "Restauracja",
       sortDesc: false,
+      images: {
+        image1,
+        image2,
+        image3,
+        image4,
+      },
       fields: [
         {
           key: "Restauracja",
@@ -230,33 +251,40 @@ export default {
 ::v-deep .sr-only {
   display: none !important;
 }
+.background {
+  width:100vw;
+  z-index:-1000;
+  background:white;
+  position:absolute;
+}
 #profile {
-  text-align: center;
   width: 100%;
   color: white;
-  //padding:1%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
-  font-family: "Raleway", sans-serif;
+  text-transform: uppercase;
   padding-top: 0;
 }
 #tlo {
   width: 80%;
-  //height:100%;
-  //background:rgba(255, 255, 255, 0.884);
+  z-index:10;
   display: flexbox;
   margin-left: auto;
   margin-right: auto;
   padding: 1%;
+  margin-top:14vh;
 }
 .menuSmakosza {
   color: black;
-  background: rgba(255, 255, 255, 0.884);
-  min-height: 60vh;
+  background: rgb(255, 255, 255);
+  min-height: 70vh;
   height:fit-content;
-  padding: 2%;
-  border-radius: 10% 10% 10% 10%;
+  -webkit-box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6); 
+  box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6);
+  padding: 1%;
+  border-radius: 50px;
+  border: 1px solid black;
 }
 #dane {
   height: fit-content;
@@ -273,14 +301,50 @@ export default {
   height: 15vh;
   border-radius: 50%;
 }
+#infoProf{
+  margin:1%;
+  text-align:left;
+  display:flex;
+  padding:1%;
+}
+#infoProf div{
+  margin-right:5%;
+}
+#infoDiv{
+  height:fit-content;
+  margin-top:auto;
+  margin-bottom:auto;
+  padding:0;
+}
+#infoDiv p{
+  margin:auto;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.192);
+  font-weight: 300;
+}
 h1 {
   overflow: hidden;
   font-size: 1.7rem;
   font-weight: 300;
   margin: 0;
-  margin-top: 7vh;
+  margin-top: 2%;
   padding: 0;
   padding-bottom: 3vh;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.19);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.596);
+  font-weight: 500;
+}
+.panel{
+  display:flex;
+  margin:auto;
+  width:90%;
+  height:100%;
+}
+.panel .kolumna{
+  width:50%;
+  text-align: left;
+}
+#zmianaKod p{
+  margin:auto;
+  margin-left:0;
+  margin-right: 0;
 }
 </style>

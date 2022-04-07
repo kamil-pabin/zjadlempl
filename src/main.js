@@ -10,6 +10,9 @@ import store from "./store";
 import VueMeta from "vue-meta";
 import { domain, clientId } from "../auth_config.json";
 import { Auth0Plugin } from "./auth"; 
+
+import "./assets/myCSS.css";
+
 Vue.use(Auth0Plugin, {
   domain,
   clientId,

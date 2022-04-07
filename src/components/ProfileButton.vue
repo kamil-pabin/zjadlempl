@@ -9,6 +9,13 @@
     </div>
 
     <b-popover triggers="hover focus" placement="bottom" target="profilePic" custom-class="popoverProfile">
+        <b-button
+            class="buttonProfileDropdown"
+            v-b-modal.translate-modal
+            style="width:100%; margin:0; padding:0;"
+          >
+            Język
+          </b-button>
         <template #title ><span id="notLoggedUser" v-if="!$auth.isAuthenticated">Musisz się najpierw zalogować!</span><span v-if="$auth.isAuthenticated" id="loggedUser">Witaj<span v-if="$auth.user.nickname !=null"> {{ $auth.user.nickname }}</span><span v-else> smakoszu</span>!</span></template>     
           <div class="buttonsLogin">
             <!-- show login when not authenticated -->
@@ -41,13 +48,16 @@
             </div>
           </div>
       </b-popover>
+      <translate-modal></translate-modal>
   </div>
 </template>
 
 
 <script>
+import TranslateModal from "./TranslateModal";
 export default {
   name: "ProfileButton",
+  components: { TranslateModal },
   props: {
     nameProf: String
   },
