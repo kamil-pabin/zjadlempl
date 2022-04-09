@@ -26,26 +26,33 @@
             <b-img :src="require('../assets/logomale.png')" fluid alt="ZJADLEM"></b-img>
           </b-navbar-brand>
           <b-nav-item-dropdown toggle-class="text-white" text="Restauracje" id="itemDrop">
-            <b-dropdown-item id="gdanskSel" v-on:click="miastoSelection('Gdańsk')" to="/Browser">Gdańsk</b-dropdown-item>
-            <b-dropdown-item id="gdyniaSel" v-on:click="miastoSelection('Gdynia')" to="/Browser" >Gdynia</b-dropdown-item>
-            <b-dropdown-item id="sopotSel" v-on:click="miastoSelection('Sopot')" to="/Browser" >Sopot</b-dropdown-item>
-            <b-dropdown-item id="redaSel" v-on:click="miastoSelection('Reda')" to="/Browser" >Reda</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" id="gdanskSel" v-on:click="miastoSelection('Gdańsk')" to="/Browser">Gdańsk</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" id="gdyniaSel" v-on:click="miastoSelection('Gdynia')" to="/Browser" >Gdynia</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" id="sopotSel" v-on:click="miastoSelection('Sopot')" to="/Browser" >Sopot</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" id="redaSel" v-on:click="miastoSelection('Reda')" to="/Browser" >Reda</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown toggle-class="text-white" text="Sklepy" right id="itemDrop">
-            <b-dropdown-item disabled href="#">Żabka</b-dropdown-item>
-            <b-dropdown-item disabled href="#">Kaufland</b-dropdown-item>
-            <b-dropdown-item disabled href="#">Biedronka</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" disabled href="#">Żabka</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" disabled href="#">Kaufland</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" disabled href="#">Biedronka</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item href="#" to='/About' :active="$route.name == '/About'" id="itemDrop"> <span>O nas</span></b-nav-item>
+          <b-nav-item @click="scrollToTop()" href="#" to='/About' :active="$route.name == '/About'" id="itemDrop"> <span>O nas</span></b-nav-item>
           <b-nav-item id="itemDrop" to='/profile' v-if="!$auth.isAuthenticated" @click="login">Moje zjadłem</b-nav-item> <!--TODO: Fix color of the button, it's working locally, but not on github pages or whatsoever -->
-          <b-nav-item id="itemDrop" to='/profile' class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
-          <b-nav-item id="itemDrop" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
+          <b-nav-item @click="scrollToTop()" id="itemDrop" to='/profile' class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
+          <b-nav-item @click="scrollToTop()" id="itemDrop" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <div id="profRowDwa">
               <ProfileButton nameProf='drugi' ></ProfileButton>
             </div>
           </b-nav-item>
           
           <b-popover triggers="hover focus" id="maleProfPop" placement="bottom" target="profRowDwa" custom-class="my-popover-class">
+            <b-button
+            class="buttonProfileDropdown"
+            v-b-modal.translate-modal
+            style="width:100%; margin:0; padding:0;"
+          >
+            Język
+          </b-button>
             <template #title ><span id="notLoggedUser" v-if="!$auth.isAuthenticated">Musisz się najpierw zalogować!</span><span v-if="$auth.isAuthenticated" id="loggedUser">Witaj<span v-if="$auth.user.nickname !=null"> {{ $auth.user.nickname }}</span><span v-else> smakoszu</span>!</span></template>     
               <div class="buttonsLogin">
                 <!-- show login when not authenticated -->

@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-components */
 <template>
   <div id="restauracja">
-      <div id="tlo2">
+    <div id="tlo2">
       <div class="background" id="backgroundFirst">
         <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
       </div>
@@ -39,7 +39,7 @@
                                 <div id="restAdresUlica" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
                                 <span style="font-weight:700">Ulica:</span>
                                 <span id="itemAdres" style="font-style:italic;">
-                                    {{this.$store.state.restUlica}} {{this.$store.state.restLokal}}
+                                    {{this.$store.state.restUlica}} {{this.$store.state.restNumerLokalu}}
                                 </span>
                                 </div>
                                 
@@ -342,6 +342,7 @@ export default {
             image4,
         },
         ocena:9,
+        ocenaRest: 9,
         ocenaSpolecznosci: [],
         wybraneDanie: '',
         twojaOcena: 0,

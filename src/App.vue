@@ -15,7 +15,7 @@
     <footer id="footerZjadlem" style="color:white">
       <div id="container" style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content:center; allign-items:center; allign-content:center; padding:10px;">
         <div style="flex-direction:column;">
-          <div style="padding:0; margin: 0;">Zjadlem.pl 2022</div>
+          <div style="padding:0; margin: 0;">ZJADLEM.PL 2022</div>
           <div style="padding:0; margin: 0;"><a href="mailto:support@zjadlem.pl">support@zjadlem.pl</a></div>
         </div>
       </div>

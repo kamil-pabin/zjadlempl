@@ -13,8 +13,8 @@
           </div>
           <div id="infoDiv">
             <!--<p>Liczba ocen: {{this.$store.state.listaOcen.length}}</p> -->
-            <p>Email: {{ $auth.user.email }}</p>
-            <p>Nick: {{ $auth.user.nickname }}</p>
+            <p id="poleMojEmail">Email: {{ $auth.user.email }}</p>
+            <p id="poleMojNick">Nick: {{ $auth.user.nickname }}</p>
           </div>
           
         </div>
@@ -69,7 +69,7 @@
               <div class="panel">
                 <div class="kolumna">
                   <div> Twój kod znajomego:
-                      <span v-show="pokaz==true"><strong>{{ kodUs }}</strong></span> 
+                      <span id="twoj_kod_znajomego" v-show="pokaz==true"><strong>{{ kodUs }}</strong></span> 
                       <b-button style="margin-left:2%;" :pressed.sync="pokaz" @click="wyswietlKod" size="sm" pill variant="outline-secondary">Pokaż/ukryj</b-button>
                   </div>
                   <div>
@@ -78,7 +78,7 @@
                         <p>Zmień swój kod:</p>
                         <b-form-input
                             style="width:40%; margin:2%"
-                            id="textarea"
+                            id="textarea_nowyKod"
                             :state="validation"
                             v-model="kodNowy"
                             placeholder="Wpisz nowy kod"
@@ -90,7 +90,7 @@
                         </b-form-input>
                       </div>
                       <b-form-valid-feedback :state="validation">
-                        <b-button style="margin:1%" pill variant="success" size="sm" v-if="$auth.isAuthenticated" @click="zmienKod">Zmień</b-button>
+                        <b-button style="margin:1%" pill variant="success" size="sm" v-if="$auth.isAuthenticated" @click="zmienKod" id="button_zmienKod">Zmień</b-button>
                         <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
                       </b-form-valid-feedback>
                       <b-form-invalid-feedback :state="validation">
@@ -103,7 +103,7 @@
                   <div style="margin:2%;" v-if="$auth.isAuthenticated">
                       <b-form-input
                           style="margin:3%"
-                          id="textarea"
+                          id="textarea_mailKumpla"
                           v-model="mailKumpla"
                           placeholder="Wpisz mail znajomego"
                           rows="1"
@@ -112,7 +112,7 @@
                       ></b-form-input>
                       <b-form-input
                           style="margin:3%"
-                          id="textarea"
+                          id="textarea_kodKumpla"
                           size="sm"
                           v-model="kodKumpla"
                           placeholder="Wpisz kod znajomego"
@@ -120,20 +120,20 @@
                           max-rows="1"
                       ></b-form-input>
                   </div>
-                  <div style="margin:auto; margin-bottom:2%;">
+                  <div id="przycisk_dodajZnajomego" style="margin:auto; margin-bottom:2%;">
                       <b-button style="margin:0" pill variant="outline-secondary" size="sm" v-if="$auth.isAuthenticated" @click="dodajKumpla">Dodaj znajomego</b-button>
                       <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> </label>
                   </div>
-                  <span v-if="this.$store.state.statusDodania == '2'">
+                  <span id="dodanie_processing" v-if="this.$store.state.statusDodania == '2'">
                       <b-icon icon="arrow-clockwise" animation="spin" font-scale="2"></b-icon>
                   </span>
-                  <span v-if="this.$store.state.statusDodania == '1'">
+                  <span id="dodanie_success" v-if="this.$store.state.statusDodania == '1'">
                       <b-iconstack font-scale="2">
                         <b-icon stacked icon="square"></b-icon>
                         <b-icon stacked icon="check"></b-icon>
                       </b-iconstack>
                   </span>
-                  <span v-if="this.$store.state.statusDodania == '0'">
+                  <span id="dodanie_error" v-if="this.$store.state.statusDodania == '0'">
                       <b-iconstack font-scale="2">
                         <b-icon stacked icon="square"></b-icon>
                         <b-icon stacked icon="x"></b-icon>

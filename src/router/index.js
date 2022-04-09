@@ -8,6 +8,8 @@ import { authGuard } from "../auth/authGuard";
 
 Vue.use(VueRouter)
 
+
+
 const routes = [
   {
     path: '/',
@@ -40,7 +42,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 
 export default router

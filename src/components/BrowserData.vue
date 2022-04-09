@@ -336,6 +336,7 @@ export default {
     },
     changeCurrentRestaurant(Restaurant) {
       this.ocena=9;
+      window.scrollTo(0,0);
       this.currentRestauracja = Restaurant;
       this.$store.state.restNazwa= Restaurant.Nazwa;
       this.$store.state.restAdres= Restaurant.Adres;

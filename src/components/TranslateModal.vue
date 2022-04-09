@@ -24,6 +24,10 @@ export default {
           title: 'Polish',
         },
         {
+          code: 'en|uk',
+          title: 'Ukrainian',
+        },
+        {
           code: "en|en",
           title: "English",
         },
