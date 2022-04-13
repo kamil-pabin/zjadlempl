@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home_new from '../views/Home_new.vue'
 import Browser from '../views/Browser.vue'
 import Profile from "../views/Profile.vue";
+import Profile_friend from "../views/Profile_friend.vue";
 import Restauracja from "../views/Restauracja.vue"
 import { authGuard } from "../auth/authGuard";
 
@@ -30,6 +31,12 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: Profile,
+    beforeEnter: authGuard
+  },
+  {
+    path: "/profile_friend",
+    name: "profile_friend",
+    component: Profile_friend,
     beforeEnter: authGuard
   },
   {

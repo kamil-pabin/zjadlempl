@@ -2,7 +2,7 @@
   <div class="about">
     <div id="tlo2">
       <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
       </div>
     </div>
     <div id="container">
@@ -21,15 +21,22 @@
 </template>
 
 <script>
-import image1 from "../assets/background1.jpeg"
-import image2 from "../assets/background2.jpeg"
-import image3 from "../assets/background3.jpeg"
-import image4 from "../assets/background4.jpeg"
+import image1 from "../assets/background1.webp"
+import image2 from "../assets/background2.webp"
+import image3 from "../assets/background3.webp"
+import image4 from "../assets/background4.webp"
 export default {
   
   name: 'About',
   metaInfo:{
-    title: 'Zjadłem.pl | Dowiedz się więcej!'
+    title: 'Zjadłem.pl | Dowiedz się więcej!',
+    htmlAttrs: {
+      lang: 'pl-PL'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'Strona pozwalajaca ocenic jedzenie w restauracjach - Zjadlempl.' },
+    ]
   },
   data () {
     return {

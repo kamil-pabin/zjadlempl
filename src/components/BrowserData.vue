@@ -358,11 +358,13 @@ export default {
   },
   created (){
     this.$store.dispatch('bindRestauracja')
+    if(this.$auth.isAuthenticated){
     if(this.$auth.user.email != null){
       this.$store.state.currentUserEmail = this.$auth.user.email;
     }
     else{
       this.$store.state.currentUserEmail = null;
+    }
     }
   },
   computed: {

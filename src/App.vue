@@ -16,7 +16,7 @@
       <div id="container" style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content:center; allign-items:center; allign-content:center; padding:10px;">
         <div style="flex-direction:column;">
           <div style="padding:0; margin: 0;">ZJADLEM.PL 2022</div>
-          <div style="padding:0; margin: 0;"><a href="mailto:support@zjadlem.pl">support@zjadlem.pl</a></div>
+          <div style="padding:0; margin: 0;"><a href="mailto:zjadlempl@gmail.com">zjadlempl@gmail.com</a></div>
         </div>
       </div>
       
@@ -33,6 +33,28 @@ export default {
       this.$router.push("/profile");
     },
   },
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    $route(to, from){
+      if(this.$auth.isAuthenticated){
+        if(this.$auth.user["https://zjadlem.pl/role"]){
+          this.$store.state.currentUser_Role = this.$auth.user["https://zjadlem.pl/role"];
+          console.log(this.$auth.user["https://zjadlem.pl/role"]);
+        }
+        else{
+          this.$store.state.currentUser_Role = 'User';
+          console.log("Uzytkownik nie ma roli - przypisuje mu role: ");
+          console.log(this.$store.state.currentUser_Role);
+        }
+      }
+      else{
+          this.$store.state.currentUser_Role = 'Guest';
+          console.log("Uzytkownik nie ma roli - przypisuje mu role: ");
+          console.log(this.$store.state.currentUser_Role);
+        }
+    }
+    
+  }
 };
 </script>
 

@@ -16,14 +16,21 @@
 
 <script>
 import BrowserData from '../components/BrowserData.vue'
-import image1 from "../assets/background1.jpeg"
-import image2 from "../assets/background2.jpeg"
-import image3 from "../assets/background3.jpeg"
-import image4 from "../assets/background4.jpeg"
+import image1 from "../assets/background1.webp"
+import image2 from "../assets/background2.webp"
+import image3 from "../assets/background3.webp"
+import image4 from "../assets/background4.webp"
 export default {
   name: "Browser",
   metaInfo:{
-    title: 'Zjadłem.pl | Przeglądaj restauracje'
+    title: 'Zjadłem.pl | Przeglądaj restauracje',
+    htmlAttrs: {
+      lang: 'pl-PL'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'Strona pozwalajaca ocenic jedzenie w restauracjach - Zjadlempl.' },
+    ]
   },
   components: { BrowserData},
   data() {

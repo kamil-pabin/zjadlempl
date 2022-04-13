@@ -1,19 +1,19 @@
 <template>
   <div class="home_new">
-    <div class="background" id="backgroundFirst">
-      <b-img-lazy fluid class="backgroundImage" :src="images.image3"/>
+    <div class="background" id="backgroundFirst" >
+      <b-img-lazy fluid class="backgroundImage" :src="images.image3" alt="background" />
     </div>
     <div class="background" id="backgroundSecond">
      
     </div>
     <div class="background" id="backgroundFirst">
-      <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+      <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
     </div>
     <div class="background" id="backgroundSecond">
      
     </div>
     <div class="background" id="backgroundFirst">
-      <b-img-lazy fluid class="backgroundImage" :src="images.image4"/>
+      <b-img-lazy fluid class="backgroundImage" :src="images.image4" alt="background" />
     </div>
     <div class="background" id="backgroundSecond">
      
@@ -22,17 +22,26 @@
 </template>
 
 <script>
-import image1 from "../assets/background1.jpeg"
-import image2 from "../assets/background2.jpeg"
-import image3 from "../assets/background3.jpeg"
-import image4 from "../assets/background4.jpeg"
+import image1 from "../assets/background1.webp"
+import image2 from "../assets/background2.webp"
+import image3 from "../assets/background3.webp"
+import image4 from "../assets/background4.webp"
 export default {
   name: 'Home_new',
   metaInfo:{
-    title: 'Zjadłem.pl | Podziel się swoją opinią!'
+    title: 'Zjadłem.pl | Podziel się swoją opinią!',
+     htmlAttrs: {
+      lang: 'pl-PL'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'Strona pozwalajaca ocenic jedzenie w restauracjach - Zjadlempl.' },
+    ]
   },
   created() {
-    if(this.$auth.user.email != null){ this.$store.state.currentUserEmail = this.$auth.user.email }else{this.$store.state.currentUserEmail = null;}
+    if(this.$auth.isAuthenticated){
+      if(this.$auth.user.email != null){ this.$store.state.currentUserEmail = this.$auth.user.email }else{this.$store.state.currentUserEmail = null;}
+    }
     //this.$store.dispatch('bindRandomRestauracja');
   },
   data() {

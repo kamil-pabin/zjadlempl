@@ -1,7 +1,7 @@
 <template>
   <div id="profile">
     <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
     </div>
 
     <div id="tlo">
@@ -9,12 +9,14 @@
         <h1>Twój profil Smakosza</h1>
         <div id="infoProf">
           <div id="avatarDiv">
-            <img class="avatar" :src="$auth.user.picture" />
+            <img class="avatar" :src="$auth.user.picture" alt="avatar" />
           </div>
           <div id="infoDiv">
             <!--<p>Liczba ocen: {{this.$store.state.listaOcen.length}}</p> -->
             <p id="poleMojEmail">Email: {{ $auth.user.email }}</p>
             <p id="poleMojNick">Nick: {{ $auth.user.nickname }}</p>
+            <p style="color:green; font-weight:700" id="czyMod" v-if="this.$store.state.currentUser_Role.includes('Moderator') ">Moderator</p>
+            
           </div>
           
         </div>
@@ -56,7 +58,13 @@
                 sort-icon-right
                 :items="this.$store.state.listaZnaj"
                 responsive="sm"
-              ></b-table>
+              >
+              <template #cell(emailZnajomego)="data">
+                <!-- `data.value` is the value after formatted by the Formatter -->
+                <span @click="odwiedzZnajomego(data.value)" style="cursor:pointer; color:blue">{{ data.value }}</span>
+              </template>
+              
+              </b-table>
             </div>
           </b-tab>
           <b-tab title="Dodaj znajomego">
@@ -149,17 +157,26 @@
 </template>
 
 <script>
-import image1 from "../assets/background1.jpeg"
-import image2 from "../assets/background2.jpeg"
-import image3 from "../assets/background3.jpeg"
-import image4 from "../assets/background4.jpeg"
+import image1 from "../assets/background1.webp"
+import image2 from "../assets/background2.webp"
+import image3 from "../assets/background3.webp"
+import image4 from "../assets/background4.webp"
 export default {
+  
   name: "Profile",
   metaInfo: {
     title: "Zjadłem.pl | Profil",
+    htmlAttrs: {
+      lang: 'pl-PL'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'Strona pozwalajaca ocenic jedzenie w restauracjach - Zjadlempl.' },
+    ]
   },
   components: { },
   created() {
+    if(this.$auth.isAuthenticated){
     if(this.$auth.user.email != null){
       this.$store.state.currentUserEmail = this.$auth.user.email;
     }
@@ -168,6 +185,7 @@ export default {
     }
     this.$store.dispatch("bindUserOceny");
     this.$store.state.statusDodania = '3'
+    }
   },
   data() {
     return {
@@ -220,6 +238,10 @@ export default {
       this.$store.dispatch("bindUserOceny");
       this.pokaz=false;
     },
+    zobaczInfo(){
+      //console.log(this.$auth.user);
+      //console.log(this.$auth.user["https://zjadlem.pl/role"].includes('Moderator'))
+    },
     wyswietlKod() {
       if(this.$store.state.kodUsera != null && this.$store.state.kodUsera != ''){
         if(this.$store.state.kodUsera.kodZnajomego != null && this.$store.state.kodUsera.kodZnajomego != ''){
@@ -238,6 +260,11 @@ export default {
       this.$store.state.emailZnajomego = this.mailKumpla;
       this.$store.dispatch('dodajKumpla');
     },
+    odwiedzZnajomego(email){
+      this.$store.state.wybranyZnajomy = email;
+      this.$router.push("/profile_friend");
+      console.log(this.$store.state.wybranyZnajomy)
+    }
   },
   computed: {
     validation() {

@@ -17,6 +17,12 @@ export default new Vuex.Store({
             lat: '',
             long: '',
         },
+        usunOpiniaId: '',
+        usunOpiniaTresc: '',
+        wybranaOpiniaAutorId: '',
+        usunOpiniaRestID: '',
+        usunOpiniaRestDanie: '',
+        currentUser_Role: null,
         allowedCords: false,
         miasto: '',
         restauracje: [],
@@ -64,6 +70,8 @@ export default new Vuex.Store({
         listaZnaj: [],
         listaOcen: [],
         listaOcenDan: [],
+        listaOcenFriend: [],
+        listaOcenDanFriend: [],
         listaWszystkichOcen: [],
         nowyKod: '',
         kodUsera: [{kodZnajomego: 'xD'}],
@@ -74,6 +82,13 @@ export default new Vuex.Store({
         czyAnonim: 0,
         restLimit: 2,
         randomRest: [{Restauracja: '', Menu: '', Oceny: ''}],
+        wybranyZnajomy: '',
+        friendInfo: [{email: '', nickname: '', imie:'', nazwisko:''}],
+        zgloszonaOpinia: '',
+        zgloszonaOpiniaTresc: '',
+        zgloszonaOpiniaRest: '',
+        zgloszonaOpiniaRestID: '',
+        zgloszonaOpiniaKomentarz: '',
     },
     getters: {
         user(state){
@@ -300,7 +315,97 @@ export default new Vuex.Store({
             const res2 = daneZnaj.doc(state.currentUserEmail).set({
               emailZnajomego: state.currentUserEmail
             })
+          }),
+          zgloszenieOpinii: firestoreAction(state=> {
+            var emailZglaszajacego = state.currentUserEmail;
+            var zgloszonaOpiniaID = state.zgloszonaOpinia;
+            var zgloszonaOpiniaTresc = state.zgloszonaOpiniaTresc;
+            var zgloszonaOpiniaRest = state.zgloszonaOpiniaRest;
+            var zgloszonaOpiniaRestID = state.zgloszonaOpiniaRestID;
+            var zgloszonaOpiniaKomentarz = state.zgloszonaOpiniaKomentarz;
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var zgloszenie = db.collection('ZgloszoneOpinie');
+            zgloszenie.add({ 
+              ReportOpiniaID: zgloszonaOpiniaID, 
+              ReportOpiniaText: zgloszonaOpiniaTresc,
+              ReportText: zgloszonaOpiniaKomentarz,
+              Data: date,
+              RestID: zgloszonaOpiniaRestID,
+              RestNazwa: zgloszonaOpiniaRest,
+              Zglaszajacy: emailZglaszajacego
+               }),
+              
+              console.log("Zgloszenie pomyslne")
+            }),
+          usuwanieOpiniiMod: firestoreAction(state=> {
+            var usunOpiniaID = state.usunOpiniaID;
+            var usunOpiniaAutor = state.wybranaOpiniaAutorId;
+            var usunOpiniaRest = state.usunOpiniaRestID;
+            console.log('id opinii do usuniecia:')
+            console.log(usunOpiniaID);
+            console.log('autor opinii do usuniecia:')
+            console.log(usunOpiniaAutor);
+            console.log('Restauracja opinii do usuniecia:')
+            console.log(usunOpiniaRest);
+
+            var docRef = db.collection('Restauracje').doc(usunOpiniaRest).collection('Oceny');
+            var doc2 = db.collection('Restauracje').doc(usunOpiniaRest).collection('Oceny').where('Autor', '==', usunOpiniaAutor);
+            var listaOcen = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny')
+            var listaOcenKonkretna = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny').where('ID', '==', usunOpiniaRest)
+            doc2 //usuwanie z rest
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  docRef.doc((col.docs[0].id)).delete();   
+                }
+            }),
+            listaOcenKonkretna //usuwanie z profilu
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  listaOcen.doc((col.docs[0].id)).delete();    
+                }
+              })
+          }),
+          usuwanieOpiniiModDania: firestoreAction(state=> {
+            var usunOpiniaID = state.usunOpiniaID;
+            var usunOpiniaAutor = state.wybranaOpiniaAutorId;
+            var usunOpiniaRest = state.usunOpiniaRestID;
+            var usunOpiniaRestDanie = state.usunOpiniaRestDanie;
+            //console.log('id opinii do usuniecia:')
+           // console.log(usunOpiniaID);
+            //console.log('autor opinii do usuniecia:')
+           // console.log(usunOpiniaAutor);
+          //  console.log('Restauracja opinii do usuniecia:')
+          //  console.log(usunOpiniaRest);
+          //  console.log('Potrawa opinii do usuniecia:')
+           // console.log(usunOpiniaRestDanie);
+
+            var docRef = db.collection('Restauracje').doc(usunOpiniaRest).collection('Menu').doc(usunOpiniaRestDanie).collection('Oceny');
+            var doc2 = db.collection('Restauracje').doc(usunOpiniaRest).collection('Menu').doc(usunOpiniaRestDanie).collection('Oceny').where('Autor', '==', usunOpiniaAutor);
+            var listaOcen = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny')
+            var listaOcenKonkretna = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny').where('ID', '==', usunOpiniaRestDanie)
+            doc2 //usuwanie z rest
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  docRef.doc((col.docs[0].id)).delete();   
+                }
+            }),
+            listaOcenKonkretna //usuwanie z profilu
+              .get()
+              .then(col => {
+                const documents = col.docs.map(doc => doc.data())
+                if (col.docs.length != 0){ 
+                  listaOcen.doc((col.docs[0].id)).delete();    
+                }
+              })
           })
+            
      },
      modules: {
      },
@@ -485,8 +590,8 @@ export default new Vuex.Store({
              //bindFirestoreRef(q2, db.collection(col).doc(1).collection('Menu'))
              //bindFirestoreRef(q3, db.collection(col).doc(1).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
            }
-           console.log(state.randomRest)
-           console.log('xD1')
+         //  console.log(state.randomRest)
+         //  console.log('xD1')
            //console.log(state.randRest.Menu)
            //console.log('xD2')
           //console.log(state.randRest.Oceny)
@@ -503,14 +608,22 @@ export default new Vuex.Store({
           var q4 = "kodUsera";
           bindFirestoreRef(q4, db.collection('Users').doc(state.currentUserEmail))
         }),
+        bindUserFriendOceny: firestoreAction(({bindFirestoreRef, state}) => {
+          var q1 = "friendInfo";
+          bindFirestoreRef(q1, db.collection('Users').doc(state.wybranyZnajomy))
+          var q2 = "listaOcenFriend";
+          bindFirestoreRef(q2, db.collection('Users').doc(state.wybranyZnajomy).collection('Oceny'))
+          var q3 = "listaOcenDanFriend";
+          bindFirestoreRef(q3, db.collection('Users').doc(state.wybranyZnajomy).collection('OcenyDan'))
+        }),
         dodajKumpla: firestoreAction(({state, commit}) => {
-          console.log('poczatek')
+          //console.log('poczatek')
           var kodKumpla = state.kodZnajomego;
           var emailKumpla = state.emailZnajomego;
-          console.log(kodKumpla)
-          console.log(emailKumpla)
-          console.log(state.emailZnajomego)
-          console.log('start2')
+          //console.log(kodKumpla)
+          //console.log(emailKumpla)
+         //console.log(state.emailZnajomego)
+         // console.log('start2')
           if(emailKumpla != state.currentUserEmail){
             var doc2 = db.collection('Users').where('email', '==', emailKumpla)
             doc2 

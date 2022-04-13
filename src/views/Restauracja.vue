@@ -3,19 +3,21 @@
   <div id="restauracja">
     <div id="tlo2">
       <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
       </div>
       <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image4"/>
+        <b-img-lazy fluid class="backgroundImage" :src="images.image4" alt="background" />
       </div>
+       
     </div>
+    
       <div id="tlo">
         <div v-if="this.$store.state.restId != '' " id="daneRestauracji"> 
 
             <div class="restauracjaA" style="height:fit-content">
                 <div class="flex">
                 <div class="logoRestDiv">
-                    <b-img :src="this.$store.state.restLogo" fluid class="logoRest"/>
+                    <b-img :src="this.$store.state.restLogo" fluid class="logoRest" alt="logorest" />
                 </div>
                 <div class="informacje" style="display:flexbox; height:fit-content">
                         <div id="wierszP" style="width:100%; height:10%;">
@@ -138,28 +140,36 @@
                                 >
                                     <div style="font-weight: 600; text-align: center; padding:1%;  text-transform:uppercase">Komentarze społeczności <span style="font-family:arial"> ({{this.$store.state.restWybranaOcenaSpolecznosci.length}})</span></div>
                                     
-                                    <div id="insKom" v-for="(superOcena, index) in this.$store.state.restWybranaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
-                                        <div v-if="superOcena.Komentarz != '' && superOcena.Komentarz != null ">
-                                            <div id="komTekst" style="padding:1%; font-weight:600; justify-content:space-around; display:flex; ">
-                                                <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
-                                                <div style="text-align: left; width:50%;" v-else>Anonim</div> 
-                                                <div style="width:30%;">Data: {{superOcena.Data}}</div>
-                                                <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
+                                    <div id="insKom" v-for="(superOcena, index) in this.$store.state.restWybranaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" @mouseover="changeCurrentOpinia(superOcena)" style="background:#ededed; display:flex; flex-direction:row; justify-content:space-around; align-items:stretch;">
+                                        <div style="width:90%">
+                                            <div v-if="superOcena.Komentarz != '' && superOcena.Komentarz != null " style="display:flex; flex-direction:column; justify-content:flex-start">
+                                                <div id="komTekst" style="padding:1%; font-weight:600; justify-content:space-around; display:flex; ">
+                                                    <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
+                                                    <div style="text-align: left; width:50%;" v-else>Anonim</div> 
+                                                    <div style="width:30%;">Data: {{superOcena.Data}}</div>
+                                                    <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
+                                                </div>
+                                                <div id="tresc">
+                                                    <div style="text-align: left; font-style:italic; padding:2%">{{ superOcena.Komentarz }}</div>
+                                                </div>
                                             </div>
-                                            <div id="tresc">
-                                                <div style="text-align: left; font-style:italic; padding:2%">{{ superOcena.Komentarz }}</div>
+                                            <div v-else>
+                                                <div id="komTekst" style="padding:1%;  font-weight:600;  display:flex;">
+                                                    <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
+                                                    <div style="text-align: left; width:50%;" v-else>Anonim</div> 
+                                                    <div style="width:30%;">Data: {{superOcena.Data}}</div>
+                                                    <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
+                                                </div>
+                                                <div id="tresc">
+                                                    <div style="text-align:left; color:red; padding: 2%;"><i>Brak komentarza.</i></div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div v-else>
-                                            <div id="komTekst" style="padding:1%;  font-weight:600; justify-content:space-around;  display:flex;">
-                                                <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
-                                                <div style="text-align: left; width:50%;" v-else>Anonim</div> 
-                                                <div style="width:30%;">Data: {{superOcena.Data}}</div>
-                                                <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
-                                            </div>
-                                            <div id="tresc">
-                                                <div style="text-align:left; color:red; padding: 2%;"><i>Brak komentarza.</i></div>
-                                            </div>
+                                        <div style="width:10%; padding:1%;" v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
+                                            <b-icon icon="trash-fill" style="cursor:pointer" variant="danger" @click="usunMod(superOcena)"></b-icon>
+                                        </div>
+                                        <div style="width:10%; padding:1%;" v-if="$store.state.currentUser_Role.includes('Moderators')"><!-- Zglaszanie opinii, usunąc v-if gdy bedzie trzeba dodac zglaszanie opinii -->
+                                            <b-icon icon="exclamation-circle-fill" style="cursor:pointer" variant="danger" @click="zglaszanie(superOcena)"></b-icon>
                                         </div>
                                     </div>
                                     <b-button-group style="padding:1%; text-align:center">
@@ -171,7 +181,69 @@
                                 </div>
                             </div>
                 </div>
-            </div>           
+                <b-modal id="bv-modal-zglaszanie" hide-footer>
+                    <template #modal-title>
+                    Zgłoś opinie
+                    </template>
+                    <div class="d-block text-center">
+                    <h5>Jeśli chcesz dodać informacje dlaczego zgłaszasz opinie, wpisz ją poniżej:</h5>
+                    <div v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated" style="margin-top:2%;">
+                                    <b-form-textarea
+                                        id="textarea"
+                                        v-model="textZglos"
+                                        placeholder="Wpisz swoje uwagi"
+                                        rows="3"
+                                        max-rows="6"
+                                    ></b-form-textarea>
+                                </div>
+                    </div>
+                    <div style="display:flex; width:40%; margin:auto; flex-direction:row; justify-content:space-around; align-content:flex-center; align-items:flex-start;">
+                        <b-button class="mt-3"  @click="$bvModal.hide('bv-modal-zglaszanie')">Anuluj</b-button>
+                        <b-button class="mt-3" variant="success"  @click="zglos()">Zgloś</b-button>
+                    </div>
+                </b-modal>
+                <b-modal id="bv-modal-usuwanie" hide-footer>
+                    <template #modal-title>
+                    Usuń opinie {{$store.state.usunOpiniaID}}
+                    </template>
+                    <div class="d-block text-center">
+                        <p>Treść: {{$store.state.usunOpiniaTresc}}</p>
+                    </div>
+                    <div style="display:flex; width:40%; margin:auto; flex-direction:row; justify-content:space-around; align-content:flex-center; align-items:flex-start;">
+                        <b-button class="mt-3"  @click="$bvModal.hide('bv-modal-usuwanie')">Anuluj</b-button>
+                        <b-button class="mt-3" variant="warning"  @click="usun()">Usuń</b-button>
+                    </div>
+                </b-modal>
+                
+            </div>   
+            <b-alert 
+                    style="z-index:10; width:50%; display:flex; z-index:100; margin:auto; text-align:center; margin-bottom:2%; padding:bottom:2%;"
+                    :show="dismissCountDown_2"
+                    fade
+                    variant="success"
+                    @dismiss-count-down="countDownChanged_2"
+                >
+                    Dziękujemy za zgłoszenie!
+                </b-alert>    
+                <b-alert 
+                    style="z-index:10; width:50%; display:flex; z-index:100; margin:auto; text-align:center; margin-bottom:2%; padding:bottom:2%;"
+                    :show="dismissCountDown_3"
+                    fade
+                    variant="success"
+                    @dismiss-count-down="countDownChanged_3"
+                >
+                    Opinia usunieta pomyslnie!
+                </b-alert>   
+                <b-alert 
+                    style="z-index:10; width:50%; display:flex; z-index:100; margin:auto; text-align:center; margin-bottom:2%; padding:bottom:2%;"
+                    :show="dismissCountDown_4"
+                    fade
+                    variant="success"
+                    @dismiss-count-down="countDownChanged_4"
+                >
+                    Opinia o daniu usunieta pomyslnie!
+                </b-alert>  
+                  
           </div>
 
 
@@ -279,7 +351,7 @@
                                        <span>Komentarze społeczności: </span>
                                        <span style="font-family:arial">({{this.$store.state.restWybranaPotrawaOcenaSpolecznosci.length}}) </span> 
                                    </div> 
-                                    <div id="insKom" v-for="(danieSuperKom, index) in this.$store.state.restWybranaPotrawaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%; ">
+                                    <div id="insKom" @mouseover="changeCurrentOpinia(danieSuperKom)" v-for="(danieSuperKom, index) in this.$store.state.restWybranaPotrawaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%; ">
                                         <div v-if="danieSuperKom.Komentarz != '' && danieSuperKom.Komentarz != null ">
                                             <div id="komTekst" style="padding:1%; font-weight:600; justify-content:space-around; display:flex;">
                                                 <div style="text-align: left; width:50%;" v-if="danieSuperKom.Anonim == 0 || danieSuperKom.Anonim == null">{{ danieSuperKom.Autor }}</div>
@@ -302,6 +374,9 @@
                                                 <div style="text-align:left; color:red; padding: 2%;"><i>Brak komentarza.</i></div>
                                             </div>
                                         </div>
+                                        <div style="width:100%; margin:auto; display:flex;  padding:1%;" v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
+                                            <b-icon icon="trash-fill" style="cursor:pointer; margin:auto;" variant="danger" @click="usunModDanie(superOcena)"></b-icon>
+                                        </div>
                                     </div>
                                 <b-button-group style="padding-top:1%; text-align:center !important; display:block">
                                     <b-button id="wiecej" v-if="komLimMax < this.$store.state.restWybranaPotrawaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
@@ -312,9 +387,20 @@
                             </div>
                         </div>
                     </div>
+                    <b-modal id="bv-modal-usuwanie_2" hide-footer>
+                        <template #modal-title>
+                        Usuń opinie o daniu {{$store.state.usunOpiniaID}}
+                        </template>
+                        <div class="d-block text-center">
+                            <p>Treść: {{$store.state.usunOpiniaTresc}}</p>
+                        </div>
+                        <div style="display:flex; width:40%; margin:auto; flex-direction:row; justify-content:space-around; align-content:flex-center; align-items:flex-start;">
+                            <b-button class="mt-3"  @click="$bvModal.hide('bv-modal-usuwanie_2')">Anuluj</b-button>
+                            <b-button class="mt-3" variant="warning"  @click="usunDanie()">Usuń</b-button>
+                        </div>
+                    </b-modal>
                 </div>
             </div>
-            
         </div>
         <div v-else @mouseover="goHome">Brak strony</div>
       </div>
@@ -322,15 +408,22 @@
 </template>
 
 <script>
-import image1 from "../assets/background1.jpeg"
-import image2 from "../assets/background2.jpeg"
-import image3 from "../assets/background3.jpeg"
-import image4 from "../assets/background4.jpeg"
+import image1 from "../assets/background1.webp"
+import image2 from "../assets/background2.webp"
+import image3 from "../assets/background3.webp"
+import image4 from "../assets/background4.webp"
 import StarRating from 'vue-star-rating'
 export default {
   name: "Restauracja",
   metaInfo:{
-    title: 'Zjadłem.pl | Restauracja'
+    title: 'Zjadłem.pl | Restauracja',
+    htmlAttrs: {
+      lang: 'pl-PL'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'description', content: 'Strona pozwalajaca ocenic jedzenie w restauracjach - Zjadlempl.' },
+    ]
   },
   components: {StarRating},
   data() {
@@ -342,6 +435,7 @@ export default {
             image4,
         },
         ocena:9,
+        zgloszonaOpiniaID: '',
         ocenaRest: 9,
         ocenaSpolecznosci: [],
         wybraneDanie: '',
@@ -349,8 +443,12 @@ export default {
         dismissSecs: 3,
         dismissSecsRest: 3,
         dismissCountDown: 0,
+        dismissCountDown_2: 0,
+        dismissCountDown_3: 0,
+        dismissCountDown_4: 0,
         dismissCountDownRest: 0,
         text: null,
+        textZglos: null,
         avg: '',
         komLimMax:  2,
         komLimMin: 0,
@@ -399,6 +497,15 @@ export default {
       this.ocena=9;
       this.$store.dispatch('bindOcena')
     },
+    changeCurrentOpinia(opinia){
+        this.wybranaOpinia = opinia.id;
+        this.$store.state.wybranaOpiniaId = opinia.id;
+        this.$store.state.wybranaOpiniaAutorId = opinia.Autor;
+        //console.log(opinia.Autor);
+        //console.log('xd');
+        //console.log(this.$store.state.wybranaOpiniaAutorId)
+        this.$store.state.wybranaOpiniaTresc = opinia.Komentarz;
+    },
     ocenienie(){
         this.$store.state.czyAnonim = this.czyAnonim;
         this.$store.state.danieKomentarz = this.text;
@@ -430,10 +537,75 @@ export default {
         this.$store.dispatch('bindOcena')
         this.dismissCountDown = dismissCountDown
     },
+    countDownChanged_2(dismissCountDown_2) {
+        this.$store.dispatch('bindOcena')
+        this.dismissCountDown_2 = dismissCountDown_2
+    },
+    countDownChanged_3(dismissCountDown_3) {
+        this.$store.dispatch('bindOcena')
+        this.dismissCountDown_3 = dismissCountDown_3
+    },
+    countDownChanged_4(dismissCountDown_4) {
+        this.$store.dispatch('bindOcena')
+        this.dismissCountDown_4 = dismissCountDown_4
+    },
     countDownChangedRest(dismissCountDownRest) {
         this.$store.dispatch('bindOcenaRest')
         this.dismissCountDownRest = dismissCountDownRest;
     },
+    // eslint-disable-next-line no-unused-vars
+    zglaszanie(){
+        this.$store.state.zgloszonaOpiniaRest = this.$store.state.restNazwa
+        this.$store.state.zgloszonaOpiniaRestID = this.$store.state.restId
+        this.$store.state.zgloszonaOpinia = this.$store.state.wybranaOpiniaId
+        this.$store.state.zgloszonaOpiniaTresc = this.$store.state.wybranaOpiniaTresc
+        this.zgloszonaOpiniaID = this.$store.state.wybranaOpiniaId
+        this.$bvModal.show('bv-modal-zglaszanie')
+    },
+    usunMod(){
+        this.$store.state.usunOpiniaID = this.$store.state.wybranaOpiniaId
+        this.$store.state.usunOpiniaRestID = this.$store.state.restId
+        this.$store.state.usunOpiniaTresc = this.$store.state.wybranaOpiniaTresc
+        this.usunOpiniaID = this.$store.state.usunOpiniaID
+        this.usunOpiniaTresc = this.$store.state.wybranaOpiniaTresc
+        this.$bvModal.show('bv-modal-usuwanie')
+    },
+    usunModDanie(){
+        this.$store.state.usunOpiniaID = this.$store.state.wybranaOpiniaId
+        this.$store.state.usunOpiniaRestID = this.$store.state.restId
+        this.$store.state.usunOpiniaRestDanie = this.$store.state.restWybranaPotrawaId
+        this.$store.state.usunOpiniaTresc = this.$store.state.wybranaOpiniaTresc
+        this.usunOpiniaID = this.$store.state.usunOpiniaID
+        this.usunOpiniaTresc = this.$store.state.wybranaOpiniaTresc
+        this.$bvModal.show('bv-modal-usuwanie_2')
+    },
+    zglos(){
+        this.$store.state.zgloszonaOpiniaKomentarz = this.textZglos;
+        //console.log("zgloszonaRest: ")
+       // console.log(this.$store.state.zgloszonaOpiniaRest)
+       // console.log("zgloszonaRestID: ")
+       // console.log(this.$store.state.zgloszonaOpiniaRestID)
+       // console.log("zgloszonaOpiniaID: ")
+      //  console.log(this.$store.state.zgloszonaOpinia)
+      //  console.log("zgloszonaOpiniaKomentarz: ")
+      //  console.log(this.$store.state.zgloszonaOpiniaKomentarz)
+     //   console.log("zgloszonaOpiniaTrescOpinii: ")
+      //  console.log(this.$store.state.zgloszonaOpiniaTresc)
+        this.$store.commit('zgloszenieOpinii')
+        this.$bvModal.hide('bv-modal-zglaszanie')
+        this.dismissCountDown_2 = this.dismissSecs
+        this.textZglos = null
+    },
+    usun(){
+        this.$store.commit('usuwanieOpiniiMod')
+        this.$bvModal.hide('bv-modal-usuwanie')
+        this.dismissCountDown_3 = this.dismissSecs
+    },
+    usunDanie(){
+        this.$store.commit('usuwanieOpiniiModDania')
+        this.$bvModal.hide('bv-modal-usuwanie_2')
+        this.dismissCountDown_4 = this.dismissSecs
+    }
 
 
   },
