@@ -380,6 +380,7 @@ export default {
 #browserData {
   margin: auto;
   width:100%;
+ // transform: scale(0.9);
 }
 .pojemnik{
   display:flex;
@@ -400,16 +401,17 @@ export default {
   background: rgb(255,255,255);
   background: linear-gradient(90deg, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.473) 54%, rgba(255, 255, 255, 0) 100%);
   padding-right: 3%;
-  margin-bottom:2%;
+  margin-bottom:1%;
   color:rgb(63, 63, 63);
   -webkit-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
   -moz-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
   box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
   border-radius: 20vw 0 0 20vw;
-  transition: linear 0.3s;
+  transition: linear 0.2s;
+  //transform: scale(0.9);
 }
 .restauracja:hover{
-  transform: scale(1.02);
+  transform: scale(1.04);
 }
 .restauracja .logoRestDiv{
   width:13vw;

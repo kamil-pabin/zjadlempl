@@ -32,7 +32,7 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 responsive="sm"
-                style="font-size:0.8rem"
+                style="width:auto; font-size:0.7em"
                 sticky-header
               ></b-table>
             </div>
