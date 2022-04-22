@@ -166,11 +166,11 @@
                                             </div>
                                         </div>
                                         <div class="iconsKom" style="width:5%;">
-                                            <div style=" padding:1%;" v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
-                                                <b-icon icon="trash-fill" style="cursor:pointer" variant="danger" @click="usunMod(superOcena)"></b-icon>
+                                            <div style=" padding:1%;" id="usunOpWrapper" v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
+                                                <b-icon id="usunOp" icon="trash-fill" style="cursor:pointer" variant="danger" @click="usunMod(superOcena)"></b-icon>
                                             </div>
-                                            <div style=" padding:1%;" v-if="$auth.isAuthenticated"><!-- Zglaszanie opinii, usunąc v-if gdy bedzie trzeba dodac zglaszanie opinii -->
-                                                <b-icon icon="exclamation-circle-fill" style="cursor:pointer" variant="danger" @click="zglaszanie(superOcena)"></b-icon>
+                                            <div style=" padding:1%;" id="repOpWrapper" v-if="$auth.isAuthenticated"><!-- Zglaszanie opinii, usunąc v-if gdy bedzie trzeba dodac zglaszanie opinii -->
+                                                <b-icon icon="exclamation-circle-fill" id="repOp" style="cursor:pointer" variant="danger" @click="zglaszanie(superOcena)"></b-icon>
                                             </div>
                                         </div>
                                         
@@ -380,11 +380,11 @@
                                             </div>
                                         </div>
                                         <div class="iconsKom" style="width:5%">
-                                            <div style="" v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
-                                                <b-icon icon="trash-fill" style="cursor:pointer; margin:auto;" variant="danger" @click="usunModDanie(superOcena)"></b-icon>
+                                            <div style="" id='usunOpDanieWrapper' v-if="$store.state.currentUser_Role.includes('Moderator')"> <!-- Usuwanie opinii -->
+                                                <b-icon id='usunOpDanie' icon="trash-fill" style="cursor:pointer; margin:auto;" variant="danger" @click="usunModDanie(superOcena)"></b-icon>
                                             </div>
-                                            <div style="" v-if="$auth.isAuthenticated"><!-- Zglaszanie opinii, usunąc v-if gdy bedzie trzeba dodac zglaszanie opinii -->
-                                                <b-icon icon="exclamation-circle-fill" style="cursor:pointer" variant="danger" @click="zglaszanie(superOcena)"></b-icon>
+                                            <div id='repOpDanieWrapper' style="" v-if="$auth.isAuthenticated"><!-- Zglaszanie opinii, usunąc v-if gdy bedzie trzeba dodac zglaszanie opinii -->
+                                                <b-icon id='repOpDanie' icon="exclamation-circle-fill" style="cursor:pointer" variant="danger" @click="zglaszanie(superOcena)"></b-icon>
                                             </div>
                                         </div>
                                         

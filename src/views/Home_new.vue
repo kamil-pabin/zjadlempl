@@ -4,7 +4,43 @@
       <b-img-lazy fluid class="backgroundImage" :src="images.image3" alt="background" />
     </div>
     <div class="background" id="backgroundSecond">
-     
+      <div>
+        <h1 style="font-weight:600; color:white; text-transform:uppercase; ">Kącik Makłowicza</h1>
+      </div>
+      <div style=" width:70%; margin:auto; justif-content:center;">
+        <b-card-group style="display:flex; justify-content:space-between;  align-items:stretch; height:fit-content; text-align:left;" deck>
+          <b-card class="kartaMaklo" title="Makłowicz na nartach"  bg-variant="light" footer-bg-variant="light" style="max-width: 20rem;" >
+            <b-card-img-lazy fluid class="backgroundImage" :src="images.maklo2" alt="background" style="height:70%;" />
+            <b-card-text>
+              Nadzieja włoskich alpejczyków trenująca w swej Macierzy przyłapana tuż przed udaniem się na stok.
+
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted"><a href>https://www.instagram.com/p/CZwFlMtrek6/</a></small>
+            </template>
+          </b-card>
+
+          <b-card class="kartaMaklo" title="Pyszności" bg-variant="light" footer-bg-variant="light" src="~images.maklo1"  style="max-width: 20rem;padding-bottom:1%;" img-alt="Image" img-top>
+            <b-card-img-lazy fluid class="backgroundImage" :src="images.maklo3" alt="background" style="height:70%;" />
+            <b-card-text style="">
+              Miłego śniadanka i smacznej kawusi…
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted"><a href>https://www.instagram.com/p/CZEhcNiIuvt/</a></small>
+            </template>
+          </b-card>
+
+          <b-card class="kartaMaklo" title="Mandarynki" bg-variant="light" footer-bg-variant="light" style="max-width: 20rem;"  img-alt="Image" img-top>
+            <b-card-img-lazy fluid class="backgroundImage" :src="images.maklo1" alt="background" style="height:70%;" />
+            <b-card-text>
+              Dziś na moim kanale Youtube premiera najnowszego i ostatniego odcinka z serii ukazującej półwysep Pelješac przed wakacyjnym sezonem.
+            </b-card-text>
+            <template #footer>
+              <small class="text-muted"><a href>https://www.instagram.com/p/CcpypRkoJCV/</a></small>
+            </template>
+          </b-card>
+        </b-card-group>
+      </div>
     </div>
     <div class="background" id="backgroundFirst">
       <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
@@ -26,6 +62,10 @@ import image1 from "../assets/background1.webp"
 import image2 from "../assets/background2.webp"
 import image3 from "../assets/background3.webp"
 import image4 from "../assets/background4.webp"
+import maklo1 from "../assets/maklowicz1.webp"
+import maklo2 from "../assets/maklowicz2.webp"
+import maklo3 from "../assets/maklowicz3.webp"
+
 export default {
   name: 'Home_new',
   metaInfo:{
@@ -53,6 +93,9 @@ export default {
         image2,
         image3,
         image4,
+        maklo1,
+        maklo2,
+        maklo3,
       },
     }
   },
@@ -69,6 +112,14 @@ export default {
   height:40vh;
   width:100vw;
   background:white;
+  display:flex;
+  flex-direction:column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+.background div{
+  //width:100%;
 }
 .background:nth-child(odd){
   height:60vh;
@@ -93,6 +144,12 @@ export default {
   margin-left:0px;
   font-family: 'Raleway', sans-serif;
 }
+.kartaMaklo{
+  transition: linear 0.2s;
+}
+.kartaMaklo:hover{
+  transform: scale(1.05);
+}
 h1{
   overflow: hidden;
   font-size:1.7rem;
@@ -101,7 +158,7 @@ h1{
   margin-top:7vh;
   padding:0;
   padding-bottom:3vh;
-  text-shadow: 0 4px 8px rgba(0,0,0,0.19);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.521);
 }
 @keyframes fadeinA {
     0% { opacity: 0; }
