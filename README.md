@@ -1,6 +1,6 @@
 # This is a repository containing files for zjadlem.pl website.
 
-## That is the biggest project I have created, which I am constantly working on. You can see it by entering [zjadlem.pl](zjadlem.pl) website.
+## That is the biggest project I have created, which I am constantly working on. You can see it by entering [zjadlem.pl](https://zjadlem.pl) website.
 
 ### The website is built with vue.js, and is using:
 - Vue (Core)
