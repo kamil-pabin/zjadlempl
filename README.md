@@ -1,7 +1,7 @@
 # This is a repository containing files for zjadlem.pl website.
 
 ## That is the biggest project I have created, which I am constantly working on. You can see it by entering [zjadlem.pl](https://zjadlem.pl) website.
-## Caution: It is not finished - there is still a lot of things I'd like to add to this website - do not get scared of 'emptiness' :)
+## Caution: It is not finished - there is still a lot of things I'd like to add to this website - do not get scared of 'emptiness', however, everything listed below (the main purpose of the app), is fully working :)
 
 ### The website is built with vue.js, and is using:
 - Vue (Core)
@@ -14,7 +14,7 @@
 - Custom css
 - Custom javascript
 
-The website allows users to:
+### The website allows users to:
 - browse through restaurants
 - see their menus
 - other people's ratings and comments
