@@ -25,13 +25,13 @@
           <b-navbar-brand id="itemDrop"  @click="scrollToTop()" style="width:3rem; cursor:pointer;" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <b-img :src="require('../assets/logomale.png')" fluid alt="ZJADLEM"></b-img>
           </b-navbar-brand>
-          <b-nav-item-dropdown toggle-class="text-white" text="Restauracje" id="itemDrop">
+          <b-nav-item-dropdown toggle-class="text-white" style="" class="absDrop" text="Restauracje" id="itemDrop" popper-opts="positionFixed" no-caret>
             <b-dropdown-item @click="scrollToTop()" id="gdanskSel" v-on:click="miastoSelection('Gdańsk')" to="/Browser">Gdańsk</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" id="gdyniaSel" v-on:click="miastoSelection('Gdynia')" to="/Browser" >Gdynia</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" id="sopotSel" v-on:click="miastoSelection('Sopot')" to="/Browser" >Sopot</b-dropdown-item>
-            <b-dropdown-item @click="scrollToTop()" id="redaSel" v-on:click="miastoSelection('Reda')" to="/Browser" >Reda</b-dropdown-item>
+            <b-dropdown-item @click="scrollToTop()" id="redaSel" v-on:click="miastoSelection('Reda')" to="/Browser" >Reda</b-dropdown-item>       
           </b-nav-item-dropdown>
-          <b-nav-item-dropdown toggle-class="text-white" text="Sklepy" right id="itemDrop">
+          <b-nav-item-dropdown toggle-class="text-white" text="Sklepy" right id="itemDrop" no-caret>
             <b-dropdown-item @click="scrollToTop()" disabled href="#">Żabka</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" disabled href="#">Kaufland</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" disabled href="#">Biedronka</b-dropdown-item>
@@ -221,6 +221,8 @@ export default {
   align-content: center;
   line-height: 1.5;
 }
+
+
 #part2{
   width:100%;
   justify-content: space-between;
@@ -294,13 +296,8 @@ export default {
   //justify-content: space-evenly;
   //align-items:stretch;
 }
-.navbar-expand-lg .navbar-nav .dropdown-menu {
-    position: absolute !important;
-    margin-top: 6vh !important;
-}
-.change_navbarColor {
-  //background-color: rgb(0, 0, 0);
-  //background-image: linear-gradient(360deg, rgba(89, 131, 252, 0) 0%, rgba(0, 0, 0, 0.52) 39%, rgba(0, 0, 0, 0.68) 91%);
+.navbar-nav .dropdown-menu > .show{
+  position: absolute !important;
 }
 @media screen and (max-width: 1001px) {
   #main{

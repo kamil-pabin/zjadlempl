@@ -5,3 +5,6 @@ body {
   .skiptranslate {
     display: none !important;
   }
+  .navbar-nav .dropdown-menu{
+    position: absolute !important;
+  }
