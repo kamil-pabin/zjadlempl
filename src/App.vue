@@ -4,6 +4,7 @@
     <div id="navbarx">
       <Navbarx></Navbarx>
     </div>
+    
 
     <b-card no-body class="theCard">
       <b-card-body class="text-center interior">
@@ -136,12 +137,12 @@ body {
 }
 
 .card {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: 0 !important;
+  //background-color: transparent !important;
+  //background: transparent !important;
+ // border: 0 !important;
 }
 #card {
-  background-color: transparent !important;
-  background: transparent !important;
+ // background-color: transparent !important;
+  //background: transparent !important;
 }
 </style>

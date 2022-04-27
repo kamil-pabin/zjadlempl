@@ -21,7 +21,7 @@
     </div>
 
     <div id="rzad2" :class="{change_navbarColor: scrollPosition > 105}">
-        <b-navbar-nav class="ml-auto navidwa" style="padding:0; margin:auto;">
+        <b-navbar-nav class="ml-auto navidwa">
           <b-navbar-brand id="itemDrop"  @click="scrollToTop()" style="width:3rem; cursor:pointer;" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <b-img :src="require('../assets/logomale.png')" fluid alt="ZJADLEM"></b-img>
           </b-navbar-brand>
@@ -36,10 +36,10 @@
             <b-dropdown-item @click="scrollToTop()" disabled href="#">Kaufland</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" disabled href="#">Biedronka</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item @click="scrollToTop()" href="#" to='/About' :active="$route.name == '/About'" id="itemDrop"> <span>O nas</span></b-nav-item>
-          <b-nav-item id="itemDrop" to='/profile' v-if="!$auth.isAuthenticated" @click="login">Moje zjadłem</b-nav-item> <!--TODO: Fix color of the button, it's working locally, but not on github pages or whatsoever -->
+          <b-nav-item @click="scrollToTop()" href="#" to='/About' :active="$route.name == '/About'" style="margin-top:auto; margin-bottom:auto" id="itemDrop"> <span>O nas</span></b-nav-item>
+          <b-nav-item id="itemDrop" to='/profile' style="margin-top:auto; margin-bottom:auto" v-if="!$auth.isAuthenticated" @click="login">Moje zjadłem</b-nav-item> 
           <b-nav-item @click="scrollToTop()" id="itemDrop" to='/profile' class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
-          <b-nav-item @click="scrollToTop()" id="itemDrop" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
+          <b-nav-item @click="scrollToTop()" id="itemDrop" class="showItemRowDwa" style="display:none" :class="{change_show: scrollPosition > 105}">
             <div id="profRowDwa">
               <ProfileButton nameProf='drugi' ></ProfileButton>
             </div>
@@ -177,24 +177,7 @@ export default {
 
   margin:auto;
 }
-.change_navbar {
-  margin-top:0;
-}
-.change_navbar #rzad1{
-  display:none;
-}
-.change_show {
-  opacity: 1;
-  display: block;
-}
-.change_navbar #rzad2{
-  line-height: 5vh;
-  padding-bottom:5px;
-}
-.change_navbarColor {
-  //background-color: rgb(0, 0, 0);
-  //background-image: linear-gradient(360deg, rgba(89, 131, 252, 0) 0%, rgba(0, 0, 0, 0.52) 39%, rgba(0, 0, 0, 0.68) 91%);
-}
+
 #main{
   width:100vw !important;
   display:flex;
@@ -210,15 +193,33 @@ export default {
 }
 .navidwa{
   width:100%;
-  justify-content:space-evenly;
-  margin-left: 20%;
-  margin-right: 20%;
+  display:flex;
+  justify-content:space-around;
+  //align-content: center;
+  //align-items: center;
+  //margin-left: 20%;
+  //margin-right: 20%;
+  //margin-top: 10%;
+ // background:red;
+}
+.navidwa div{
+  //background:blue;
+}
+.navidwa li{
+ // background:yellow;
+ // display:inline;
+  ///justify-content: center;
+  //align-content: center;
+  //align-items: center;
 }
 .navidwa #text{
   color:black !important;
 }
 .navbar-dark .navbar-nav .nav-link {
   color:white;
+  display:flex;
+  align-content: center;
+  line-height: 1.5;
 }
 #part2{
   width:100%;
@@ -239,7 +240,7 @@ export default {
   transition: 1s all ease;
   width:100%;
   display:flex;
-  justify-content: space-evenly;
+ // justify-content: space-evenly;
 }
 #szukaj{
   border-color: white;
@@ -273,6 +274,33 @@ export default {
   cursor:pointer;
   //background:blue;
   //display:flexbox;
+}
+.change_navbar {
+  margin-top:0;
+}
+.change_navbar #rzad1{
+  display:none;
+}
+.change_show {
+  opacity: 1;
+  display: block !important;
+}
+.change_navbar #rzad2{
+  line-height: 5vh;
+  padding-bottom:5px;
+  //:yellow;
+  //display:flex;
+  //align-content: center;
+  //justify-content: space-evenly;
+  //align-items:stretch;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute !important;
+    margin-top: 6vh !important;
+}
+.change_navbarColor {
+  //background-color: rgb(0, 0, 0);
+  //background-image: linear-gradient(360deg, rgba(89, 131, 252, 0) 0%, rgba(0, 0, 0, 0.52) 39%, rgba(0, 0, 0, 0.68) 91%);
 }
 @media screen and (max-width: 1001px) {
   #main{
@@ -314,18 +342,23 @@ export default {
     //padding-left: 20%;
     //padding-right: 20%;
     //width:100%;
-    display:flexbox;
-    //justify-content: space-evenly;
+    display:flex;
+   // justify-content: space-evenly;
     //margin-bottom: 1%;
   }
   #rzad1 #searchbar{
     display:none;
   }
   #rzad2{
-    //background:red;
-    width:100%;
-    margin:auto;
-    //background:red;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    //background: red;
+  }
+  #rzad2 li{
+    //background:blue;
   }
   #rzad2 #itemDrop{
     //background:green;
