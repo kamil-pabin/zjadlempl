@@ -10988,10 +10988,15 @@
   "resolved" "https://registry.npmjs.org/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz"
   "version" "3.1.0"
 
-"vue-google-translate@^0.0.13":
-  "integrity" "sha512-ayOZx3gNEZx0e0ejm6heOjU09jMr3Zv4ZCQ1H3Nt1aBupVPKx3H1SD+4xZHMKEPuwgsm7+/ww18h5f41a7fs6A=="
-  "resolved" "https://registry.npmjs.org/vue-google-translate/-/vue-google-translate-0.0.13.tgz"
-  "version" "0.0.13"
+"vue-google-translate@^0.0.11":
+  "integrity" "sha512-Pic5CP3Le6QdR48mkCJyiUydhYNoNuca7K+hW4stz6V4Qs+R9twgpJrrQSLoy/g7l2VkPebU6RNeFT8UGDagsg=="
+  "resolved" "https://registry.npmjs.org/vue-google-translate/-/vue-google-translate-0.0.11.tgz"
+  "version" "0.0.11"
+
+"vue-gtranslate@^2.0.20":
+  "integrity" "sha512-jPkrYtyuqXkJgv+h6vmQWszJipL9d1XYan+kszeoXX7SC1wMdsBcJbgPjs5VqgHq97GS6f9kTbFpZ2BWvaVsGA=="
+  "resolved" "https://registry.npmjs.org/vue-gtranslate/-/vue-gtranslate-2.0.20.tgz"
+  "version" "2.0.20"
 
 "vue-hot-reload-api@^2.3.0":
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="

@@ -25,7 +25,7 @@
           <b-navbar-brand id="itemDrop"  @click="scrollToTop()" style="width:3rem; cursor:pointer;" class="showItemRowDwa" :class="{change_show: scrollPosition > 105}">
             <b-img :src="require('../assets/logomale.png')" fluid alt="ZJADLEM"></b-img>
           </b-navbar-brand>
-          <b-nav-item-dropdown toggle-class="text-white" style="" class="absDrop" text="Restauracje" id="itemDrop" popper-opts="positionFixed" no-caret>
+          <b-nav-item-dropdown toggle-class="text-white" style="" class="absDrop" text="Restauracje" id="itemDrop" no-caret>
             <b-dropdown-item @click="scrollToTop()" id="gdanskSel" v-on:click="miastoSelection('Gdańsk')" to="/Browser">Gdańsk</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" id="gdyniaSel" v-on:click="miastoSelection('Gdynia')" to="/Browser" >Gdynia</b-dropdown-item>
             <b-dropdown-item @click="scrollToTop()" id="sopotSel" v-on:click="miastoSelection('Sopot')" to="/Browser" >Sopot</b-dropdown-item>
@@ -296,9 +296,7 @@ export default {
   //justify-content: space-evenly;
   //align-items:stretch;
 }
-.navbar-nav .dropdown-menu > .show{
-  position: absolute !important;
-}
+
 @media screen and (max-width: 1001px) {
   #main{
  // padding-left: 2%;

@@ -26,3 +26,5 @@ src/components/HelloWorld.vue
 README.md
 README.md
 src/db.js
+auth_config.json
+package-lock.json

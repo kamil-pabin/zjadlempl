@@ -11,17 +11,17 @@
 
             </b-card-text>
             <template #footer>
-              <small class="text-muted"><a href>https://www.instagram.com/p/CZwFlMtrek6/</a></small>
+              <small class="text-muted"><a href="https://www.instagram.com/p/CZwFlMtrek6/">Oryginalny post</a></small>
             </template>
           </b-card>
 
           <b-card class="kartaMaklo" title="Pyszności" bg-variant="light" footer-bg-variant="light" src="~images.maklo1"  img-alt="Image" img-top>
-            <b-card-img-lazy fluid class="backgroundImage" :src="images.maklo3" alt="background" />
+            <b-card-img-lazy fluid class="backgroundImage" :src="maklo ? images.maklo3 : images.maklo3b" alt="background" />
             <b-card-text style="">
-              Miłego śniadanka i smacznej kawusi…
+              Miłego śniadanka i smacznej <span @click='maklo = !maklo' >kawusi...</span>
             </b-card-text>
             <template #footer>
-              <small class="text-muted"><a href>https://www.instagram.com/p/CZEhcNiIuvt/</a></small>
+              <small class="text-muted"><a href="https://www.instagram.com/p/CZEhcNiIuvt/">Oryginalny post</a></small>
             </template>
           </b-card>
 
@@ -31,7 +31,7 @@
               Dziś na moim kanale Youtube premiera najnowszego i ostatniego odcinka z serii ukazującej półwysep Pelješac przed wakacyjnym sezonem.
             </b-card-text>
             <template #footer>
-              <small class="text-muted"><a href>https://www.instagram.com/p/CcpypRkoJCV/</a></small>
+              <small class="text-muted"><a href="https://www.instagram.com/p/CcpypRkoJCV/">Oryginalny post</a></small>
             </template>
           </b-card>
         </b-card-group>
@@ -44,6 +44,8 @@
 import maklo1 from "../assets/maklowicz1.webp"
 import maklo2 from "../assets/maklowicz2.webp"
 import maklo3 from "../assets/maklowicz3.webp"
+import maklo3b from "../assets/maklowicz3b.webp"
+
 export default {
   name: "Maklowicz",
   data() {
@@ -54,7 +56,10 @@ export default {
         maklo1,
         maklo2,
         maklo3,
+        maklo3b,
+        maklo_store: null,
       },
+      maklo: true,
     }
   },
   methods: {
