@@ -2,7 +2,7 @@
   <div class="about">
     <div id="tlo2">
       <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" style="height:100vh; width:100vw; object-fit:cover" />
       </div>
     </div>
     <div id="container">
@@ -57,35 +57,30 @@ export default {
 .about{
   text-align: center;
   width:100%;
-  color: black;
-  font-family: 'Raleway', sans-serif;
   display:flex;
   justify-content:center;
   align-content: center;
+  align-items: flex-start;
+  color:white;
+  text-shadow: 4px 4px 6px rgb(0, 0, 0);
+}
+#container{
+  margin-top:20%;
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  align-content: center;
   align-items: center;
+  justify-content: center;
+}
+.tresc{
+  width:60%;
 }
 #tlo2{
   position:absolute;
-  max-height:100vh;
   padding:0;
   margin:0;
   z-index:-1;
-}
-#container{
-  width:70vw;
-  height:45vh;
-  font-size: 0.96rem;
-  border-radius:20px;
-  font-weight:500;
-  box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
-  background:rgba(223, 223, 223, 0.788);
-  display:flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content:space-between;
-  text-align: left;
-  align-content: flex-start;
-  padding:3%;
 }
 .tresc{
 }
@@ -97,23 +92,32 @@ h1{
     padding:0;
     letter-spacing: .15em;
   }
-@media only screen and (min-width: 1350px) {
-  .typewriter h1{
-    overflow: hidden;
-    font-size:5rem;
-    line-height:20vh;
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: .15em;
-  }
-  #hello{
-    animation-delay: 0.2s;
-    animation:
-      typing 3s steps(30, end);
-  }
-  @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+
+  @media screen and (max-width: 900px) {
+  #container{
+  margin-top:40%;
+  width:95%;
+  margin-left:0;
+  margin-right:0;
+  padding:0;
+  display:flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
+.tresc{
+  width:90%;
+  padding:0;
+  margin:0;
 }
+#tlo2{
+  position:absolute;
+  padding:0;
+  margin:0;
+  z-index:-1;
+}
+  
+}
+
 </style>

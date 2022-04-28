@@ -68,11 +68,13 @@ export default {
 
 <style lang="scss" scoped>
 .maklowiczThing{
-  margin-top:-40%;
+  //margin-top:10%;
   display:flex;
-  width:70vw;
+  width:70%;
   flex-direction: column;
   height:fit-content;
+  color:black;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0);
   z-index:10;
 }
 .maklowiczCardGroup{
@@ -101,13 +103,14 @@ h1{
   margin-top:7vh;
   padding:0;
   padding-bottom:3vh;
+  color:white;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.521);
 }
 @media screen and (max-width: 900px) {
   .maklowiczThing{
    width:fit-content;
    padding:5%;
-  margin-top:-110%;
+  margin-top:15%;
   display:block;
   }
   .maklowiczCardGroup{

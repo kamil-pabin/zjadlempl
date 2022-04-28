@@ -2,10 +2,7 @@
   <div class="browser"> 
     <div id="tlo">
       <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2"/>
-      </div>
-      <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image4"/>
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" style="position:fixed; height:100vh; width:100vw; object-fit:cover" />
       </div>
     </div>
     <div id="browserRest">
@@ -71,7 +68,7 @@ export default {
 }
 @media screen and (max-width: 600px) {
   #tlo{
-    width: 100%;
+    //width: 100%;
   }
   #browserRest{
     padding-top:13vh;

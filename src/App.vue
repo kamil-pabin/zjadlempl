@@ -13,11 +13,11 @@
         </transition>
       </b-card-body>
     </b-card>
-    <footer id="footerZjadlem" style="color:white">
-      <div id="container" style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content:center; allign-items:center; allign-content:center; padding:10px;">
-        <div style="flex-direction:column;">
-          <div style="padding:0; margin: 0;">ZJADLEM.PL 2022</div>
-          <div style="padding:0; margin: 0;"><a href="mailto:zjadlempl@gmail.com">zjadlempl@gmail.com</a></div>
+    <footer id="footerZjadlem" style="color:white; z-index:1000;">
+      <div id="container" style="z-index:1000 !important; display:flex; flex-direction:row; flex-wrap: wrap; justify-content:center; allign-items:center; allign-content:center; padding:10px;">
+        <div style="flex-direction:column; z-index:1000;">
+          <div style="padding:0; margin: 0; z-index:1000;">ZJADLEM.PL 2022</div>
+          <div style="padding:0; margin: 0; "><a href="mailto:zjadlempl@gmail.com">zjadlempl@gmail.com</a></div>
         </div>
       </div>
       
@@ -81,7 +81,7 @@ body {
   text-align: center;
   font-family: "Lato";
   position: absolute;
-  width: 100vw;
+  //width: 100vw;
   height: 100%;
   padding: 0;
   margin: 0;
@@ -119,6 +119,9 @@ body {
   margin-top: 1%;
   z-index: 4;
   overflow-y: none !important;
+}
+.card{
+  border:0 !important;
 }
 
 @media only screen and (max-width: 1100px) {

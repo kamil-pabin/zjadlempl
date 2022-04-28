@@ -1,26 +1,12 @@
 <template>
   <div class="home_new">
-    <div class="background" id="backgroundFirst" >
-      <b-img-lazy fluid class="backgroundImage" :src="images.image3" alt="background" />
-
+    <div id="tlo">
+      <div class="background" id="backgroundFirst">
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" style="position:fixed; height:100%; width:100vw; object-fit:cover" />
+      </div>
     </div>
-    
-    <div class="background" id="backgroundSecond" style="">
-     <div style="z-index:100">
+    <div style="display:flex; justify-content:center; align-items:center; align-content:center;">
       <Maklowicz name="maklowicz"></Maklowicz>
-    </div>
-    </div>
-    <div class="background" id="backgroundFirst">
-      <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
-    </div>
-    <div class="background" id="backgroundSecond">
-     
-    </div>
-    <div class="background" id="backgroundFirst">
-      <b-img-lazy fluid class="backgroundImage" :src="images.image4" alt="background" />
-    </div>
-    <div class="background" id="backgroundSecond">
-     
     </div>
   </div>
 </template>
@@ -68,44 +54,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.background:first-of-type{
- // margin-top:-7%;
-}
-.background {
-  height:40vh;
-  width:100vw;
-  background:white;
-  display:flex;
-  flex-direction:column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-}
-.background div{
-  //width:100%;
-}
-.background:nth-child(odd){
-  height:60vh;
-  background:rgb(211, 211, 211);
-}
-.backgroundImage{
-  //margin-top:-7%;
-  height:100%;
-  width:100vw;
-  //background:red;
-  object-fit: cover;
-}
-//.backgroundBlank{
-//  background:blue;
-//}
-.home{
+.home_new{
+  width:100%;
   text-align: center;
   width:100%;
-  height:100%;
-  color: white;
+  display:flex;
+  color:white;
+  text-shadow: 4px 4px 6px rgb(0, 0, 0);
+}
+#tlo{
+  position:absolute;
   padding:0;
-  margin-left:0px;
-  font-family: 'Raleway', sans-serif;
+  margin:0;
+  z-index:-1;
 }
 h1{
   overflow: hidden;
@@ -117,44 +78,14 @@ h1{
   padding-bottom:3vh;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.521);
 }
-@keyframes fadeinA {
-    0% { opacity: 0; }
-    45% { opacity: 0; }
-    100%   { opacity: 1; }
-}
 @media screen and (min-width: 1200px) {
-  h1 {
-     font-size: 2.3rem;
-     margin-top:7vh;
-  }
-  #tlo{
-    border-bottom-right-radius: 60% 25%;
-    border-bottom-left-radius: 60% 25%;
-    margin-bottom: 0px;
-    padding: 20px;
-    width: 100%;
-    height: 40vh;
-  }
 }
 @media screen and (max-width: 900px) {
-  #backgroundSecond{
-    display:flex;
-   // flex-direction: column;
-   justify-content:flex-start;
-  }
 }
 @media screen and (max-width: 600px) {
   h1 {
      font-size: 1.3rem;
      margin-top:7vh;
-  }
-  #tlo{
-    border-bottom-right-radius: 60% 25%;
-    border-bottom-left-radius: 60% 25%;
-    margin-bottom: 0px;
-    padding: 20px;
-    width: 100%;
-    height: 40vh;
   }
 }
 </style>

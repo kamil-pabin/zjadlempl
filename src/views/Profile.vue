@@ -82,7 +82,7 @@
                   </div>
                   <div>
                     <b-form style="margin-top:2%; display:block" id="zmianaKod" v-if="$auth.isAuthenticated">
-                      <div style="display:flex">
+                      <div id="zmieniarka" style="display:flex">
                         <p>Zmień swój kod:</p>
                         <b-form-input
                             style="width:40%; margin:2%"
@@ -373,5 +373,44 @@ h1 {
   margin:auto;
   margin-left:0;
   margin-right: 0;
+}
+@media screen and (max-width: 900px) {
+  #tlo {
+  width: 100%;
+  z-index:10;
+  display: flexbox;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1%;
+  margin-top:14vh;
+}
+  .panel{
+  display:flex;
+  margin:auto;
+  width:95%;
+  height:100%;
+}
+  .menuSmakosza {
+    color: black;
+    background: rgb(255, 255, 255);
+    min-height: 95%;
+    height:fit-content;
+    -webkit-box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6); 
+    box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6);
+    padding: 1%;
+    border-radius: 0px;
+    border: 0px solid black;
+}
+#zmianaKod{
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+#textarea_nowyKod{
+  width:100% !important;
+}
+#zmieniarka{
+  flex-direction: column;
+}
 }
 </style>

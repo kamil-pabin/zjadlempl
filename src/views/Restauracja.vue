@@ -196,7 +196,7 @@
                                         <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
                                     </b-button-group>
                                 </div>
-                                <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
+                                <div v-else style="font-weight:600; justify-content:center; align-content:center; align-items:center; text-align:center !important">Brak komentarzy społeczności! Bądź pierwszy!</div>
                                 </div>
                             </div>
                 </div>
@@ -393,7 +393,7 @@
                             <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
                         </b-button-group>
                     </div>
-                    <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
+                    <div v-else style="font-weight:600; text-align:center;" >Brak komentarzy społeczności! Bądź pierwszy!</div>
 
                     <b-modal id="bv-modal-usuwanie_2" hide-footer>
                         <template #modal-title>
