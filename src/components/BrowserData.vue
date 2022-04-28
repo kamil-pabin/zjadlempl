@@ -6,10 +6,10 @@
         <div id="gornaLinia" style="padding-top:1%;"> 
             <div><h2> Znaleziono {{ this.$store.state.restauracje.filter(kuchniaSel).length }} Restauracji <span v-if="this.wybranaKuchnia != '' "> z kuchnią {{ this.wybranaKuchnia }}</span> <span v-if="this.$store.state.miasto != ''"> w {{ this.$store.state.miasto}} </span> </h2></div>    
         </div> 
-        <div id="dolnaLinia" style="display:flex; justify-content: space-between">
-          <div><label>Ilość wyświetlanych restauracji: {{ restLimMax }} </label></div>
+        <div id="dolnaLinia" style="">
+          <div>Ilość wyświetlanych restauracji: {{ restLimMax }}</div>
             <div id="wyborKuchni">
-              Kuchnia: <b-button @click="wybranaKuchnia=''">Wszystkie </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button>
+              Kuchnia: <b-button @click="wybranaKuchnia=''">Wszystkie </b-button><b-button @click="wybranaKuchnia='Polska'">Polska </b-button><b-button @click="wybranaKuchnia='Sushi'">Sushi </b-button><b-button @click="wybranaKuchnia='Amerykańska'">Amerykańska </b-button><b-button @click="wybranaKuchnia='Włoska'">Włoska </b-button><b-button @click="wybranaKuchnia='Chińska'">Chińska </b-button>
             </div>
         </div>
       </div> 
@@ -19,212 +19,62 @@
           v-for="item in this.$store.state.restauracje.filter(kuchniaSel).slice(restLimMin,restLimMax)" 
           :key="item.id"
           >
-            <div class="flex">
-              <div class="logoRestDiv">
-                  <b-img :src="item.Logo" fluid class="logoRest"/>
+            <div class="flex" style="flex-direction:row; justify-content:flex-start; align-content:center; align-items:center; padding-bottom:0%; padding-top:0%; height:fit-content;">
+              <div class="logoRestDiv" style="display:flex; width:20%; margin-right:1%;">
+                  <b-img :src="item.Logo" fluid class="logoRest" style="object-fit:contain" />
               </div>
-              <div class="informacje" style="display:flexbox">
-                    <div id="wierszP" style="width:100%; height:30%;">
+              <div class="informacje" style="width:79%; display:flex; flex-direction:column; justify-content:center; align-content:flex-start; align-items:center;">
+                    <div id="wierszP" style="width:fit-content; display:flex; align-content:center; align-items:center; justify-content:center;">
                       <div id="nazwaRest">{{ item.Nazwa }}</div>
                     </div> 
 
-                    <div id="wierszD" style="width:100%; height:70%; display:flex;">
-                      <div id="kolumnaP" style="width:50%; height:100%; display:block">
-                        <div id="kuchenki" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                    <div id="wierszD" style="width:100%; height:fit-content; justify-content:space-between; display:flex; flex-direction:row; ">
+                      <div id="kolumnaP" style="width:fit-content; height:fit-content; display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start; align-content:flex-start; flex-wrap:wrap;">
+                        <div id="kuchenki" style="display:flex; flex-wrap:wrap;">
                           <span style="font-weight:700">Kuchnie:</span>
-                          <span class="kuchnie" v-for="kuchniaNazwa in item.Kuchnie" :key="kuchniaNazwa" style="font-style:italic;">
+                          <span class="kuchnie" v-for="kuchniaNazwa in item.Kuchnie" :key="kuchniaNazwa" style="font-style:italic; margin-left:1%; margin-right:1%;">
                             {{ kuchniaNazwa }} 
                           </span>
                         </div>
-                        <div id="restAdresMiasto" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                        <div id="restAdresMiasto" style="display:flex;">
                           <span style="font-weight:700">Miasto:</span>
                           <span id="itemAdres" style="font-style:italic;">
                             {{item.Miasto}}
                           </span>
                         </div>
-                        <div id="restAdresUlica" style="width:100%; height:fit-content; display:inline-block; margin:0; padding:0; text-align:left">
+                        <div id="restAdresUlica" style="display:flex; flex-direction:row; flex-wrap:wrap;">
                           <span style="font-weight:700">Ulica:</span>
-                          <span id="itemAdres" style="font-style:italic;">
+                          <span id="itemAdres" style="font-style:italic; margin:0; padding:0;">
                             {{item.Ulica}} {{item.NumerLokalu}}
                           </span>
                         </div>
                         
                       </div>
-                      <div id="kolumnaD" style="width:50%; height:100%; display:flex">
-                        <div id="restOcena" style="width:100%; height:100%; display:block; margin:auto;">   
-                          <div style="display:block;  width:100%; height:fit-content; padding:0%;">
+                      <div id="kolumnaD" style="width:fit-content; height:fit-content; display:flex; align-items:center; align-content:center">
+                        <div id="restOcena" style="">   
+                          <div style="" id="ocSpol">
                             Ocena społeczności:
-                            <div><star-rating :read-only="true" :inline="true" :star-size="18" :increment="0.01" :fixed-points="2"  :rating=parseFloat(item.Ocena) inactive-color="#bbbbbb" /></div>
-                          </div>
-                          <div style="display:block;  width:100%; height:fit-content; margin-top:2%;">
-                            <b-button
-                              id="szczegoly"
-                              @click="restaurantLink(item)"
-                              :active="$route.name == '/restauracja'"
-                              >
-                              Zobacz więcej
-                            </b-button>
+                            <div style="">
+                              <star-rating :read-only="true" :inline="true" :star-size="18" :increment="0.01" :fixed-points="2"  :rating=parseFloat(item.Ocena) style="display:flex; " inactive-color="#bbbbbb" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>     
+                    </div>  
+                    <div style="margin-top:2%; margin-bottom:2%;">
+                      <b-button
+                        id="szczegoly"
+                        @click="restaurantLink(item)"
+                        :active="$route.name == '/restauracja'"
+                        style="font-size:0.65rem;"
+                        >
+                        Zobacz więcej
+                      </b-button>
+                    </div>   
               </div>
             </div>           
           </div>
         </div>
-        <!--
-        <div class="pojemnikDwa">
-          <div class="informacjeRest" v-if="currentRestauracja != 'brak'">
-            <div>
-              <p id="nazwaRest">{{ this.$store.state.restNazwa }} </p>
-              <div class="logoRestDivInfo">
-                <b-img :src="this.$store.state.restLogo" fluid class="logoRest"/>
-              </div> 
-              <p class="numbers" v-if="this.$store.state.cords.lat != '' ">Odległość: {{ dystans }}km</p>
-              <div class="flex">
-                Kuchnia: &nbsp;
-                <span class="kuchnie" id="kuchOpis" v-for="kuchniaNazwa in this.$store.state.restKuchnie" :key="kuchniaNazwa">
-                  {{ kuchniaNazwa }}<span v-if="currentRestauracjaKuchnie.length > 1">, &nbsp;</span>
-                </span>
-              </div> 
-              <div class="flex">
-                Miasto:&nbsp;
-                <div>{{this.$store.state.restMiasto}}</div>
-              </div>
-              <div class="flex">
-                Ulica:&nbsp;
-                <div>{{this.$store.state.restUlica}} {{ this.$store.state.restNumerLokalu }}</div>
-              </div>
-              <div class="flex">
-                <b-button
-                id="szczegoly"
-                @click="restaurantLink"
-                :active="$route.name == '/restauracja'"
-                >
-                Zobacz więcej</b-button>
-              </div>
-              <div v-show="currentRestauracja != 'brak' ">
-                Ocena społeczności: &nbsp;
-                <star-rating :read-only="true" :inline="true" :star-size="16" :increment="0.01" :fixed-points="2"  :rating=parseFloat(this.$store.state.avgRestOcena) inactive-color="#bbbbbb" />
-              </div>
-              
-              <span v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated">Twoja ocena: &nbsp;
-                <star-rating :inline="true" :star-size="16" :increment="0.5" :fixed-points="2" :rating=parseFloat(this.$store.state.restWybranaOcena[0].Ocena) @rating-selected="setRating" inactive-color="#bbbbbb" active-color="#ffa800" />
-              </span>
-              
-              <div v-show="currentRestauracja != 'brak' " v-if="$auth.isAuthenticated" style="margin-top:2%;">
-                  <b-form-textarea
-                      id="textarea"
-                      v-model="text"
-                      placeholder="Może chcesz coś o tej restauracji napisać?"
-                      rows="3"
-                      max-rows="6"
-                  ></b-form-textarea>
-              </div>
-              
-              <div v-show="currentRestauracja != 'brak' ">
-                  <div v-if="$auth.isAuthenticated">
-                    <b-form-checkbox
-                      id="checkbox-1"
-                      v-model="czyAnonim"
-                      name="checkbox-1"
-                      value="1"
-                      unchecked-value="0"
-                      style="margin:5px"
-                    >
-                     &nbsp; Anonimowa opinia
-                    </b-form-checkbox>
-                  </div>
-                  <label v-show="ocena==9" v-if="$auth.isAuthenticated" style="color:darkred;">Musisz wybrać ocenę żeby móc kontynuować</label>
-                  <div style="display:flex; justify-content:center">
-                  <b-button style="margin:2%;" :disabled="ocena==9" variant="success" v-if="$auth.isAuthenticated" @click="ocenienie">Oceń</b-button>
-                    <label style="color:brown" v-else><a id="logText" @click="login" style="text-decoration:underline;">Zaloguj się</a> aby podzielić się własną opinią!</label>
-                  <b-button 
-                  v-if="
-                  $auth.isAuthenticated
-                  &&
-                  this.$store.state.restWybranaOcena[0] != false
-                  &&
-                  this.$store.state.restWybranaOcena[0].Autor == this.$store.state.currentUserEmail
-
-                  " 
-                  style="margin:2%; "  variant="danger" @click="usunOpinie">Usuń opinie</b-button>
-                  </div>
-                  <b-alert 
-                      style="padding:2%; margin-top:2%;"
-                      :show="dismissCountDown"
-                      fade
-                      variant="success"
-                      @dismiss-count-down="countDownChanged"
-                  >
-                      Wykonano pomyślnie!
-                  </b-alert>
-              </div>
-              <div id="kom" v-show="currentRestauracja != 'brak' "
-                v-if="
-                this.$store.state.restWybranaOcena[0].Komentarz != 'brak' 
-                &&
-                this.$store.state.restWybranaOcena.length >0 != null
-                "
-                style="margin-bottom:5px; margin-top:5px; border-radius:10px; padding-bottom:5%;"
-                >
-                <div style="font-weight: 600; border-radius:10px; text-align: center; padding:1%; text-transform:uppercase">Twój komentarz</div>
-                <div id="insKom" style="border-top:1px solid black;border-bottom:1px solid black">  
-                    <div id="komTekst" style="padding:1%;font-weight:600;justify-content:space-around;display:flex; border-bottom:1px inset">
-                        <div style="text-align: left; width:50%;"> {{ this.$store.state.restWybranaOcena[0].Autor }} <span v-if="this.$store.state.restWybranaOcena[0].Anonim == 1">(Anonimowa)</span> </div> <div style="width:25%">Data: {{ this.$store.state.restWybranaOcena[0].Data }}</div><div style="width:19%; text-align:right">Ocena: {{ this.$store.state.restWybranaOcena[0].Ocena }}</div>
-                    </div>
-                    <div id="tresc" style="border-radius:10px; border-color:transparent;">
-                      <div>
-                          <div style="text-align: left; font-style:italic; padding:2%" v-if="this.$store.state.restWybranaOcena[0].Komentarz">{{ this.$store.state.restWybranaOcena[0].Komentarz }}   </div>
-                          <div style="text-align:left; color:red; padding: 2%;" v-else><i>Brak komentarza.</i></div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div id="kom" v-show="currentRestauracja != 'brak' "
-                v-if="
-                this.$store.state.restWybranaOcenaSpolecznosci[0].Komentarz != 'qqqqqqqxDXSx$qq'
-                &&
-                this.$store.state.restWybranaOcenaSpolecznosci[0].Autor != 'brak'
-                "
-                style="margin-bottom:5px; margin-top:5px;"
-              >
-                <div style="font-weight: 600; text-align: center; padding:1%; border-bottom:1px solid black; text-transform:uppercase">Komentarze społeczności <span style="font-family:arial"> ({{this.$store.state.restWybranaOcenaSpolecznosci.length}})</span></div>
-                
-                <div id="insKom" v-for="(superOcena, index) in this.$store.state.restWybranaOcenaSpolecznosci.slice(komLimMin,komLimMax)"  :key="index" style="background:#ededed; padding:0%; margin:1%;">
-                    <div v-if="superOcena.Komentarz != '' && superOcena.Komentarz != null ">
-                        <div id="komTekst" style="padding:1%; font-weight:600; justify-content:space-around; display:flex; border-bottom:1px inset">
-                            <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
-                            <div style="text-align: left; width:50%;" v-else>Anonim</div> 
-                            <div style="width:30%;">Data: {{superOcena.Data}}</div>
-                            <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
-                        </div>
-                        <div id="tresc">
-                            <div style="text-align: left; font-style:italic; padding:2%">{{ superOcena.Komentarz }}</div>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <div id="komTekst" style="padding:1%;  font-weight:600; justify-content:space-around;  display:flex; border-bottom:1px inset">
-                            <div style="text-align: left; width:50%;" v-if="superOcena.Anonim == 0 || superOcena.Anonim == null">{{ superOcena.Autor }}</div>
-                            <div style="text-align: left; width:50%;" v-else>Anonim</div> 
-                            <div style="width:30%;">Data: {{superOcena.Data}}</div>
-                            <div style="width:20%; text-align:right">Ocena: {{superOcena.Ocena}}</div>
-                        </div>
-                        <div id="tresc">
-                            <div style="text-align:left; color:red; padding: 2%;"><i>Brak komentarza.</i></div>
-                        </div>
-                    </div>
-                </div>
-                <b-button-group style="padding:1%; text-align:center">
-                    <b-button id="wiecej" v-if="komLimMax < this.$store.state.restWybranaOcenaSpolecznosci.length" @click="komLimMax+=5">Wyświetl więcej</b-button>
-                    <b-button id="mniej" v-if="komLimMax > 7" @click="komLimMax-=5">Wyświetl mniej</b-button>
-                </b-button-group>
-              </div>
-              <div v-else style="font-weight:600">Brak komentarzy społeczności! Bądź pierwszy!</div>
-            </div>
-          </div>
-        </div>
-        -->
       </div> 
       <div class="pojemnik">
         <div class="stopa" style="margin:auto; width:100%;">
@@ -380,7 +230,6 @@ export default {
 #browserData {
   margin: auto;
   width:100%;
- // transform: scale(0.9);
 }
 .pojemnik{
   display:flex;
@@ -388,14 +237,12 @@ export default {
 }
 .pojemnikDwa{
   width:100%;
-  //height:30%;
   margin-right:2%;
   margin-left:2%;
 }
 .flex{
   display:flex;
-  margin:auto;
-  //justify-content: center;
+  //margin:auto;
 }
 .restauracja{
   background: rgb(255,255,255);
@@ -408,57 +255,28 @@ export default {
   box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 1);
   border-radius: 20vw 0 0 20vw;
   transition: linear 0.2s;
-  //transform: scale(0.9);
 }
 .restauracja:hover{
   transform: scale(1.04);
 }
 .restauracja .logoRestDiv{
-  width:13vw;
-  //height:5vh;
-  //background:yellow;
+  max-width:100%;
+  max-height:100%;
   border-radius: 25vw;
-  //padding:3%;
 }
 .restauracja .informacje{
-  width:75%;
-  height:auto;
-  //text-align:center;
-  //background:blue;
-  //display:block;
-  padding:2%;
-  font-size: 0.8rem;
+  //width:75%;
+  //height:auto;
+  //padding:2%;
+  //font-size: 0.8rem;
 }
 .restauracja .informacje div{
-  //height:50%;
-  //background:grey;
-}
-#kuchenki{
-  //width:100%;
-  //height:10vh;
-  //background:purple;
-}
-.kuchnie{
-  //background:greenyellow;
-  //font-size: 0.6rem;
-}
-#kuchOpis{
-  //font-size:0.7rem;
-}
-.restauracja .informacje div{
-  //background:red;
-  //font-size:0.75rem;
   text-transform: uppercase;
-  //font-weight: bold;
-}
-.restauracja .informacje div:nth-child(2n){
-  //font-size:.6vw;
-  //background:yellow;
 }
 .restauracja .ocenaRestDiv{
-  width:15%;
-  text-align:left;
-  height:inherit;
+  //width:15%;
+  //text-align:left;
+  //height:inherit;
   display:flex;
   justify-content: center;
   align-items: center;
@@ -467,7 +285,7 @@ export default {
 .ocenaRestDiv div{
   text-align:right;
   color: green;
-  font-size: 0.7rem;
+  //font-size: 0.7rem;
   width:100%;
 }
 #naglowek div:last-of-type{
@@ -483,11 +301,13 @@ export default {
   border-bottom: solid rgba(0, 0, 0, 0.171) 1px;
   color: black;
   padding:2%;
-  display:flexbox;
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   margin:auto;
   justify-content: space-between;
   margin-bottom:1%;
-  font-size: 0.8rem;
+  font-size: 1rem;
   //position:sticky;
   top:0%;
   background:rgb(255, 255, 255);
@@ -496,38 +316,38 @@ export default {
 }
 .tytul #gornaLinia{
   display:flex;
+  flex-wrap: wrap;
   text-transform: uppercase;
   font-weight: 300;
   justify-content: space-between;
 }
 .tytul #dolnaLinia{
-  text-align: left;
+  text-transform: uppercase;
+  display:flex;
+  flex-wrap:wrap;
+  align-content: flex-end;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: row;
 }
 .tytul #dolnaLinia div{
-  //margin:1%;
-  text-transform: uppercase;
+  width:fit-content;
 }
 .tytul h2{
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 300;
 }
 .logoRestDiv{
-  //background: url("../assets/pizza.png");
-  background-size:cover;
-  //margin:1%;
-  //border-radius: 15px 15px 15px 15px;
+  //background-size:cover;
 }
 .logoRest{
-  //max-height:100%;
-  //max-width:100%;
-  padding:0;
-  width:100%;
-  margin:0;
-  //height:100%;
-  object-fit:cover;
+  //padding:0;
+ // width:100%;
+  //margin:0;
+  //object-fit:cover;
 }
 .logoRest img{
-  margin:0;
+  //margin:0;
 }
 #cords i{
  //font-size: 0.9rem;
@@ -542,10 +362,8 @@ export default {
   font-weight: bold;
 }
 .stopa{
-  //background:red;
   width:100%;
   margin:auto;
-  //display:flex;
 }
 .stopa #mniej{
   color:black;
@@ -554,7 +372,7 @@ export default {
   background:rgb(243, 243, 243);
   text-transform: uppercase;
   font-weight: 300;
-  font-size:0.8rem;
+  //font-size:0.8rem;
   border:1px solid rgba(0, 0, 0, 0.178);
 }
 .stopa #wiecej{
@@ -563,7 +381,7 @@ export default {
   
   border:1px solid rgba(0, 0, 0, 0.178);
   text-transform: uppercase;
-  font-size:0.8rem;
+  //font-size:0.8rem;
   font-weight: 300;
   //background: transparent;
   background:rgb(243, 243, 243);
@@ -594,31 +412,33 @@ export default {
     text-transform: uppercase;
 
   border:none;
-  font-size:0.7rem;
+  //font-size:0.7rem;
   font-weight: 300;
   border:1px solid rgba(0, 0, 0, 0.178);
   background: transparent;
   background:rgb(243, 243, 243);
 }
 #wyborKuchni{
-  //background:red;
-  width:60%;
-  text-align: right;
-  padding-top:0;
-  padding-bottom:0;
+  width:fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
   margin:0;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 #wyborKuchni button{
   background:transparent;
   border:0;
   margin:0;
-  line-height: 100%;
+  padding-top:0;
+  padding-bottom: 0;
   color: black;
   font-weight: 300;
-  font-size:0.8rem;
-  padding-top:0;
-  padding-bottom:0;
+  text-transform: uppercase;
+  font-size:1rem;
+  vertical-align: top;
 }
 #wyborKuchni button:focus{
   border:0;
@@ -629,7 +449,7 @@ export default {
   color:green;
 }
 #wyborKuchni span{
-  margin-left:1%;
+  //margin-left:1%;
 }
 #logoCenter{
     filter: drop-shadow(0 0 5px rgba(51, 51, 51, 0.568));
@@ -640,56 +460,63 @@ export default {
 }
 #wyszukiwarkaNazwa svg{
 }
-/*
-@media screen and (max-width: 600px) {
-  .pojemnik{
-    display:block;
-    width:100%;
-    margin:auto;
-  }
-  .pojemnik .pojemnikDwa{
-    margin:auto;
-    width:90%;
-    
-  }
-  .pojemnik .pojemnikDwa:nth-child(2n){
-    display:none;
-  }
-  .tytul{
-    display:block;
-    font-size:0.5rem;
-    }
-  .tytul h2{
-    font-size:0.45rem;
-  }
+#ocSpol{
+  width:fit-content; 
+  height:fit-content; 
+  display:flex; 
+  flex-direction: column;
+  align-items:flex-start !important; 
+  align-content:flex-start !important;
+}
+
+@media screen and (max-width: 900px) {
+
   .restauracja{
-    background:rgb(238, 238, 238);
-    color:rgb(63, 63, 63);
-  }
-  .stopa{
-    //background:red;
-    width:100%;
-    display:block;
-  }
-  .stopa #lewo{
-    //background:cyan;
-    width:100%;
-  }
-  .stopa #prawo{
-    //background:yellow;
-    width:100%;
-  }
-  .restauracja .informacje div{
-    font-size:0.8rem;
-    margin:3%;;
-    word-break: break-all;
-  }
-  .restauracja .informacje .kuchnie{
-    font-size:0.5rem;
-  }
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgb(233, 233, 233) 0%, rgba(233, 233, 233, 0.473) 54%, rgba(255, 255, 255, 0) 100%);
+  //padding:0;
+  //margin:0;
+  margin-bottom:1%;
+  font-size: 0.65rem;
+  color:rgb(63, 63, 63);
+  -webkit-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 0);
+  -moz-box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 0);
+  box-shadow: -8px 8px 15px -8px rgba(66, 68, 90, 0);
+  border-radius: 0vw 0 0 0vw;
+  transition: linear 0.2s;
+}
+.restauracja:hover{
+  transform: scale(1.0);
+}
+#browserData {
+  margin: 0;
+  width:100%;
+}
+.pojemnik{
+  display:flex;
+  width:100%;
+}
+.pojemnikDwa{
+  width:100%;
+  margin-right:0%;
+  margin-left:0%;
+}
+.tytul h2{
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+.tytul{
+  font-size:0.8rem;
+}
+#wyborKuchni{
+  font-size:0.8rem !important;
+}
+#wyborKuchni button{
+  font-size:0.8rem !important;
+}
 }
 @media screen and (min-width: 1200px) {
   
 }
-*/
+
 </style>

@@ -57,7 +57,6 @@ export default {
         maklo2,
         maklo3,
         maklo3b,
-        maklo_store: null,
       },
       maklo: true,
     }
@@ -73,7 +72,6 @@ export default {
   display:flex;
   width:70vw;
   flex-direction: column;
- // background:blue;
   height:fit-content;
   z-index:10;
 }
@@ -84,18 +82,13 @@ export default {
   justify-content: space-around;
   align-items: flex-start;
   align-content: center;
- // background:red;
 }
 .kartaMaklo{
   width:30%;
-  //max-height:100%;
   transition: linear 0.2s;
 }
 .kartaMaklo p{
   margin-top:2%;
-}
-.kartaMaklo img{
-  //width:10%;
 }
 .kartaMaklo:hover{
   transform: scale(1.05);
@@ -112,23 +105,16 @@ h1{
 }
 @media screen and (max-width: 900px) {
   .maklowiczThing{
-   // background:blue;
-  // position:absolute;
-   //width:80%;
-   //margin:auto;
    width:fit-content;
    padding:5%;
   margin-top:-110%;
   display:block;
   }
   .maklowiczCardGroup{
-  // background:red;
   }
   .kartaMaklo{
     width:100%;
     margin-bottom:5%;
-    //max-height:100%;
-   // transition: linear 0.2s;
   }
 }
 </style>
