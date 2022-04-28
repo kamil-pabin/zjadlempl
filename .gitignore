@@ -1,3 +1,4 @@
 
 node_modules/
 src/db.js
+auth_config.json
