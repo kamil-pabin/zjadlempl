@@ -8,7 +8,7 @@
       <b-avatar variant="primary" class="avatar" text="ZJ"></b-avatar>
     </div>
 
-    <b-popover triggers="hover focus" placement="bottom" target="profilePic" custom-class="popoverProfile">
+    <b-popover triggers="click focus" placement="bottom" target="profilePic" custom-class="popoverProfile">
         <b-button
             class="buttonProfileDropdown"
             v-b-modal.translate-modal
