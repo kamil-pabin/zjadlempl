@@ -265,7 +265,7 @@
                   
           </div>
 
-            <div style="width:100%; height:fit-content; display: flex; flex-direction:column; justify-content:center; align-items:center; align-content:center;">
+            <div v-show="this.wybraneDanie != '' " style="width:100%; height:fit-content; display: flex; flex-direction:column; justify-content:center; align-items:center; align-content:center;">
                 <div id="danie" style="display:flex; flex-direction:column; justify-content:center; align-content:center; width:70%;">
                     <div>
                         <span v-show="this.wybraneDanie != '' " id="ocenaDania"> </span>
