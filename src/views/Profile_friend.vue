@@ -1,8 +1,8 @@
 <template>
   <div id="profile">
-    <div class="background" id="backgroundFirst">
-        <b-img-lazy fluid class="backgroundImage" :src="images.image2" alt="background" />
-    </div>
+    <div class="background">
+        <b-img-lazy fluid class="backgroundImage" :src="images.image2" style="position:fixed; height:100%; width:100vw; object-fit:cover; left:0;" />
+      </div>
 
     <div id="tlo">
       <div class="menuSmakosza" v-if="$auth.isAuthenticated">
@@ -124,6 +124,108 @@ export default {
 }
 #profile {
   width: 100%;
+  display:flex;
+  color: white;
+  justify-content:center;
+  align-content: center;
+  align-items: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  text-transform: uppercase;
+  padding-top: 0;
+}
+#tlo{
+  position:absolute;
+  padding:0;
+  margin:0;
+  z-index:-1;
+}
+.menuSmakosza {
+  color: black;
+  background: rgb(255, 255, 255);
+  min-height: 70vh;
+  height:fit-content;
+  -webkit-box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6); 
+  box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6);
+  padding: 1%;
+  border-radius: 50px;
+  border: 1px solid black;
+}
+#dane {
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+#dane p {
+  margin: 0;
+}
+.avatar {
+  vertical-align: middle;
+  width: 15vh;
+  height: 15vh;
+  border-radius: 50%;
+}
+#infoProf{
+  margin:1%;
+  text-align:left;
+  display:flex;
+  padding:1%;
+}
+#infoProf div{
+  margin-right:5%;
+}
+#infoDiv{
+  height:fit-content;
+  margin-top:auto;
+  margin-bottom:auto;
+  padding:0;
+}
+#infoDiv p{
+  margin:auto;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.192);
+  font-weight: 300;
+}
+h1 {
+  overflow: hidden;
+  font-size: 1.7rem;
+  font-weight: 300;
+  margin: 0;
+  margin-top: 2%;
+  padding: 0;
+  padding-bottom: 3vh;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.596);
+  font-weight: 500;
+}
+.panel{
+  display:flex;
+  margin:auto;
+  width:90%;
+  height:100%;
+}
+.panel .kolumna{
+  width:50%;
+  text-align: left;
+}
+#zmianaKod p{
+  margin:auto;
+  margin-left:0;
+  margin-right: 0;
+}
+</style>
+<style lang="scss" scoped>
+::v-deep .sr-only {
+  display: none !important;
+}
+.background {
+  width:100vw;
+  z-index:-1000;
+  background:white;
+  position:absolute;
+}
+#profile {
+  width: 100%;
   color: white;
   margin-left: auto;
   margin-right: auto;
@@ -211,5 +313,44 @@ h1 {
   margin:auto;
   margin-left:0;
   margin-right: 0;
+}
+@media screen and (max-width: 900px) {
+  #tlo {
+  width: 100%;
+  z-index:10;
+  display: flexbox;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1%;
+  margin-top:14vh;
+}
+  .panel{
+  display:flex;
+  margin:auto;
+  width:95%;
+  height:100%;
+}
+  .menuSmakosza {
+    color: black;
+    background: rgb(255, 255, 255);
+    min-height: 95%;
+    height:fit-content;
+    -webkit-box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6); 
+    box-shadow: 0px 0px 20px 7px rgba(0,0,0,0.6);
+    padding: 1%;
+    border-radius: 0px;
+    border: 0px solid black;
+}
+#zmianaKod{
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+#textarea_nowyKod{
+  width:100% !important;
+}
+#zmieniarka{
+  flex-direction: column;
+}
 }
 </style>

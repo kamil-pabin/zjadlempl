@@ -14,7 +14,7 @@
             v-b-modal.translate-modal
             style="width:100%; margin:0; padding:0;"
           >
-            Język
+            Język   <b-icon icon="globe"> </b-icon>
           </b-button>
         <template #title ><span id="notLoggedUser" v-if="!$auth.isAuthenticated">Musisz się najpierw zalogować!</span><span v-if="$auth.isAuthenticated" id="loggedUser">Witaj<span v-if="$auth.user.nickname !=null"> {{ $auth.user.nickname }}</span><span v-else> smakoszu</span>!</span></template>     
           <div class="buttonsLogin">
