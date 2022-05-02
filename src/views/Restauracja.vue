@@ -548,7 +548,7 @@ export default {
         this.dismissCountDown_2 = dismissCountDown_2
     },
     countDownChanged_3(dismissCountDown_3) {
-        this.$store.dispatch('bindOcena')
+        this.$store.dispatch('bindOcenaRest')
         this.dismissCountDown_3 = dismissCountDown_3
     },
     countDownChanged_4(dismissCountDown_4) {
