@@ -25,6 +25,11 @@ export default new Vuex.Store({
         currentUser_Role: null,
         allowedCords: false,
         miasto: '',
+        liczbaPiec: 5,
+        liczbaCztery: 0,
+        liczbaTrzy: 0,
+        liczbaDwa: 0,
+        liczbaJeden: 0,
         restauracje: [],
         restauracjeBeta: [],
         todos: [],
@@ -93,7 +98,7 @@ export default new Vuex.Store({
     getters: {
         user(state){
             return state.user
-          }
+          },
     },
     mutations: {
         ...vuexfireMutations,
@@ -342,13 +347,6 @@ export default new Vuex.Store({
             var usunOpiniaID = state.usunOpiniaID;
             var usunOpiniaAutor = state.wybranaOpiniaAutorId;
             var usunOpiniaRest = state.usunOpiniaRestID;
-            console.log('id opinii do usuniecia:')
-            console.log(usunOpiniaID);
-            console.log('autor opinii do usuniecia:')
-            console.log(usunOpiniaAutor);
-            console.log('Restauracja opinii do usuniecia:')
-            console.log(usunOpiniaRest);
-
             var docRef = db.collection('Restauracje').doc(usunOpiniaRest).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(usunOpiniaRest).collection('Oceny').where('Autor', '==', usunOpiniaAutor);
             var listaOcen = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny')
@@ -375,15 +373,6 @@ export default new Vuex.Store({
             var usunOpiniaAutor = state.wybranaOpiniaAutorId;
             var usunOpiniaRest = state.usunOpiniaRestID;
             var usunOpiniaRestDanie = state.usunOpiniaRestDanie;
-            //console.log('id opinii do usuniecia:')
-           // console.log(usunOpiniaID);
-            //console.log('autor opinii do usuniecia:')
-           // console.log(usunOpiniaAutor);
-          //  console.log('Restauracja opinii do usuniecia:')
-          //  console.log(usunOpiniaRest);
-          //  console.log('Potrawa opinii do usuniecia:')
-           // console.log(usunOpiniaRestDanie);
-
             var docRef = db.collection('Restauracje').doc(usunOpiniaRest).collection('Menu').doc(usunOpiniaRestDanie).collection('Oceny');
             var doc2 = db.collection('Restauracje').doc(usunOpiniaRest).collection('Menu').doc(usunOpiniaRestDanie).collection('Oceny').where('Autor', '==', usunOpiniaAutor);
             var listaOcen = db.collection('Users').doc(usunOpiniaAutor).collection('Oceny')
@@ -549,7 +538,7 @@ export default new Vuex.Store({
          },
          bindOcenaRest: ({ state, dispatch }) => {
           dispatch('readOcenaRestBetaDwa')
-       },
+         },
          bindMenu: firestoreAction(({bindFirestoreRef, state}) => {
           var q2 = "restMenu";
           var q3 = "restOceny"
@@ -557,7 +546,6 @@ export default new Vuex.Store({
           var col2 = state.restId;
           var ocenaSr = state.avgRestOcena;
           var docR = db.collection('Restauracje').doc(col2);
-
           if (col2 != ''){
              bindFirestoreRef(q2, db.collection(col).doc(col2).collection('Menu'))
              bindFirestoreRef(q3, db.collection(col).doc(col2).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
@@ -567,39 +555,8 @@ export default new Vuex.Store({
             Ocena: ocenaSr, 
              })
         }),
-        bindRandomRestauracja: firestoreAction(({bindFirestoreRef, state}) => {
-          var q1 = "randRest.Restauracja"
-          var q2 = "randRest.Menu"
-          var q3 = "randRest.Oceny"
-
-          var col = "Restauracje";
-//
-     //     var restaurantQueryReference = db.collection('Restauracje'); //have +500 docs
-      //    var restaurantQueryList = restaurantQueryReference.listDocuments(); //get all docs id; 
-//
-        //  for (var i = restaurantQueryList.length - 1; i > 0; i--) {
-          //    var j = Math.floor(Math.random() * (i + 1));
-           //   var temp = restaurantQueryList[i];
-           //   restaurantQueryList[i] = restaurantQueryList[j];
-           //   restaurantQueryList[j] = temp;
-          //  }
-          var restaurantId = 1
-
-          if (restaurantId != ''){
-              bindFirestoreRef(q1, db.collection(col).doc('1wVNqruyQnztG5PplLXH'))
-             //bindFirestoreRef(q2, db.collection(col).doc(1).collection('Menu'))
-             //bindFirestoreRef(q3, db.collection(col).doc(1).collection('Menu').doc(state.restMenu[0]).collection('Oceny'))
-           }
-         //  console.log(state.randomRest)
-         //  console.log('xD1')
-           //console.log(state.randRest.Menu)
-           //console.log('xD2')
-          //console.log(state.randRest.Oceny)
-          //console.log('xD2hjvjhv')
-          
-        }),
-        bindUserOceny: firestoreAction(({bindFirestoreRef, state}) => {
-          var q2 = "listaOcen";
+        bindUserOceny: firestoreAction(({bindFirestoreRef, state, getters}) => {
+          var q2 = "listaOcen";      
           bindFirestoreRef(q2, db.collection('Users').doc(state.currentUserEmail).collection('Oceny'))
           var q3 = "listaOcenDan";
           bindFirestoreRef(q3, db.collection('Users').doc(state.currentUserEmail).collection('OcenyDan'))
@@ -666,8 +623,4 @@ export default new Vuex.Store({
       },
 });
 
-/*
-wybrana kuchnia moze byc tak: return bindFirestoreRef("restauracje", db.collection("Restauracje").where("Kuchnie", "array-contains", "Sushi"));
-wybor parametrow mozna definiowac w przegladarce restauracji, przenosic to do store, a ze store juz mozna do zapytania od razu
-*/
 

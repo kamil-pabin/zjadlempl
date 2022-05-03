@@ -38,7 +38,7 @@
           </b-nav-item-dropdown>
           <b-nav-item @click="scrollToTop()" href="#" to='/About' :active="$route.name == '/About'" style="margin-top:auto; margin-bottom:auto" id="itemDrop"> <span>O nas</span></b-nav-item>
           <b-nav-item id="itemDrop" to='/profile' style="margin-top:auto; margin-bottom:auto" v-if="!$auth.isAuthenticated" @click="login">Moje zjadłem</b-nav-item> 
-          <b-nav-item @click="scrollToTop()" id="itemDrop" to='/profile' class="moje" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
+          <b-nav-item @click="scrollToTop()" id="itemDrop" to='/profile' class="moje" style="margin-top:auto; margin-bottom:auto" v-if="$auth.isAuthenticated"  :active="$route.name == '/profile'">Moje zjadłem</b-nav-item>
           <b-nav-item @click="scrollToTop()" id="itemDrop" class="showItemRowDwa" style="display:none" :class="{change_show: scrollPosition > 105}">
             <div id="profRowDwa">
               <ProfileButton nameProf='drugi' ></ProfileButton>

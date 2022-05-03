@@ -20,8 +20,8 @@
           </div>
           
         </div>
-        <b-tabs content-class="mt-3" fill>
-          <b-tab title="Oceny">
+        <b-tabs content-class="mt-3" fill v-model="tabIndex">
+          <b-tab title="Oceny" active>
             <h3>Moje oceny:</h3>
             <div>
               <b-table
@@ -44,11 +44,6 @@
           </b-tab>
           <b-tab title="Moje statystyki">
             <h3>Moje statystyki</h3>
-            <h4 style="font-style:italic">*W budowie*</h4>
-            <div v-for="(superOcena, index) in this.$store.state.listaOcen"  :key="index" >
-              
-            </div>
-            
           </b-tab>
           <b-tab title="Moi Znajomi">
             <h3>Moja lista znajomych</h3>
@@ -186,11 +181,13 @@ export default {
     this.$store.dispatch("bindUserOceny");
     this.$store.state.statusDodania = '3'
     }
+    
   },
   data() {
     return {
       pokaz: false,
       kodUs: '',
+      tabIndex: 1,
       kodNowy: '',
       kodKumpla: '',
       mailKumpla: '',
@@ -238,10 +235,6 @@ export default {
       this.$store.dispatch("bindUserOceny");
       this.pokaz=false;
     },
-    zobaczInfo(){
-      //console.log(this.$auth.user);
-      //console.log(this.$auth.user["https://zjadlem.pl/role"].includes('Moderator'))
-    },
     wyswietlKod() {
       if(this.$store.state.kodUsera != null && this.$store.state.kodUsera != ''){
         if(this.$store.state.kodUsera.kodZnajomego != null && this.$store.state.kodUsera.kodZnajomego != ''){
@@ -251,7 +244,6 @@ export default {
       else{
         this.kodUs = "Nie posiadasz kodu znajomego, ustaw go poniżej"
       }
-      
     },
     dodajKumpla() {
       this.$store.state.statusDodania = '2';
@@ -269,7 +261,7 @@ export default {
   computed: {
     validation() {
         return this.kodNowy.length > 4 && this.kodNowy.length <= 20
-      }
+      },
   }
 };
 </script>
